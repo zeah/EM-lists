@@ -63,54 +63,56 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		if (!is_array($atts)) $atts = [];
+		return $this->get_html(EML_sc::do('emlanlist', 'lan', $atts, $content), $atts);
 
-		$args = [
-			'post_type' 		=> 'emlanlist',
-			'posts_per_page' 	=> -1,
-			'orderby'			=> [
-										'meta_value_num' => 'ASC',
-										'title' => 'ASC'
-								   ],
-			'meta_key'			=> 'emlanlist_sort'.($atts['lan'] ? '_'.sanitize_text_field($atts['lan']) : '')
-		];
+		// if (!is_array($atts)) $atts = [];
 
-
-		$type = false;
-		if (isset($atts['lan'])) $type = $atts['lan'];
-		if ($type)
-			$args['tax_query'] = array(
-					array(
-						'taxonomy' => 'emlanlisttype',
-						'field' => 'slug',
-						'terms' => sanitize_text_field($type)
-					)
-				);
+		// $args = [
+		// 	'post_type' 		=> 'emlanlist',
+		// 	'posts_per_page' 	=> -1,
+		// 	'orderby'			=> [
+		// 								'meta_value_num' => 'ASC',
+		// 								'title' => 'ASC'
+		// 						   ],
+		// 	'meta_key'			=> 'emlanlist_sort'.($atts['lan'] ? '_'.sanitize_text_field($atts['lan']) : '')
+		// ];
 
 
-		$names = false;
-		if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
-		if ($names) $args['post_name__in'] = $names;
+		// $type = false;
+		// if (isset($atts['lan'])) $type = $atts['lan'];
+		// if ($type)
+		// 	$args['tax_query'] = array(
+		// 			array(
+		// 				'taxonomy' => 'emlanlisttype',
+		// 				'field' => 'slug',
+		// 				'terms' => sanitize_text_field($type)
+		// 			)
+		// 		);
+
+
+		// $names = false;
+		// if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
+		// if ($names) $args['post_name__in'] = $names;
 		
-		$exclude = get_option('emlanlist_exclude');
+		// $exclude = get_option('emlanlist_exclude');
 
-		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
+		// if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
 
-		$posts = get_posts($args);	
+		// $posts = get_posts($args);	
 
-		$sorted_posts = [];
-		if ($names) {
-			foreach(explode(',', preg_replace('/ /', '', $atts['name'])) as $n)
-				foreach($posts as $p) 
-					if ($n === $p->post_name) array_push($sorted_posts, $p);
+		// $sorted_posts = [];
+		// if ($names) {
+		// 	foreach(explode(',', preg_replace('/ /', '', $atts['name'])) as $n)
+		// 		foreach($posts as $p) 
+		// 			if ($n === $p->post_name) array_push($sorted_posts, $p);
 		
-			$posts = $sorted_posts;
-		}
+		// 	$posts = $sorted_posts;
+		// }
 				
 
-		$html = $this->get_html($posts, $atts);
+		// $html = $this->get_html($posts, $atts);
 
-		return $html;
+		// return $html;
 	}
 
 
@@ -263,15 +265,17 @@ final class Lan_shortcode {
 	 * @return [html]        html list of loans
 	 */
 	private function get_html($posts, $atts) {
+		if (!$atts) $atts = [];
+		// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 		$html = '<ul class="emlanlist-container">';
 
 		$star = '<svg class="emlan-star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path class="emlan-star-path" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
 
 
+			// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 		foreach ($posts as $p) {
 			
 			$meta = get_post_meta($p->ID, 'emlanlist_data');
-
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
@@ -338,7 +342,6 @@ final class Lan_shortcode {
 		}
 
 		$html .= '</ul>';
-
 		return $html;
 	}
 

@@ -10,6 +10,7 @@ GitHub Plugin URI: zeah/EM-lists
 defined('ABSPATH') or die('Blank Space');
 
 require_once 'inc/em-lists-settings.php';
+require_once 'inc/em-lists-shortcode.php';
 
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
