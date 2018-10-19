@@ -1,140 +1,143 @@
+/**
+ * 	ul
+ *  |	li 		
+ *  |	|	toprow
+ *  |	|	|	logo top-info top-info 
+ *  |	|	|	top-info top-info order
+ *  |	|	middlerow
+ *  |	|	|	info 
+ *  |	|	|	info 
+ *  |	|	|	info
+ *  |	|	bottomrow
+ *  |	|	|	eff-rente 
+ *  |	|	|	readmore
+ *
+ *
+ *	0.1 html
+ *	
+ * 		list container (ul)
+ * 		1.0 list item
+ * 			1.1 row
+ * 			
+ * 		 	1.2 top row
+ *     			1.2.1 logo container
+ * 			    	1.2.1.1 logo image
+ * 		      	1.2.2 top info
+ * 				     1.2.2.1 lånebeløp
+ * 				     1.2.2.2 nedbetaling
+ * 				     1.2.2.3 aldersgrense
+ * 				     1.2.2.4 eff rente
+ * 				1.2.3 order (button)
+ * 					 1.2.3.1 stand alone button
+ * 					 1.2.3.2 thumb svg
+ * 			
+ * 		 	1.3 middle row
+ * 			 	1.3.1 info container
+ * 				 	1.3.1.1 star svg 
+ * 				 	
+ * 		    1.4 bottom row
+ * 			   	1.4.1 eff interest example
+ * 			    1.4.2 read more link
+ *
+ *		2.0 media rule: 610 -> 1024
+ *			2.1 list container (ul)
+ * 	 			2.1.1 list item
+ */
+
+
+/* 0.1 html */
 html {
 	font-size: 62.5%;
 }
 
-.emlan-star {
-	position: relative;
-	top: 4px;
-/*	 -webkit-filter: drop-shadow( 0 0 1px #000 ); 
-            filter: drop-shadow( 0 0 1px #000 );*/
-}
 
-.emlan-star-path {
-	fill: hsl(35, 100%, 60%);
-	/*stroke: hsl(35, 100%, 30%);*/
-}
-
-.emlanlist-container {
+/* list container */
+.emlanlist-ul {
 	opacity: 1 !important;
 	list-style: none;
 	padding: 0;
 }
 
-.emlan-container {
+/* 1.0 list item */
+.emlanlist-container {
+	display: flex;
+	flex-direction: column;
 	background-color: hsl(0, 0%, 96%);
 	margin-bottom: 3rem;
 	font-size: 1.6rem;
 }
 
-.emlanlist-info {
-	text-align: center;
-	/*margin-left: 2rem !important;
-	margin-right: 2rem !important;*/
-}
 
-@media screen and (orientation: landscape) {
-	.emlanlist-container {
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.emlan-container {
-		width: 45%;
-		margin: 1rem auto;		
-	}
-}
-
-@media screen and (max-width: 1023px) and (min-width: 436px) {
-	.emlanlist-container {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.emlan-container {
-		width: 45%;
-		margin: 1rem auto;		
-	}
-}
-
-.emlan-container > div > div {
-	margin: 1rem auto;
-}
-
-.emlan-row {
+/* 1.1 row */
+.emlanlist-row {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.emlan-row:last-child {
-}
 
-.emlan-thumbnail {
+/* 1.2 top row */
+
+/* 1.2.1 logo container */
+.emlanlist-logo {
 	width: 100%;
-	text-align: center;
-	height: 10rem;
+	display: flex;
+	justify-content: center;
+	margin: 2rem 0;
 }
 
-.emlan-thumbnail-image {
+/* 1.2.1.1 logo image */
+/* list only */
+.emlanlist-logo > a > .emlanlist-image {
 	width: 20rem;
 }
 
-/*.emlan-logo-ls > a {
+/* logo image */
+.emlanlist-image {
 	display: block;
-}*/
-
-.emlan-image {
-	display: block;
-	width: 20rem;
-	margin: auto;
-	text-align: center;
 }
 
-.emlan-belop,
-.emlan-nedbetaling, 
-.emlan-alder,
-.emlan-effrente {
-	margin: auto;
-	width: 45%;
+/* 1.2.2 top info */
+.emlanlist-top-info {
+	margin: .5rem auto;
+	min-width: 45%;
 	text-align: center;	
+	white-space: nowrap;
 }
 
-.emlan-lesmer,
-.emlan-fatilbud {
-	margin: auto;
-}
-
-
-
-.emlan-belop:before,
-.emlan-nedbetaling:before,
-.emlan-alder:before,
-.emlan-effrente:before {
+.emlanlist-top-info:before {
 	display: block;
 	font-weight: bold;
 }
 
 
-/* BELØP */
-.emlan-belop:before {
+/* 1.2.2.1 beløp */
+.emlanlist-belop:before {
 	content: 'Lånebeløp';
 }
 
-/* NEDBETALING */
-.emlan-nedbetaling:before {
+/* 1.2.2.2 nedbetaling */
+.emlanlist-nedbetaling:before {
 	content: 'Nedbetaling';
 }
 
-/* ALDERGRENSE */
-.emlan-alder:before {
+/* 1.2.2.3 aldersgrense */
+.emlanlist-alder:before {
 	content: 'Aldersgrense';
 }
 
-/* EFFEKTIV_RENTE */
-.emlan-effrente:before {
+/* 1.2.2.4 effektiv rente */
+.emlanlist-effrente:before {
 	content: 'Effektiv Rente';
 }
 
-/* LENKE */
-.emlan-lenke {
+
+/* 1.2.3 order (button) */
+.emlanlist-order {
+	margin: 2rem auto;
+}
+
+/* link element */
+.emlanlist-link {
 	padding: 1rem 2rem;
 	border-radius: 5px;
 	font-size: 2.4rem;
@@ -142,10 +145,7 @@ html {
 	color: white;
 	white-space: nowrap;
 }
-
-.emlan-lenke-fatilbud {
-	/*position: relative;*/
-	/*top: 1rem;*/
+.emlanlist-order-link {
 	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
 	border: solid 1px #60AE40;
 
@@ -154,52 +154,99 @@ html {
 	font-weight: 700;
 }
 
-.emlan-fatilbud-solo:after,
-.emlan-fatilbud:after {
+/* after link element */
+.emlanlist-order-solo:after,
+.emlanlist-order:after {
 	display: block;
 	content: 'Annonselenke';
-	/*text-align: center;*/
-/*}*/
-
-/*.emlan-fatilbud:after {*/
 	position: relative;
 	top: 1.5rem;
 	text-align: center;
 }
 
-.emlan-fatilbud-container-solo {
+/* 1.2.3.1 stand alone button */
+/* container for stand alone order button */
+.emlanlist-order-solo {
 	position: fixed;
 	bottom: 20px;
 	left: 0;
 	right: 0;
 	text-align: center;
 }
-.emlan-fatilbud-solo:after {
-	/*margin: auto;*/
-	/*display: inline-block;*/
-	/*display: block;*/
-	/*position: relative;*/
-	/*top: 2rem;*/
-	/*content: 'Annonselenke';*/
+.emlanlist-order-solo:after {
 	background-color: #fff;
 }
 
-.emlan-svg {
+/* 1.2.3.2 thumb svg */
+.emlanlist-svg {
 	filter: drop-shadow(1px 1px 1px #333);
 }
-
-.emlan-thumb {
+/* path element */
+.emlanlist-thumb {
 	fill: #fff;
 }
 
-.emlan-lenke-lesmer {
-	/*background-image: linear-gradient(hsl(0, 0%, 70%) 10%, hsl(0, 0%, 60%) 90%);*/
-	padding: 0.3rem 1rem;
-	/*font-size: 1.6rem;*/
+
+
+/* 1.3 middle row  */
+.emlanlist-middlerow {
+	align-self: center;
+	display: block;
+
+	max-width: 70%;
+	margin: 1rem auto;
+	text-align: left !important;
 }
 
-.emlan-ekseffrente {
+/* 1.3.1 info container */
+.emlanlist-info {
+	display: flex;
+	margin-bottom: 1rem;
+	align-items: flex-start;
+}
+
+/* 1.3.1.1 star svg */
+.emlanlist-star {
+	flex-shrink: 0;
+	margin-right: .5rem;
+}
+.emlanlist-star-path {
+	fill: hsl(35, 100%, 60%);
+}
+
+
+/* 1.4 bottom row */
+.emlanlist-bottomrow {
+	margin-bottom: 2rem;
+}
+
+/* 1.4.1 eff interest example */
+.emlanlist-info-atte {
 	font-style: italic;
+	font-size: 1.2rem;
 	padding: 0 1rem;
 	text-align: center;
+}
+
+/* 1.4.2 read more */
+.emlanlist-lenke-lesmer {
+	padding: 0.3rem 1rem;
+}
+
+
+/* 2.0 double mobile columns */
+@media screen and (min-width: 610px) and (max-width: 1024px) {
+	/* 2.1 list container */
+	.emlanlist-ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		clear: both;
+	}
+
+	/* 2.1.1 list item*/
+	.emlanlist-container {
+		width: 48%;
+		margin: 1rem auto;		
+	}
 }

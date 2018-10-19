@@ -2,7 +2,7 @@
 defined('ABSPATH') or die('Blank Space');
 
 
-final class EM_lists_settings {
+final class EML_settings {
 	/* singleton */
 	private static $instance = null;
 

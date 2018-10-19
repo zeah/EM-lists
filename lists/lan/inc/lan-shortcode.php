@@ -49,13 +49,6 @@ final class Lan_shortcode {
 
 
 
-
-
-
-
-
-
-
 	/**
 	 * returns a list of loans
 	 */
@@ -63,66 +56,9 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return $this->get_html(EML_sc::do('emlanlist', 'lan', $atts, $content), $atts);
+		return $this->get_html(EML_sc::posts('emlanlist', 'lan', $atts, $content), $atts);
 
-		// if (!is_array($atts)) $atts = [];
-
-		// $args = [
-		// 	'post_type' 		=> 'emlanlist',
-		// 	'posts_per_page' 	=> -1,
-		// 	'orderby'			=> [
-		// 								'meta_value_num' => 'ASC',
-		// 								'title' => 'ASC'
-		// 						   ],
-		// 	'meta_key'			=> 'emlanlist_sort'.($atts['lan'] ? '_'.sanitize_text_field($atts['lan']) : '')
-		// ];
-
-
-		// $type = false;
-		// if (isset($atts['lan'])) $type = $atts['lan'];
-		// if ($type)
-		// 	$args['tax_query'] = array(
-		// 			array(
-		// 				'taxonomy' => 'emlanlisttype',
-		// 				'field' => 'slug',
-		// 				'terms' => sanitize_text_field($type)
-		// 			)
-		// 		);
-
-
-		// $names = false;
-		// if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
-		// if ($names) $args['post_name__in'] = $names;
-		
-		// $exclude = get_option('emlanlist_exclude');
-
-		// if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
-
-		// $posts = get_posts($args);	
-
-		// $sorted_posts = [];
-		// if ($names) {
-		// 	foreach(explode(',', preg_replace('/ /', '', $atts['name'])) as $n)
-		// 		foreach($posts as $p) 
-		// 			if ($n === $p->post_name) array_push($sorted_posts, $p);
-		
-		// 	$posts = $sorted_posts;
-		// }
-				
-
-		// $html = $this->get_html($posts, $atts);
-
-		// return $html;
 	}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -132,63 +68,10 @@ final class Lan_shortcode {
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		$args = [
-			'post_type' 		=> 'emlanlist',
-			'posts_per_page'	=> 1,
-			'name' 				=> sanitize_text_field($atts['name'])
-		];
-
-		$post = get_posts($args);
-
-		if (!is_array($post)) return;
-
-		if (!get_the_post_thumbnail_url($post[0])) return;
-
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		$meta = get_post_meta($post[0]->ID, 'emlanlist_data');
-		if (isset($meta[0])) $meta = $meta[0];
-	
-
-		$float = false;
-		if ($atts['float']) 
-			switch ($atts['float']) {
-				case 'left': $float = ' style="float: left; margin-right: 3rem;"'; break;
-				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
-			}
-
-		$html = '';
-
-		if ($meta['bestill']) {
-			// adding tracking pixel
-			if ($meta['pixel']) {
-				if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-				else $html .= $this->add_pixel($meta['pixel']);
-			}
-
-			// fixing query string
-			if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-			// image with anchor
-			// $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-			// if ($meta['pixel']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-	
-			$html .= '<div class="emlan-logo-ls"'.($float ? $float : '').'><a target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'"><img class="emlan-image" alt="'.esc_attr($post[0]->post_title).'" src="'.esc_url(get_the_post_thumbnail_url($post[0], 'full')).'"></a></div>';
-			return $html;
-		}
-
-		// no anchor
-		return '<div class="emlanlist-logo-ls"'.($float ? $float : '').'><img alt="'.esc_attr($post[0]->post_title).'" src="'.esc_url(get_the_post_thumbnail_url($post[0], 'full')).'"></div>';
+		return EML_sc::image('emlanlist', $atts, $content);
 	}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -198,55 +81,10 @@ final class Lan_shortcode {
 	public function add_shortcode_bestill($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		$args = [
-			'post_type' 		=> 'emlanlist',
-			'posts_per_page'	=> 1,
-			'name' 				=> sanitize_text_field($atts['name'])
-		];
-
-		$post = get_posts($args);
-		if (!is_array($post)) return;
-
-		$meta = get_post_meta($post[0]->ID, 'emlanlist_data');
-
-		if (!is_array($meta)) return;
-
-		$meta = $meta[0];
-
-		if (!$meta['bestill']) return;
-
-		
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		$float = false;
-		if ($atts['float']) 
-			switch ($atts['float']) {
-				case 'left': $float = ' style="float: left; margin-right: 3rem;"'; break;
-				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
-			}
-
-
-		$html = '';
-
-		// fixing query string
-		if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-		// adding tracking pixel
-		if ($meta['pixel']) {
-			if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-			else $html .= $this->add_pixel($meta['pixel']);
-		}
-
-		$html .= '<div class="emlan-fatilbud-solo emlan-fatilbud-container-solo"'.($float ? $float : '').'><a target="_blank" rel="noopener" class="emlan-lenke-fatilbud emlan-lenke" href="'.esc_url($meta['bestill']).'"><svg class="emlan-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlan-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Søk her!</a></div>';
-		return $html;
+		return EML_sc::link('emlanlist', $atts, $content);
 	}
-
-
-
-
-
-
-
 
 
 
@@ -254,9 +92,10 @@ final class Lan_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('emlanlist-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', array(), '1.0.2', '(min-width: 801px)');
-        wp_enqueue_style('emlanlist-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', array(), '1.0.2', '(max-width: 800px)');
+        wp_enqueue_style('emlanlist-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', array(), '1.0.2', '(min-width: 951px)');
+        wp_enqueue_style('emlanlist-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', array(), '1.0.2', '(max-width: 950px)');
 	}
+
 
 
 	/**
@@ -266,13 +105,10 @@ final class Lan_shortcode {
 	 */
 	private function get_html($posts, $atts) {
 		if (!$atts) $atts = [];
-		// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
-		$html = '<ul class="emlanlist-container">';
+		$html = '<ul class="emlanlist-ul">';
 
-		$star = '<svg class="emlan-star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path class="emlan-star-path" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
+		$star = '<svg class="emlanlist-star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path class="emlanlist-star-path" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
 
-
-			// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 		foreach ($posts as $p) {
 			
 			$meta = get_post_meta($p->ID, 'emlanlist_data');
@@ -281,59 +117,52 @@ final class Lan_shortcode {
 			else continue;
 
 			// sanitize meta
-			$html .= '<li class="emlan-container">';
+			$html .= '<li class="emlanlist-container">';
 			
-			if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
+			// if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
 
-			if ($meta['pixel']) {
-				if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-				else $html .= $this->add_pixel($meta['pixel']);
-			}
+			// if ($meta['pixel']) {
+			// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
+			// 	else $html .= $this->add_pixel($meta['pixel']);
+			// }
 
 			$meta = $this->esc_kses($meta);
-			// grid container
 
-			// title
-			// $html .= '<div class="emlanlist-title-container"><a class="emlanlist-title" href="'.$meta['readmore'].'">'.wp_kses_post($p->post_title).'</a></div>';
+			$html .= '<div class="emlanlist-row emlanlist-toprow">';
 
-			// thumbnail
-			// 
+			$html .= '<div class="emlanlist-logo"><a target="_blank" rel="noopener" href="'.$meta['readmore'].'"><img class="emlanlist-image" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
+
+			if ($meta['info05']) $html .= '<div class="emlanlist-belop emlanlist-top-info">'.$meta['info05'].'</div>';
+
+			if ($meta['info06']) $html .= '<div class="emlanlist-nedbetaling emlanlist-top-info">'.$meta['info06'].'</div>';
+
+			if ($meta['info07']) $html .= '<div class="emlanlist-alder emlanlist-top-info">'.$meta['info07'].'</div>';
+
+			if ($meta['info04']) $html .= '<div class="emlanlist-effrente emlanlist-top-info">'.$meta['info04'].'</div>';
+
+			if ($meta['bestill']) $html .= '<div class="emlanlist-order"><a class="emlanlist-link emlanlist-order-link" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Få Tilbud Nå</a></div>';
 			
-			$html .= '<div class="emlan-row emlan-toprow">';
-
-			$html .= '<div class="emlan-thumbnail"><a target="_blank" rel="noopener" href="'.$meta['readmore'].'"><img class="emlan-thumbnail-image" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
-
-			if ($meta['info05']) $html .= '<div class="emlan-belop">'.$meta['info05'].'</div>';
-
-			if ($meta['info06']) $html .= '<div class="emlan-nedbetaling">'.$meta['info06'].'</div>';
-
-			if ($meta['info07']) $html .= '<div class="emlan-alder">'.$meta['info07'].'</div>';
-
-			if ($meta['info04']) $html .= '<div class="emlan-effrente">'.$meta['info04'].'</div>';
-
-			if ($meta['bestill']) $html .= '<div class="emlan-fatilbud"><a class="emlan-lenke emlan-lenke-fatilbud" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Få Tilbud Nå</a></div>';
-			// wp_die('<xmp>'.print_r($meta, true).'</xmp>');
 			$html .= '</div>';
 
 
-			$html .= '<div class="emlan-row emlan-middlerow">';
+			$html .= '<div class="emlanlist-row emlanlist-middlerow">';
 
 			// info 1
-			if ($meta['info01']) $html .= '<div class="emlanlist-info emlanlist-info-en">'.$star.' '.$meta['info01'].'</div>';
+			if ($meta['info01']) $html .= '<div class="emlanlist-info emlanlist-info-en">'.$star.'<span>'.$meta['info01'].'</span></div>';
 
 			// info 2
-			if ($meta['info02']) $html .= '<div class="emlanlist-info emlanlist-info-to">'.$star.' '.$meta['info02'].'</div>';
+			if ($meta['info02']) $html .= '<div class="emlanlist-info emlanlist-info-to">'.$star.'<span>'.$meta['info02'].'</span></div>';
 
 			// info 3
-			if ($meta['info03']) $html .= '<div class="emlanlist-info emlanlist-info-tre">'.$star.' '.$meta['info03'].'</div>';
+			if ($meta['info03']) $html .= '<div class="emlanlist-info emlanlist-info-tre">'.$star.'<span>'.$meta['info03'].'</span></div>';
 
 			$html .= '</div>';
 
-			$html .= '<div class="emlan-row emlan-bottomrow">';
+			$html .= '<div class="emlanlist-row emlanlist-bottomrow">';
 
 			if ($meta['info08']) $html .= '<div class="emlanlist-info emlanlist-info-atte">'.$meta['info08'].'</div>';
 
-			if ($meta['readmore']) $html .= '<div class="emlan-lesmer"><a class="emlan-lenke-lesmer" href="'.esc_url($meta['readmore']).'">les mer</a></div>';
+			if ($meta['readmore']) $html .= '<div class="emlanlist-lesmer"><a class="emlanlist-lenke-lesmer" href="'.esc_url($meta['readmore']).'">les mer</a></div>';
 
 
 			$html .= '</div>';
@@ -359,18 +188,14 @@ final class Lan_shortcode {
 
 
 
-	private function add_pixel($pixel) {
-		if ($this->pixels[$pixel]) return '';
+	// private function add_pixel($pixel) {
+	// 	if ($this->pixels[$pixel]) return '';
 
-		$this->pixels[$pixel] = true;
+	// 	$this->pixels[$pixel] = true;
 
-		return '<img width=0 height=0 src="'.esc_url($pixel).'" style="position:absolute">';
-	}
-
-	// public function add_pixel_footer() {
-	// 	foreach ($this->$pixels as $key => $value)
-	// 		echo '<img width=0 height=0 src="'.esc_url($key).'" style="position:absolute">';
+	// 	return '<img width=0 height=0 src="'.esc_url($pixel).'" style="position:absolute">';
 	// }
+
 
 
 
