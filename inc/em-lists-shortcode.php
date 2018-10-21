@@ -103,6 +103,8 @@ final class EML_sc {
 		$html = '';
 
 		if ($meta['bestill']) {
+
+			if ($meta['qstring']) $meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
 			// adding tracking pixel
 			// if ($meta['pixel']) {
 			// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));

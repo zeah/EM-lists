@@ -130,6 +130,7 @@
 
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
+	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
 	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add query'}));
 	// container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
 

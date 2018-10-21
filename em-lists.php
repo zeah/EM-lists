@@ -13,6 +13,7 @@ require_once 'inc/em-lists-settings.php';
 require_once 'inc/em-lists-shortcode.php';
 require_once 'inc/em-lists-tax.php';
 require_once 'inc/em-lists-cookie.php';
+require_once 'inc/em-lists-tracking.php';
 
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
@@ -44,8 +45,8 @@ final class EM_lists {
 	}
 
 	private function __construct() {
-		EML_cookie::get_instance();
-		EML_settings::get_instance();
+		EM_list_cookie::get_instance();
+		EM_list_settings::get_instance();
 		
 		$this->add_plugins();
 	}

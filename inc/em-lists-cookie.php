@@ -1,7 +1,7 @@
 <?php 
 
 
-final class EML_cookie {
+final class EM_list_cookie {
 	/* singleton */
 	private static $instance = null;
 
@@ -21,8 +21,8 @@ final class EML_cookie {
 
 		parse_str($_SERVER['QUERY_STRING'], $result);
 
-		if ($result['gclid']) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
-		elseif ($result['msclkid']) setcookie('eml_clid', $result['msclkid'], time()+60*60*24*90);
+		if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
+		elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'bing']), time()+60*60*24*90);
 
 
 		// wp_die('<xmp>'.print_r(json_decode($_COOKIE['eml_clid']), true).'</xmp>');
