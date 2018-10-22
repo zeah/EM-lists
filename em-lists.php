@@ -9,11 +9,13 @@ GitHub Plugin URI: zeah/EM-lists
 
 defined('ABSPATH') or die('Blank Space');
 
+require_once 'inc/em-lists-redirect.php';
 require_once 'inc/em-lists-settings.php';
 require_once 'inc/em-lists-shortcode.php';
 require_once 'inc/em-lists-tax.php';
 require_once 'inc/em-lists-cookie.php';
 require_once 'inc/em-lists-tracking.php';
+require_once 'inc/em-lists-edit.php';
 
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
@@ -45,8 +47,10 @@ final class EM_lists {
 	}
 
 	private function __construct() {
+		EM_list_redirect::get_instance();
 		EM_list_cookie::get_instance();
 		EM_list_settings::get_instance();
+		// EM_list_edit::get_instance();
 		
 		$this->add_plugins();
 	}
@@ -211,83 +215,84 @@ final class EM_lists {
 
 
 	/* creating the meta box and adding json meta data */
-	public static function create_meta_box($post, $name) {
+	// public static function create_meta_box($post, $name) {
 
-		if (!$name) return;
+	// 	if (!$name) return;
 
-		wp_nonce_field('em'.basename(__FILE__), $name.'_nonce');
+	// 	wp_nonce_field('em'.basename(__FILE__), $name.'_nonce');
 
-		$meta = get_post_meta($post->ID, $name.'_data');
-		$sort = get_post_meta($post->ID, $name.'_sort');
+	// 	$meta = get_post_meta($post->ID, $name.'_data');
+	// 	$sort = get_post_meta($post->ID, $name.'_sort');
 
-		$tax = wp_get_post_terms($post->ID, $name.'type');
+	// 	$tax = wp_get_post_terms($post->ID, $name.'type');
 
-		$taxes = [];
-		if (is_array($tax))
-			foreach($tax as $t)
-				array_push($taxes, $t->slug);
+	// 	$taxes = [];
+	// 	if (is_array($tax))
+	// 		foreach($tax as $t)
+	// 			array_push($taxes, $t->slug);
 
-		$json = [
-			'meta' => isset($meta[0]) ? $meta[0] : '',
-			'meta' => isset($meta[0]) ? EM_Lists::sanitize($meta[0]) : '',
-			$name.'_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
-			'tax' => $taxes
-		];
+	// 	$json = [
+	// 		'meta' => isset($meta[0]) ? $meta[0] : '',
+	// 		'meta' => isset($meta[0]) ? EM_Lists::sanitize($meta[0]) : '',
+	// 		$name.'_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
+	// 		'tax' => $taxes
+	// 	];
 
-		$ameta = get_post_meta($post->ID);
-		foreach($ameta as $key => $value)
-			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
+	// 	$ameta = get_post_meta($post->ID);
+	// 	foreach($ameta as $key => $value)
+	// 		if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
 
 
-		wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
-		echo '<div class="'.$name.'-meta-container"></div>';
-	}
+	// 	wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
+	// 	echo '<div class="'.$name.'-meta-container"></div>';
+	// }
 
 	/* adding exclude meta box */
-	public static function create_exclude_box($post, $name) {
-		$exclude = get_option($name.'_exclude');
-		if (!is_array($exclude)) $exclude = [];
+	// public static function create_exclude_box($post, $name) {
+	// 	$exclude = get_option($name.'_exclude');
+	// 	if (!is_array($exclude)) $exclude = [];
 
 
-		$exclude_serp = get_option($name.'_exclude_serp');
-		if (!is_array($exclude_serp)) $exclude_serp = [];
+	// 	$exclude_serp = get_option($name.'_exclude_serp');
+	// 	if (!is_array($exclude_serp)) $exclude_serp = [];
 
 
-		echo '<p><input name="'.$name.'_exclude" id="'.$name.'_exc" type="checkbox"'.(array_search($post->ID, $exclude) !== false ? ' checked' : '').'><label for="'.$name.'_exc">Lån vil ikke vises på front-end når boksen er markert.</label></p>
-		      <p><input name="'.$name.'_exclude_serp" id="'.$name.'_exc_serp" type="checkbox"'.(array_search($post->ID, $exclude_serp) !== false ? ' checked' : '').'><label for="'.$name.'_exc_serp">Ikke vis i internal SERP.</label></p>';
-	}
+	// 	echo '<p><input name="'.$name.'_exclude" id="'.$name.'_exc" type="checkbox"'.(array_search($post->ID, $exclude) !== false ? ' checked' : '').'><label for="'.$name.'_exc">Lån vil ikke vises på front-end når boksen er markert.</label></p>
+	// 	      <p><input name="'.$name.'_exclude_serp" id="'.$name.'_exc_serp" type="checkbox"'.(array_search($post->ID, $exclude_serp) !== false ? ' checked' : '').'><label for="'.$name.'_exc_serp">Ikke vis i internal SERP.</label></p>';
+	// }
 
 
 	/* saving post meta */
-	public static function save($post_id, $post_type) {
-		if (!get_post_type($post_id) == $post_type) return;
+	// public static function save($post_id, $post_type) {
+	// 	if (!get_post_type($post_id) == $post_type) return;
 
-		// is on admin screen
-		if (!is_admin()) return;
+	// 	// is on admin screen
+	// 	if (!is_admin()) return;
 
-		// user is logged in and has permission
-		if (!current_user_can('edit_posts')) return;
+	// 	// user is logged in and has permission
+	// 	if (!current_user_can('edit_posts')) return;
 
-		// nonce is sent
-		if (!isset($_POST[$post_type.'_nonce'])) return;
+	// 	// nonce is sent
+	// 	if (!isset($_POST[$post_type.'_nonce'])) return;
 
-		// nonce is checked
-		if (!wp_verify_nonce($_POST[$post_type.'_nonce'], 'em'.basename(__FILE__))) return;
+	// 	// nonce is checked
+	// 	if (!wp_verify_nonce($_POST[$post_type.'_nonce'], 'em'.basename(__FILE__))) return;
 
-		// saves to wp option instead of post meta
-		// when adding
-		EM_lists::update_option($post_type.'_exclude', $post_id);
-		EM_lists::update_option($post_type.'_exclude_serp', $post_id);
+	// 	// saves to wp option instead of post meta
+	// 	// when adding
+	// 	EM_lists::update_option($post_type.'_exclude', $post_id);
+	// 	EM_lists::update_option($post_type.'_exclude_serp', $post_id);
 
-		// data is sent, then sanitized and saved
-		if (isset($_POST[$post_type.'_data'])) update_post_meta($post_id, $post_type.'_data', EM_lists::sanitize($_POST[$post_type.'_data']));
-		if (isset($_POST[$post_type.'_sort'])) update_post_meta($post_id, $post_type.'_sort', floatval($_POST[$post_type.'_sort']));
+	// 	// data is sent, then sanitized and saved
+	// 	if (isset($_POST[$post_type.'_data'])) update_post_meta($post_id, $post_type.'_data', EM_lists::sanitize($_POST[$post_type.'_data']));
+	// 	if (isset($_POST[$post_type.'_sort'])) update_post_meta($post_id, $post_type.'_sort', floatval($_POST[$post_type.'_sort']));
 
-		// saving emlanlist_sort_***
-		foreach($_POST as $key => $po) {
-			if (strpos($key, $post_type.'_sort_') !== false)
-				update_post_meta($post_id, sanitize_text_field(str_replace(' ', '', $key)), floatval($po));
-		}
-	}
+	// 	// saving emlanlist_sort_***
+	// 	foreach($_POST as $key => $po) {
+	// 		if (strpos($key, $post_type.'_sort_') !== false)
+	// 			update_post_meta($post_id, sanitize_text_field(str_replace(' ', '', $key)), floatval($po));
+	// 	}
+	// }
 
 }
+

@@ -75,6 +75,9 @@ final class EML_sc {
 	 * @return html          image html
 	 */
 	public function image($name, $atts, $content = null) {
+		// global $post;
+		// wp_die('<xmp>'.print_r(get_permalink($post), true).'</xmp>');
+		
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		$args = [
@@ -92,6 +95,8 @@ final class EML_sc {
 		$meta = get_post_meta($post[0]->ID, $name.'_data');
 		if (isset($meta[0])) $meta = $meta[0];
 	
+		$redir = get_post_meta($post[0]->ID, $name.'_redirect');
+		if (isset($redir[0])) $redir = $redir[0];
 
 		$float = false;
 		if ($atts['float']) 
@@ -101,25 +106,25 @@ final class EML_sc {
 			}
 
 		$html = '';
-
+		
 		if ($meta['bestill']) {
 
+			if ($redir) $meta['bestill'] = EML_sc::add_site($post[0]->post_name.'-get');
+
 			if ($meta['qstring']) $meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
+
 			// adding tracking pixel
 			// if ($meta['pixel']) {
 			// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
 			// 	else $html .= $this->add_pixel($meta['pixel']);
 			// }
 
-			// fixing query string
-			// if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
 			// image with anchor
 			return sprintf('<div class="%s-logo-ls"%s><a target="_blank" rel=noopner href="%s"><img class="%s-image" alt="%s" src="%s"></a></div>',
-						$name,
+						wp_kses_post($name),
 						$float ? $float : '',
 						esc_url($meta['bestill']),
-						$name,
+						wp_kses_post($name),
 						esc_attr($post[0]->post_title),
 						esc_url(get_the_post_thumbnail_url($post[0], 'full'))
 					);
@@ -127,9 +132,9 @@ final class EML_sc {
 
 		// no anchor
 		return sprintf('<div class="%s-logo-ls"%s><img class="%s-image" alt="%s" src="%s"></div>',
-						$name,
+						wp_kses_post($name),
 						$float ? $float : '',
-						$name,
+						wp_kses_post($name),
 						esc_attr($post[0]->post_title),
 						esc_url(get_the_post_thumbnail_url($post[0], 'full'))
 					);
@@ -196,6 +201,11 @@ final class EML_sc {
 						'<svg class="'.$name.'-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlanlist-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg>',
 						'Søk Nå'
 					);
+	}
+
+	private static function add_site($url) {
+		if (strpos($url, 'http')) return $url;
+		return get_site_url().'/'.$url;
 	}
 
 }

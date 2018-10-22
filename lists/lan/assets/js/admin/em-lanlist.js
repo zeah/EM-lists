@@ -52,6 +52,7 @@
 		}
 		else if (emlanlist_data.meta[o.name]) input.setAttribute('checked', '');
 		
+		else if (emlanlist_data[o.name]) input.setAttribute('checked', '');
 
 		if (o.step) input.setAttribute('step', parseFloat(o.step));
 		if (o.max) input.setAttribute('max', parseFloat(o.step));
@@ -131,7 +132,8 @@
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
 	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add query'}));
+	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	container.appendChild(newinput({name: 'emlanlist_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 	// container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
 
 	let info_container = newdiv({class: 'emlanlist-info-container'});

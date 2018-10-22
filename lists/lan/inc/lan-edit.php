@@ -169,7 +169,7 @@ final class Lan_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_lists::create_meta_box($post, $post->post_type);
+		EM_list_edit::create_meta_box($post, $post->post_type);
 	}
  
 
@@ -178,7 +178,7 @@ final class Lan_edit {
  	 */
 	public function exclude_meta_box() {
 		global $post;
-		EM_lists::create_exclude_box($post, 'emlanlist');
+		EM_list_edit::create_exclude_box($post, 'emlanlist');
 	}
 
 
@@ -186,6 +186,6 @@ final class Lan_edit {
 	 * wp action when saving
 	 */
 	public function save($post_id) {
-		EM_lists::save($post_id, 'emlanlist');
+		EM_list_edit::save($post_id, 'emlanlist');
 	}
 }
