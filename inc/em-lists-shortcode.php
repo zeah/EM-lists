@@ -111,18 +111,16 @@ final class EML_sc {
 
 			if ($redir) $meta['bestill'] = EML_sc::add_site($post[0]->post_name.'-get');
 
-			if ($meta['qstring']) $meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
-
-			// adding tracking pixel
-			// if ($meta['pixel']) {
-			// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-			// 	else $html .= $this->add_pixel($meta['pixel']);
-			// }
+			if ($meta['qstring']) { 
+				if ($meta['pixel']) $meta['pixel'] = EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
+				$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
+			}
 
 			// image with anchor
-			return sprintf('<div class="%s-logo-ls"%s><a target="_blank" rel=noopner href="%s"><img class="%s-image" alt="%s" src="%s"></a></div>',
+			return sprintf('<div class="%s-logo-ls"%s>%s<a target="_blank" rel=noopner href="%s"><img class="%s-image" alt="%s" src="%s"></a></div>',
 						wp_kses_post($name),
 						$float ? $float : '',
+						$meta['pixel'],
 						esc_url($meta['bestill']),
 						wp_kses_post($name),
 						esc_attr($post[0]->post_title),
@@ -176,25 +174,18 @@ final class EML_sc {
 				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
 			}
 
+		if ($redir) $meta['bestill'] = EML_sc::add_site($post[0]->post_name.'-get');
 
-		$html = '';
+		if ($meta['qstring']) { 
+			if ($meta['pixel']) $meta['pixel'] = EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
+			$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
+		}
 
-		// fixing query string
-		// if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-		// adding tracking pixel
-		// if ($meta['pixel']) {
-		// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-		// 	else $html .= $this->add_pixel($meta['pixel']);
-		// }
-
-		// $html .= '<div class="emlanlist-fatilbud-solo emlanlist-fatilbud-container-solo"'.($float ? $float : '').'><a target="_blank" rel="noopener" class="emlanlist-lenke-fatilbud emlanlist-lenke" href="'.esc_url($meta['bestill']).'"><svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlanlist-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Søk her!</a></div>';
-		// return $html;
-
-		return sprintf('<div class="%s-order-solo %s-order-container"%s><a target="_blank" rel=noopener class="%s-order-link %s-link" href="%s">%s %s</a></div>',
+		return sprintf('<div class="%s-order-solo %s-order-container"%s>%s<a target="_blank" rel=noopener class="%s-order-link %s-link" href="%s">%s %s</a></div>',
 						$name,
 						$name,
 						$float ? $float : '',
+						$meta['pixel'],
 						$name,
 						$name,
 						esc_url($meta['bestill']),

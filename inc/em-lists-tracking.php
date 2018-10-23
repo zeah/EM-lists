@@ -19,7 +19,6 @@ final class EM_list_tracking {
 		if (!$template) return $url;
 
 		global $post;
-		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
 		
 		if (strpos($url, '?') === false) $url .= '?';
 
@@ -31,30 +30,17 @@ final class EM_list_tracking {
 		$s = ['{site}', '{page}', '{clid}', '{time}'];
 		$r = [$_SERVER['SERVER_NAME'], $post->post_name, $cookie, date('y-m-d-H:ie')];
 
-	    // $template = str_replace($s, $r, $template);
-		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
 		
 	    return $url.str_replace($s, $r, $template);
+	}
 
-	    // wp_die('<xmp>'.print_r($template, true).'</xmp>');
-	    
-		// add type=google | type=bing						
+	public static function pixel($url, $template = null) {
+		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
+		if (!$template) return $url;
 
-		// parse_str($template, $res);
-		// foreach($res as $key => $value) {
-			// $url = str_replace()
-		// }
-			// switch ($value) {
-			// 	case '{site}': $url .= $key.'='.$_SERVER['SERVER_NAME'].'&'; break;
-			// 	case '{page}': $url .= $key.'='.$post_name.'&'; break;
-			// 	case '{clid}': $url .= $key.'='.$cookie.'&'; break;
-			// 	case '{time}': $url .= $key.'='.date('y-m-d-H:ie').'&';break;
-			// 	default: $url .= $key.'='.$value.'&'; // $this->get_time() ?
-			// }
-			
+		$url = EM_list_tracking::query($url, $template);
 
-		// return trim($url, '&');
-		
+		return '<img width=0 height=0 src="'.esc_url($url).'" style="position:absolute">';
 	}
 
 }
