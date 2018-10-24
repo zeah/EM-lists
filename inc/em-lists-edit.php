@@ -20,7 +20,6 @@ final class EM_list_edit {
 	}
 
 	public static function create_meta_box($post, $name) {
-
 		if (!$name) return;
 
 		wp_nonce_field('em'.basename(__FILE__), $name.'_nonce');
@@ -48,7 +47,6 @@ final class EM_list_edit {
 		$ameta = get_post_meta($post->ID);
 		foreach($ameta as $key => $value)
 			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
-
 
 		wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
 		echo '<div class="'.$name.'-meta-container"></div>';

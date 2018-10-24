@@ -1,7 +1,7 @@
 <?php 
 
 
-final class EML_tax {
+final class EM_list_tax {
 	/* singleton */
 	private static $instance = null;
 

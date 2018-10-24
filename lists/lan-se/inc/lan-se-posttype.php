@@ -1,14 +1,14 @@
 <?php 
 defined('ABSPATH') or die('Blank Space');
 
-require_once 'lanlist-taxonomy.php';
-require_once 'lanlist-edit.php';
-require_once 'lanlist-overview.php';
+require_once 'lan-se-taxonomy.php';
+require_once 'lan-se-edit.php';
+require_once 'lan-se-overview.php';
 
 /**
  * 
  */
-final class Lanlist_posttype {
+final class Lan_se_posttype {
 	/* singleton */
 	private static $instance = null;
 
@@ -18,9 +18,9 @@ final class Lanlist_posttype {
 	}
 
 	private function __construct() {
-		Lanlist_edit::get_instance();
-		Lanlist_taxonomy::get_instance();
-		Lanlist_overview::get_instance();
+		Lan_se_edit::get_instance();
+		Lan_se_taxonomy::get_instance();
+		Lan_se_overview::get_instance();
 
 		/* creates custom post type: emkort */
 		add_action('init', array($this, 'create_cpt'));

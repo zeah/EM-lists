@@ -7,8 +7,6 @@ final class Lan_shortcode {
 	/* singleton */
 	private static $instance = null;
 
-	// private $pixel = false;
-
 	public $pixels = [];
 
 	public static function get_instance() {
@@ -41,9 +39,6 @@ final class Lan_shortcode {
 
 
 		add_filter('search_first', array($this, 'add_serp'));
-		// add_action('wp_footer', array($this, 'add_pixel_footer'));
-
-
 
 	}
 
@@ -56,7 +51,7 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return $this->get_html(EML_sc::posts('emlanlist', 'lan', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts('emlanlist', 'lan', $atts, $content), $atts);
 
 	}
 
@@ -70,7 +65,7 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return EML_sc::image('emlanlist', $atts, $content);
+		return EM_list_sc::image('emlanlist', $atts, $content);
 	}
 
 
@@ -83,7 +78,7 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return EML_sc::link('emlanlist', $atts, $content);
+		return EM_list_sc::link('emlanlist', $atts, $content);
 	}
 
 
@@ -103,7 +98,7 @@ final class Lan_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts) {
+	private function get_html($posts, $atts = null) {
 		if (!$atts) $atts = [];
 		$html = '<ul class="emlanlist-ul">';
 
@@ -116,15 +111,17 @@ final class Lan_shortcode {
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
+			$redir = get_post_meta($p->ID, 'emlanlist_redirect');
+
 			// sanitize meta
 			$html .= '<li class="emlanlist-container">';
 			
-			// if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
+			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.'-get');
 
-			// if ($meta['pixel']) {
-			// 	if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-			// 	else $html .= $this->add_pixel($meta['pixel']);
-			// }
+			if ($meta['qstring']) { 
+				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
+				$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
+			}
 
 			$meta = $this->esc_kses($meta);
 
@@ -176,113 +173,6 @@ final class Lan_shortcode {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-	// private function add_pixel($pixel) {
-	// 	if ($this->pixels[$pixel]) return '';
-
-	// 	$this->pixels[$pixel] = true;
-
-	// 	return '<img width=0 height=0 src="'.esc_url($pixel).'" style="position:absolute">';
-	// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-	private function add_query_string($link = null, $source = null, $page = null) {
-		
-		$axo = [
-			'page' => 'aff_sub2',
-			'source' => 'source',
-			'click_id' => 'aff_click_id',
-			'type' => 'aff_sub'
-		];
-
-		$adservice = [
-			'page' => 'sub'
-		];
-
-		if (strpos($link, 'axo') !== false) $def = $axo;
-		elseif (strpos($link, 'adservice') !== false) $def = $adservice;
-		else $def = $axo; // axo is currently default
-
-		// parsing given url for query string
-		parse_str(parse_url($link)['query'], $url_query);
-
-		// parsing current url for query string
-		parse_str($_SERVER['QUERY_STRING'], $result);
-		// wp_die('<xmp>'.print_r($url_query, true).'</xmp>');
-		
-		// source
-		if ($def['source']) {
-			if ($source) $result[$def['source']] = $source;
-			// elseif ($url_query[$def['source']]) $result[$def['source']] = $url_query[$def['source']];
-			elseif (!$url_query[$def['source']]) $result[$def['source']] = $_SERVER['SERVER_NAME'];
-		}
-
-
-		// page (aff_sub2)
-		if ($def['page']) {
-			global $post;
-			// global $pagename;
-			if ($page) $result[$def['page']] = $page;
-			// elseif ($url_query[$def['page']]) $result[$def['page']] = $url_query[$def['page']]; 
-			elseif (!$url_query[$def['page']]) $result[$def['page']] = $post->post_name;
-		}
-			// wp_die('<xmp>'.print_r($result, true).'</xmp>');
-		// aff_sub 
-		// aff_click_id
-		// from google ad, bing ad or organic
-		if ($def['type']) {
-		$result[$def['type']] = 'organic';
-		foreach($result as $key => $value)
-			switch ($key) {
-				case 'gclid': 
-					$result[$def['type']] = 'google'; 
-					$result[$def['click_id']] = $value;
-					break;
-				case 'msclkid': 
-					$result[$def['type']] = 'bing'; 
-					$result[$def['click_id']] = $value;
-					break;
-			}
-		// removing google ad and bing ad parameter
-			unset($result['gclid']);
-			unset($result['msclkid']);
-		}
-
-		return add_query_arg($result, $link);
-	}
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * wp filter for adding to internal serp
 	 * array_push to $data
@@ -311,33 +201,6 @@ final class Lan_shortcode {
 		return $data;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// private function add_source($meta, $source) {
-
-	// 	// removing current source
-	// 	if (preg_match('/(?:(?!\?|&))(?:source=.*?)(?:(&|$))/', $meta, $matches))
-	// 		$meta = str_replace($matches[0], '', $meta); 
-	// 	$meta = preg_replace('/(\?|&)$/', '', $meta);
-
-	// 	// adding source
-	// 	if (strpos($meta, '?') !== false) $meta .= '&source=' . $source;
-	// 	else $meta .= '?source=' . $source;
-
-	// 	return $meta;
-	// }
 
 
 	/**

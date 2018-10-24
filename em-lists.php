@@ -61,10 +61,10 @@ final class EM_lists {
 
 		if (!is_array($data)) return;
 
-		if (isset($data['kredittkort'])) EM_kredittkort::get_instance();
+		if (isset($data['emkredittkort'])) EM_kredittkort::get_instance();
 		// if (isset($data['kredittkort_se'])) EM_kredittkortlist::get_instance();
-		if (isset($data['lan'])) EM_lan::get_instance();
-		if (isset($data['lan_se'])) EM_lanlist::get_instance();
+		if (isset($data['emlanlist'])) EM_lan::get_instance();
+		if (isset($data['emlanlistse'])) EM_se_lan::get_instance();
 		// if (isset($data['casino'])) EM_casino::get_instance();
 
 	}

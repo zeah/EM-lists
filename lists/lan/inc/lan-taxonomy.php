@@ -23,6 +23,6 @@ final class Lan_taxonomy {
 		for custom post type: emkort
 	*/
 	public function create_tax() {
-		EML_tax::create_tax('emlanlisttype', 'emlanlist', 'Lån Type', 'Lån Type');
+		EM_list_tax::create_tax('emlanlisttype', 'emlanlist', 'Lån Type', 'Lån Type');
 	}
 }

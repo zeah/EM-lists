@@ -49,8 +49,8 @@ final class EM_list_settings {
 		register_setting('em-lists-settings', 'em_lists', ['sanitize_callback' => array('EM_lists', 'sanitize')]);
 
 		add_settings_section('em-lists-section', 'EM Lists', array($this, 'list_section'), 'em-lists-page');
-		add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'kredittkort'), 'em-lists-page', 'em-lists-section');
-		add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
+		// add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'kredittkort'), 'em-lists-page', 'em-lists-section');
+		// add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan', 'Lån', array($this, 'lan'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan-se', 'Lån Sverige', array($this, 'lan_se'), 'em-lists-page', 'em-lists-section');
 	}
@@ -61,22 +61,22 @@ final class EM_list_settings {
 
 	public function kredittkort() {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists[kredittkort]"'.(isset($data['kredittkort']) ? ' checked' : '').'>';
+		echo '<input type="checkbox" name="em_lists[emkredittkort]"'.(isset($data['emkredittkort']) ? ' checked' : '').'>';
 	}
 
 	public function kredittkort_se() {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists[kredittkort_se]"'.(isset($data['kredittkort_se']) ? ' checked' : '').'>';
+		echo '<input type="checkbox" name="em_lists[emkredittkort_se]"'.(isset($data['emkredittkort_se']) ? ' checked' : '').'>';
 	}
 
 	public function lan() {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists[lan]"'.(isset($data['lan']) ? ' checked' : '').'>';
+		echo '<input type="checkbox" name="em_lists[emlanlist]"'.(isset($data['emlanlist']) ? ' checked' : '').'>';
 	}
 
 	public function lan_se() {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists[lan_se]"'.(isset($data['lan_se']) ? ' checked' : '').'>';
+		echo '<input type="checkbox" name="em_lists[emlanlistse]"'.(isset($data['emlanlistse']) ? ' checked' : '').'>';
 	}
 
 	/* adding css and js*/

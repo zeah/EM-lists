@@ -18,14 +18,25 @@ final class EM_list_redirect {
 		add_action('init', array($this, 'redirect'));
 	}
 
+
+	/**
+	 * redirecting 
+	 */
 	public function redirect() {
 
 		$url = $_SERVER['REQUEST_URI'];
 		
-		$opt = get_option('emlanlist_redirect');
-		if (!is_array($opt)) return;
+		$lists = get_option('em_lists');
+		$arr = [];
 
-		foreach($opt as $key => $url) {
+		foreach ($lists as $key => $value) {
+			$temp = get_option($key.'_redirect');
+			if (is_array($temp)) $arr += $temp;
+		}
+
+		if (!is_array($arr)) return;
+
+		foreach($arr as $key => $url) {
 			// avoiding infinite loops
 			if (preg_match('/'.$key.'$/', $url)) continue;
 

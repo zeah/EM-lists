@@ -9,6 +9,7 @@ define('LANLIST_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 require_once 'inc/lan-posttype.php';
 require_once 'inc/lan-shortcode.php';
+require_once 'inc/lan-doc.php';
 
 
 /* initiates plugin */
@@ -25,5 +26,6 @@ final class EM_lan {
 	private function __construct() {
 		Lan_posttype::get_instance();
 		Lan_shortcode::get_instance();
+		Lan_doc::get_instance();
 	}
 }

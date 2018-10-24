@@ -2,7 +2,7 @@
 defined('ABSPATH') or die('Blank Space');
 
 
-final class Lanlist_overview {
+final class Lan_se_overview {
 	/* singleton */
 	private static $instance = null;
 

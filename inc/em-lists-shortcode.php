@@ -2,7 +2,7 @@
 
 
 
-final class EML_sc {
+final class EM_list_sc {
 	/* singleton */
 	private static $instance = null;
 
@@ -21,6 +21,10 @@ final class EML_sc {
 	public static function posts($name, $sc, $atts, $content = null) {
 		if (!is_array($atts)) $atts = [];
 
+		$type = false;
+		if (isset($atts[$sc])) $type = $atts[$sc];
+		if (isset($atts['type'])) $type = $atts['type'];
+
 		$args = [
 			'post_type' 		=> $name,
 			'posts_per_page' 	=> -1,
@@ -28,12 +32,10 @@ final class EML_sc {
 										'meta_value_num' => 'ASC',
 										'title' => 'ASC'
 								   ],
-			'meta_key'			=> $name.'_sort'.($atts[$sc] ? '_'.sanitize_text_field($atts[$sc]) : '')
+			'meta_key'			=> $name.'_sort'.($type ? '_'.sanitize_text_field($type) : '')
 		];
 
 
-		$type = false;
-		if (isset($atts[$sc])) $type = $atts[$sc];
 		if ($type)
 			$args['tax_query'] = array(
 					array(
@@ -174,7 +176,7 @@ final class EML_sc {
 				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
 			}
 
-		if ($redir) $meta['bestill'] = EML_sc::add_site($post[0]->post_name.'-get');
+		if ($redir) $meta['bestill'] = EM_list_sc::add_site($post[0]->post_name.'-get');
 
 		if ($meta['qstring']) { 
 			if ($meta['pixel']) $meta['pixel'] = EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
@@ -194,7 +196,7 @@ final class EML_sc {
 					);
 	}
 
-	private static function add_site($url) {
+	public static function add_site($url) {
 		if (strpos($url, 'http')) return $url;
 		return get_site_url().'/'.$url;
 	}

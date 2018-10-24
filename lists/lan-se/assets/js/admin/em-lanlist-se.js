@@ -1,6 +1,6 @@
 (() => {
 
-	// console.log(emlanlistse_meta);
+	console.log(emlanlistse_data);
 
 	let newtype = '';
 
@@ -39,18 +39,19 @@
 		else input.setAttribute('type', o.type);
 
 		if (o.type != 'checkbox') {
-			if (!o.sort) input.setAttribute('value', (emlanlistse_meta.meta[o.name] == undefined) ? '' : emlanlistse_meta.meta[o.name]);
+			if (!o.sort) input.setAttribute('value', (emlanlistse_data.meta[o.name] == undefined) ? '' : emlanlistse_data.meta[o.name]);
 			else {
-				let sort = emlanlistse_meta.emlanlistse_sort;
+				let sort = emlanlistse_data.emlanlistse_sort;
 
-				if (o.sort != 'default') sort = emlanlistse_meta['emlanlistse_sort_'+o.sort];
+				if (o.sort != 'default') sort = emlanlistse_data['emlanlistse_sort_'+o.sort];
 
-				if (sort == undefined) sort = emlanlistse_meta.emlanlistse_sort;
+				if (sort == undefined) sort = emlanlistse_data.emlanlistse_sort;
 
 				input.setAttribute('value', sort);
 			}
 		}
-		else if (emlanlistse_meta.meta[o.name]) input.setAttribute('checked', '');
+		else if (emlanlistse_data.meta[o.name]) input.setAttribute('checked', '');
+		else if (emlanlistse_data[o.name]) input.setAttribute('checked', '');
 
 
 		if (o.step) input.setAttribute('step', parseFloat(o.step));
@@ -81,7 +82,7 @@
 		let addOption = (o = {}) => {
 			let option = document.createElement('option');
 			option.setAttribute('value', o.value);
-			if (o.value == emlanlistse_meta.meta.terning) option.setAttribute('selected', '');
+			if (o.value == emlanlistse_data.meta.terning) option.setAttribute('selected', '');
 			option.appendChild(document.createTextNode(o.value));
 			return option;
 		}
@@ -116,7 +117,7 @@
 
 	container.appendChild(container_sort);
 
-	for (let sort of emlanlistse_meta['tax'])
+	for (let sort of emlanlistse_data['tax'])
 		container_sort.appendChild(newinput({
 			name: 'emlanlistse_sort_'+sort, 
 			title: 'Sortering '+sort.replace(/-/g, ' '), 
@@ -131,7 +132,9 @@
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
 	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add query'}));
+	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	container.appendChild(newinput({name: 'emlanlistse_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 
 	let info_container = newdiv({class: 'emlanlistse-info-container'});
 

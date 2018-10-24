@@ -4,11 +4,11 @@ defined('ABSPATH') or die('Blank Space');
 
 /*
 */
-final class Lan_edit {
+final class Lan_se_edit {
 	/* singleton */
 	private static $instance = null;
 
-	private $name = 'emlanlist';
+	private $name = 'emlanlistse';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -18,15 +18,21 @@ final class Lan_edit {
 
 
 	private function __construct() {
+
+
 		add_action('manage_'.$this->name.'_posts_columns', array($this, 'column_head'));
 		add_filter('manage_'.$this->name.'_posts_custom_column', array($this, 'custom_column'));
 		add_filter('manage_edit-'.$this->name.'_sortable_columns', array($this, 'sort_column'));
 		add_action('pre_get_posts', array($this, 'set_sort'));
-
+		
 		/* metabox, javascript */
 		add_action('add_meta_boxes_'.$this->name, array($this, 'create_meta'));
 		/* hook for page saving/updating */
 		add_action('save_post', array($this, 'save'));
+
+
+		add_filter('emtheme_doc', array($this, 'add_doc'), 99);
+
 	}
 
 
@@ -63,12 +69,9 @@ final class Lan_edit {
 		return EM_lists::sort_column($columns, $this->name.'_sort');
 	}
 
-	/* telling wp how to sort the meta values */
 	public function set_sort($query) {
 		Em_lists::set_sort($query, $this->name);
 	}
-
-
 
 	/*
 		creates wordpress metabox
@@ -94,8 +97,8 @@ final class Lan_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style($this->name.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.2');
-		wp_enqueue_script($this->name.'-admin', LANLIST_PLUGIN_URL . 'assets/js/admin/em-lanlist.js', array(), '1.0.3', true);
+		wp_enqueue_style($this->name.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.2');
+		wp_enqueue_script($this->name.'-admin', LAN_SE_PLUGIN_URL . 'assets/js/admin/em-lanlist-se.js', array(), '1.0.2', true);
 	}
 
 
@@ -116,10 +119,72 @@ final class Lan_edit {
 	}
 
 
+
 	/**
 	 * wp action when saving
 	 */
 	public function save($post_id) {
 		EM_list_edit::save($post_id, $this->name);
+
+		// post type is emlanlistse
+		// if (!get_post_type($post_id) == 'emlanlistse') return;
+
+		// // is on admin screen
+		// if (!is_admin()) return;
+
+		// // user is logged in and has permission
+		// if (!current_user_can('edit_posts')) return;
+
+		// // nonce is sent
+		// if (!isset($_POST['emlanlistse_nonce'])) return;
+
+		// // nonce is checked
+		// if (!wp_verify_nonce($_POST['emlanlistse_nonce'], 'em'.basename(__FILE__))) return;
+
+		// // saves to wp option instead of post meta
+		// // when adding
+		// $this->u_option('emlanlistse_exclude', $post_id);
+		// $this->u_option('emlanlistse_exclude_serp', $post_id);
+		// if (isset($_POST['emlanlistse_exclude'])) {
+		// 	$option = get_option('emlanlistse_exclude');
+
+		// 	// to avoid php error
+		// 	if (!is_array($option)) $option = [];
+
+		// 	// if not already added
+		// 	if (array_search($post_id, $option) === false) {
+
+		// 		// if to add to collection
+		// 		if (is_array($option)) {
+		// 			array_push($option, intval($post_id));
+
+		// 			update_option('emlanlistse_exclude', $option);
+		// 		}
+				
+		// 		// if to create collection (of one)
+		// 		else update_option('emlanlistse_exclude', [$post_id]);
+		// 	}
+		// }
+		// // when removing
+		// else {
+		// 	$option = get_option('emlanlistse_exclude');
+
+		// 	if (array_search($post_id, $option) !== false) {
+		// 		unset($option[array_search($post_id, $option)]);
+		// 		update_option('emlanlistse_exclude', $option);
+		// 	}
+		// }
+
+		// data is sent, then sanitized and saved
+		// if (isset($_POST['emlanlistse_data'])) update_post_meta($post_id, 'emlanlistse_data', $this->sanitize($_POST['emlanlistse_data']));
+		// if (isset($_POST['emlanlistse_sort'])) update_post_meta($post_id, 'emlanlistse_sort', floatval($_POST['emlanlistse_sort']));
+
+		// // saving emlanlistse_sort_***
+		// foreach($_POST as $key => $po) {
+		// 	if (strpos($key, 'emlanlistse_sort_') !== false)
+		// 		update_post_meta($post_id, sanitize_text_field(str_replace(' ', '', $key)), floatval($po));
+		// }
+
 	}
+
 }
