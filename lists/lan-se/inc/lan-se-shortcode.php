@@ -105,7 +105,8 @@ final class Lan_se_shortcode {
 
 
 			$redir = get_post_meta($p->ID, $this->name.'_redirect');
-
+			if (isset($redir[0]) && $redir[0]) $redir = true;
+			else $redir = false;
 
 			// grid container
 			$html .= '<li class="emlanlist-container">';

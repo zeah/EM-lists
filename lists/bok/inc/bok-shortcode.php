@@ -105,7 +105,9 @@ final class Bok_shortcode {
 
 
 			$redir = get_post_meta($p->ID, $this->name.'_redirect');
-
+			if (isset($redir[0]) && $redir[0]) $redir = true;
+			else $redir = false;
+			// if ($redir) wp_die('<xmp>'.print_r($redir, true).'</xmp>');
 
 			// grid container
 			$html .= '<li class="bok-container">';

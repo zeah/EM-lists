@@ -111,8 +111,10 @@ final class Lan_shortcode {
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
-			$redir = get_post_meta($p->ID, 'emlanlist_redirect');
-
+			$redir = get_post_meta($p->ID, $this->name.'_redirect');
+			if (isset($redir[0]) && $redir[0]) $redir = true;
+			else $redir = false;
+			
 			// sanitize meta
 			$html .= '<li class="emlanlist-container">';
 			

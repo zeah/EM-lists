@@ -68,7 +68,6 @@ final class EM_lists {
 		if (isset($data['emlanlistse'])) EM_se_lan::get_instance();
 		if (isset($data['embokliste'])) EM_bok::get_instance();
 		// if (isset($data['casino'])) EM_casino::get_instance();
-		// wp_enqueue_media();
 
 	}
 

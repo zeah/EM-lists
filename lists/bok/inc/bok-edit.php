@@ -86,7 +86,7 @@ final class Bok_edit {
 		/* lan info meta */
 		add_meta_box(
 			$this->name.'_meta', // name
-			'Lån Info', // title 
+			'Bok Info', // title 
 			array($this,'create_meta_box'), // callback
 			$this->name // page
 		);
