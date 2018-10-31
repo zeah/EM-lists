@@ -62,7 +62,7 @@ final class Lan_se_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return EM_list_sc::image('emlanlistse', $atts, $content);
+		return EM_list_sc::image($this->name, $atts, $content);
 	}
 
 
@@ -74,7 +74,7 @@ final class Lan_se_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return EM_list_sc::link('emlanlistse', $atts, $content);
+		return EM_list_sc::link($this->name, $atts, $content);
 	}
 
 
@@ -97,7 +97,7 @@ final class Lan_se_shortcode {
 
 		foreach ($posts as $p) {
 			
-			$meta = get_post_meta($p->ID, 'emlanlistse_data');
+			$meta = get_post_meta($p->ID, $this->name.'_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
@@ -231,13 +231,13 @@ final class Lan_se_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != 'emlanlistse') return $data;
+		if ($post->post_type != $this->name) return $data;
 
-		$exclude = get_option('emlanlistse_exclude');
+		$exclude = get_option($this->name.'_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option('emlanlistse_exclude_serp');
+		$exclude_serp = get_option($this->name.'_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 

@@ -1,14 +1,14 @@
 <?php 
 defined('ABSPATH') or die('Blank Space');
 
-require_once 'lan-taxonomy.php';
-require_once 'lan-edit.php';
-require_once 'lan-overview.php';
+require_once 'bok-taxonomy.php';
+require_once 'bok-edit.php';
+require_once 'bok-overview.php';
 
 /**
  * 
  */
-final class Lan_posttype {
+final class Bok_posttype {
 	/* singleton */
 	private static $instance = null;
 
@@ -18,9 +18,9 @@ final class Lan_posttype {
 	}
 
 	private function __construct() {
-		Lan_edit::get_instance();
-		Lan_taxonomy::get_instance();
-		Lan_overview::get_instance();
+		Bok_edit::get_instance();
+		Bok_taxonomy::get_instance();
+		Bok_overview::get_instance();
 
 		/* creates custom post type: emkort */
 		add_action('init', array($this, 'create_cpt'));
@@ -29,6 +29,7 @@ final class Lan_posttype {
 		create custom post type: emkort 
 	*/
 	public function create_cpt() {
-		EM_lists::create_cpt('emlanlist', 'Lån', 'Lånlist', 'dashicons-money');
+
+		EM_lists::create_cpt('bokliste', 'Bok', 'Bokliste', 'dashicons-book-alt');
 	}
 }

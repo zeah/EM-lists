@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') or die('Blank Space');
 
 final class EM_list_redirect {
 	/* singleton */

@@ -18,6 +18,7 @@ require_once 'inc/em-lists-tracking.php';
 require_once 'inc/em-lists-edit.php';
 
 require_once 'lists/lan/em-lanlist.php';
+require_once 'lists/bok/em-bok.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
 require_once 'lists/kredittkort/em-kredittkort.php';
 // require_once 'lists/kredittkort-se/em-kredittkortlist.php';
@@ -65,7 +66,9 @@ final class EM_lists {
 		// if (isset($data['kredittkort_se'])) EM_kredittkortlist::get_instance();
 		if (isset($data['emlanlist'])) EM_lan::get_instance();
 		if (isset($data['emlanlistse'])) EM_se_lan::get_instance();
+		if (isset($data['embokliste'])) EM_bok::get_instance();
 		// if (isset($data['casino'])) EM_casino::get_instance();
+		// wp_enqueue_media();
 
 	}
 
@@ -116,7 +119,7 @@ final class EM_lists {
 		}
 	}
 
-	public static function create_cpt($name = null, $sing = null, $plur = null) {
+	public static function create_cpt($name = null, $sing = null, $plur = null, $icon = null) {
 
 		if (!$name || !$sing) return false;
 
@@ -144,13 +147,13 @@ final class EM_lists {
 			'labels'              => $labels,
 			'hierarchical'        => false,
 			'description'         => 'description',
-			'taxonomies'          => array('emlanlistsetype'),
+			'taxonomies'          => array(),
 			'public'              => false,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 30,
-			'menu_icon' 		  => 'dashicons-money',
+			'menu_icon' 		  => $icon,
 			'show_in_nav_menus'   => false,
 			'publicly_queryable'  => false,
 			'exclude_from_search' => false,

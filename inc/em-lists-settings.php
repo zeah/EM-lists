@@ -53,6 +53,7 @@ final class EM_list_settings {
 		// add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan', 'Lån', array($this, 'lan'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan-se', 'Lån Sverige', array($this, 'lan_se'), 'em-lists-page', 'em-lists-section');
+		add_settings_field('em-lists-bok', 'Bokklubb', array($this, 'bok'), 'em-lists-page', 'em-lists-section');
 	}
 
 	public function list_section() {
@@ -77,6 +78,11 @@ final class EM_list_settings {
 	public function lan_se() {
 		$data = get_option('em_lists');
 		echo '<input type="checkbox" name="em_lists[emlanlistse]"'.(isset($data['emlanlistse']) ? ' checked' : '').'>';
+	}
+
+	public function bok() {
+		$data = get_option('em_lists');
+		echo '<input type="checkbox" name="em_lists[embokliste]"'.(isset($data['embokliste']) ? ' checked' : '').'>';
 	}
 
 	/* adding css and js*/

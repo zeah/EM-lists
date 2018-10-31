@@ -1,0 +1,114 @@
+/*
+
+
+
+*/
+
+.bok-ul {
+	margin: 0;
+	padding: 0;
+
+	display: flex;
+	flex-wrap: wrap;
+
+	justify-content: space-between;
+}
+
+.bok-container {
+	display: grid;
+
+	grid-template-areas: 
+		"title title"
+		"logo gave"
+		"info gave"
+		". order";
+
+
+	grid-template-rows: auto auto 1fr auto;
+
+    width: 49%;
+
+    padding: 1rem;
+	background-color: #efe;
+
+	border: solid 1px #ccc;
+
+}
+
+.bok-container:nth-child(odd) {
+	background-color: #eef;
+}
+
+.bok-title {
+	grid-area: title;
+	font-size: 2rem;
+
+	margin: 0;
+}
+
+.bok-logo {
+	grid-area: logo;
+	margin-right: 1rem;
+	/*align-self: flex-start;*/
+	/*flex-*/
+}
+
+.bok-gave {
+	grid-area: gave;
+}
+
+.bok-info {
+	grid-area: info;
+
+	padding: 1rem;
+}
+
+.bok-order {
+	grid-area: order;
+	justify-self: center;
+
+
+	margin-top: 1rem;
+
+	background-color: #2a2;
+	padding: 1rem 2rem;
+
+
+	color: #fff;
+	text-decoration: none;
+
+	border-radius: 5px;
+}
+
+
+.bok-terning {
+	width: 50px;
+	height: 50px;
+	background-color: #e22;
+	border-radius: 3px;
+	margin: 0 1rem;
+}
+
+.bok-rect-svg {
+	height: 50px;
+	width: 50px;
+}
+
+.bok-circle-svg {
+	fill: #ffffff;
+}
+
+
+/* 3.0 other browsers */
+
+/* 3.1 old safari and edge */
+@supports not (display: grid) {
+
+
+} 
+
+/* 3.2 internet explorer */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+
+}
