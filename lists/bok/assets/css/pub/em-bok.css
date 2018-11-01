@@ -182,6 +182,52 @@
 
 /* 3.2 internet explorer */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	.bok-container {
+		display: -ms-grid;
 
+		-ms-grid-rows: 5.2rem 3rem 8rem 4rem;
+		-ms-grid-columns: 1fr 1fr 24rem;
+		/*width: 20rem !important;*/
+		/*max-width: 20rem;*/
+		/*min-width: 48%;*/
+	}
+
+	.bok-title {
+		-ms-grid-row: 2;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 2;
+	}
+
+	.bok-logo {
+		-ms-grid-row: 1;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 2;
+	}
+
+	.bok-info {
+		-ms-grid-row: 3;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 2;
+	}
+
+	.bok-verdi {
+		-ms-grid-row: 4;
+		-ms-grid-column: 1;
+	}
+
+	.bok-order {
+		display: block;
+		-ms-grid-row: 4;
+		-ms-grid-column: 2;
+
+		margin: 0 .5rem;
+		white-space: nowrap;
+	}
+
+	.bok-gave {
+		-ms-grid-row: 1;
+		-ms-grid-column: 3;
+		-ms-grid-row-span: 4;
+	}
 
 }
