@@ -141,6 +141,7 @@
 
 	info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
 	info_container.appendChild(newinput({name: 'info02', title: 'Info'}));
+	info_container.appendChild(newinput({name: 'info03', title: 'Verdi'}));
 
 
 	// IMAGE

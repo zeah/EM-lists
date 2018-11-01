@@ -82,8 +82,9 @@ final class Bok_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0', '(min-width: 815px)');
-        wp_enqueue_style($this->name.'-mobile', BOK_PLUGIN_URL.'assets/css/pub/em-bok-mobile.css', array(), '1.0.0', '(max-width: 816px)');
+        wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0');
+        // wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0', '(min-width: 815px)');
+        // wp_enqueue_style($this->name.'-mobile', BOK_PLUGIN_URL.'assets/css/pub/em-bok-mobile.css', array(), '1.0.0', '(max-width: 816px)');
 	}
 
 
@@ -144,6 +145,7 @@ final class Bok_shortcode {
 			
 			if (isset($meta['image']) && $meta['image']) $html .= '<img class="bok-gave" src="'.esc_url($meta['image']).'">';
 
+			if (isset($meta['info03']) && $meta['info03']) $html .= '<div class="bok-verdi">'.$meta['info03'].'</div>';
 			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a class="bok-order" href="'.$meta['bestill'].'">'.((isset($meta['bestill_text']) && $meta['bestill_text']) ? $meta['bestill_text'] : 'Bestill Her').'</a>';
 
 

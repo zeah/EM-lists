@@ -11,28 +11,68 @@
 	display: flex;
 	flex-wrap: wrap;
 
-	justify-content: space-between;
+	justify-content: center;
 }
 
 .bok-container {
 	display: grid;
 
 	grid-template-areas: 
-		"title title"
-		"logo gave"
-		"info gave"
-		". order";
+		"logo logo gave"
+		"title title gave"
+		"info info gave"
+		"verdi order gave";
 
 
-	grid-template-rows: auto auto 1fr auto;
+	grid-template-rows: 5.2rem 3rem 8rem 4rem;
+	/*grid-template-rows: repeat(4, 6.25rem);*/
+	/*grid-template-rows: auto auto 6.25rem 6.25rem;*/
+	grid-template-columns: 1fr 1fr 24rem;
 
-    width: 49%;
 
+	/*align-items: flex-start;*/
+
+	/*justify-content: center;*/
+
+	/*justify-items: center;*/
+
+	/*height: 20rem;*/
+
+    width: 48%;
+    min-width: 58.5rem;
+
+    /*margin-bottom: 2rem;*/
+    margin: 0 1rem 2rem;
     padding: 1rem;
 	background-color: #efe;
 
 	border: solid 1px #ccc;
 
+}
+
+@media only screen and (max-width: 630px) {
+	.bok-container {
+		grid-template-areas: 
+			"logo logo"
+			"title title"
+			"info info"
+			"verdi order"
+			"gave gave";
+
+		grid-template-rows: 5.2rem 3rem 8rem 4rem auto;
+		/*grid-template-rows: repeat(4, 6.25rem);*/
+		/*grid-template-rows: auto auto 6.25rem 6.25rem;*/
+		grid-template-columns: 1fr 1fr;
+		width: 100%;
+		min-width: auto;
+	}
+
+	.bok-verdi,
+	.bok-order,
+	.bok-gave {
+		justify-self: center;
+		margin-top: 1rem;
+	}
 }
 
 .bok-container:nth-child(odd) {
@@ -49,30 +89,63 @@
 .bok-logo {
 	grid-area: logo;
 	margin-right: 1rem;
+
+
 	/*align-self: flex-start;*/
 	/*flex-*/
 }
 
+.bok-logo > img {
+	height: 5rem;
+	width: auto;
+	
+}
+
 .bok-gave {
 	grid-area: gave;
+	height: 20rem;
+	width: 24rem;
+	/*height: 25rem;
+	width: 25rem;*/
 }
 
 .bok-info {
 	grid-area: info;
 
-	padding: 1rem;
+	padding-right: 1rem;
+	overflow: hidden;
+}
+
+.bok-verdi {
+	grid-area: verdi;
+
+	align-self: center;
+	/*justify-self: flex-start;*/
+
+	/*position: relative;*/
+	/*bottom: .5rem;*/
+	/*left: .5rem;*/
+
+	font-size: 2.4rem;
+	font-weight: 700;
+	color: hsl(20, 100%, 50%);
+
+	white-space: nowrap;
 }
 
 .bok-order {
 	grid-area: order;
-	justify-self: center;
+	justify-self: flex-start;
+	align-self: center;
 
-
-	margin-top: 1rem;
+	/*margin-top: 1rem;*/
 
 	background-color: #2a2;
-	padding: 1rem 2rem;
+	padding: .5rem 2.5rem;
 
+
+	font-size: 2rem;
+	font-weight: 700;
 
 	color: #fff;
 	text-decoration: none;
