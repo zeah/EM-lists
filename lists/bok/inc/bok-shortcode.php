@@ -123,7 +123,7 @@ final class Bok_shortcode {
 			// sanitize meta
 			$meta = $this->esc_kses($meta);
 
-			$title = $p->post_name;
+			$title = $p->post_title;
 
 			if (isset($meta['ctitle']) && $meta['ctitle']) $title = $meta['ctitle'];
 
