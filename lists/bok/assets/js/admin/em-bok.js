@@ -63,6 +63,9 @@
 		if (!o.notData) input.setAttribute('name', 'bokliste_data['+o.name+']');
 		else input.setAttribute('name', o.name);
 
+		container.style.marginRight = '20px';
+		container.style.marginBottom = '20px';
+
 		container.appendChild(input);
 
 
@@ -105,6 +108,27 @@
 		return container; 
 	}
 
+	let newtext = (o = {}) => {
+		let container = newdiv({class: 'bokliste-input-container'});
+
+		let title = newdiv({class: 'bokliste-input-title', text: o.title});
+		container.appendChild(title);
+
+		let textarea = document.createElement('textarea');
+		textarea.setAttribute('name', 'bokliste_data['+o.name+']');
+		if (o.width) textarea.style.width = o.width;
+		else textarea.style.width = '500px';
+		
+		if (o.height) textarea.style.height = o.height;
+		else textarea.style.height = '250px';
+
+		if (bokliste_data.meta[o.name]) textarea.appendChild(document.createTextNode(bokliste_data.meta[o.name]));
+
+		container.appendChild(textarea);
+
+		return container;
+	}
+
 	let container_sort = newdiv({class: 'bokliste-sort-container'});
 	container_sort.appendChild(newinput({
 		name: 'bokliste_sort', 
@@ -127,71 +151,94 @@
 			step: 0.01
 		}));
 
-	container.appendChild(newinput({name: 'ctitle', title: 'Custom Title'}));
-	container.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
+	let cOne = newdiv();
+	cOne.style.display = 'flex';
 
-	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
-	container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text'}));
-	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
-	container.appendChild(newinput({name: 'bokliste_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	cOne.appendChild(newinput({name: 'ctitle', title: 'Custom Title'}));
+	cOne.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
+	cOne.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
+	// cOne.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text'}));
+
+	container.appendChild(cOne);
+
+	let cTwo = newdiv();
+	cTwo.style.display = 'flex';
+	// cTwo.style.justifyContent = 'space-between';
+
+
+	cTwo.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
+	cTwo.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	cTwo.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	cTwo.appendChild(newinput({name: 'bokliste_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	container.appendChild(cTwo);
 
 	let info_container = newdiv({class: 'bokliste-info-container'});
 
-	info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
-	info_container.appendChild(newinput({name: 'info02', title: 'Info'}));
+	// info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
 	info_container.appendChild(newinput({name: 'info03', title: 'Verdi'}));
+	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '200px', height: '100px'}));
+	info_container.appendChild(newinput({name: 'gave_title', title: 'Gave title (kun landingside)'}));
+	info_container.appendChild(newtext({name: 'gave_info', title: 'Gave Info (kun landingside)'}));
 	container.appendChild(dicedropdown());
 
 
 	// IMAGE
-	let image_container = document.createElement('div');
-	image_container.style.marginTop = '30px';
+	let newimage = (o = {}) => {
+		let image_container = document.createElement('div');
+		image_container.style.marginTop = '30px';
+		image_container.style.border = 'dotted 1px #eee';
+		image_container.style.marginRight = '20px';
 
-	let image_input = document.createElement('input');
-	image_input.setAttribute('hidden', '');
-	image_input.setAttribute('name', 'bokliste_data[image]');
+		let image_input = document.createElement('input');
+		image_input.setAttribute('hidden', '');
+		image_input.setAttribute('name', 'bokliste_data['+o.name+']');
 
-	let image = document.createElement('img');
-	image.style.display = 'block';
-	
-	if (bokliste_data.meta['image']) {
-		image.setAttribute('src', bokliste_data.meta['image']);	
-		image_input.setAttribute('value', bokliste_data.meta['image']);
-	}
+		let image = document.createElement('img');
+		image.style.display = 'block';
+		
+		if (bokliste_data.meta[o.name]) {
+			image.setAttribute('src', bokliste_data.meta[o.name]);	
+			image_input.setAttribute('value', bokliste_data.meta[o.name]);
+		}
 
-	let button = document.createElement('button');
-	button.setAttribute('type', 'button');
-	button.appendChild(document.createTextNode('Velkomstgavetilbud-bilde'));
+		let button = document.createElement('button');
+		button.setAttribute('type', 'button');
+		button.appendChild(document.createTextNode(o.text));
 
-	image_container.appendChild(button);
-	image_container.appendChild(image_input);
-	image_container.appendChild(image);
+		image_container.appendChild(button);
+		image_container.appendChild(image_input);
+		image_container.appendChild(image);
 
- 	button.addEventListener('click', (e) => {
-        e.preventDefault();
+	 	button.addEventListener('click', (e) => {
+	        e.preventDefault();
 
-        let custom_uploader = wp.media({
-            title: 'Custom Image',
-            button: {
-                text: 'Velg bilde'
-            },
-            multiple: false  // Set this to true to allow multiple files to be selected
-        }).on('select', function() {
+	        let custom_uploader = wp.media({
+	            title: 'Custom Image',
+	            button: {
+	                text: 'Velg bilde'
+	            },
+	            multiple: false  // Set this to true to allow multiple files to be selected
+	        }).on('select', function() {
 
-            let attachment = custom_uploader.state().get('selection').first().toJSON();
-            image.setAttribute('src', attachment.url);
-            image_input.setAttribute('value', attachment.url);
+	            let attachment = custom_uploader.state().get('selection').first().toJSON();
+	            image.setAttribute('src', attachment.url);
+	            image_input.setAttribute('value', attachment.url);
 
-        }).open();
-   	});
-
+	        }).open();
+	   	});
+	   	return image_container;
+ 	}
 	container.appendChild(info_container);
 
 	container.appendChild(dicedropdown());
 
-	container.appendChild(image_container);
+	cBilde = newdiv();
+	cBilde.style.display = 'flex';
+
+	cBilde.appendChild(newimage({text: 'Gavebilde liste', name: 'gave_list'}));
+	cBilde.appendChild(newimage({text: 'Gavebilde landingside', name: 'gave_ls'}));
+
+	container.appendChild(cBilde);
 
 	// adding existing category
 	jQuery('#boklistetypechecklist').on('change', function(e) {

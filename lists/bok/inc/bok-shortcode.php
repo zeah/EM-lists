@@ -50,7 +50,12 @@ final class Bok_shortcode {
 	public function add_shortcode($atts, $content = null) {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-		return $this->get_html(EM_list_sc::posts($this->name, 'lan', $atts, $content), $atts);
+		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
+		
+		if (array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
+		
+
+		return $this->get_html(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
 	}
 
 
@@ -193,6 +198,37 @@ final class Bok_shortcode {
 
 
 			$html .= '</li>';
+		}
+
+		$html .= '</ul>';
+
+		return $html;
+	}
+
+	private function get_landing($posts, $atts = null) {
+		if (!is_array($posts)) return;
+
+		$html = '<ul class="bok-ls-ul">';
+
+		foreach ($posts as $p) {
+
+			$meta = get_post_meta($p->ID, $this->name.'_data');
+			if (isset($meta[0])) $meta = $meta[0];
+			else continue;
+
+			
+			$html .= '<li class="bok-ls-li">';
+
+			$html .= '<div class="bok-ls-left">';
+			if (isset($meta['bestill'])) $html .= '<a class="bok-order" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Bestill</a> <h2 class="bok-ls-title">'.$meta['gave_title'].'</h2>';
+			if (isset($meta['gave_info'])) $html .= '<div class="bok-ls-info">'.wp_kses_post($meta['gave_info']).'</div>';
+			$html .= '</div>';
+			if (isset($meta['gave_ls'])) $html .= '<img class="bok-ls-image" alt="Bilde av velkomstgave" src="'.esc_url($meta['gave_ls']).'">';
+
+			$html .= '</li>';
+			// gave_info
+			// gave_ls
+
 		}
 
 		$html .= '</ul>';

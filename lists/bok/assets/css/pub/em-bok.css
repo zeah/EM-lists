@@ -216,3 +216,32 @@
 	}
 
 }
+
+
+/* landing page */
+.bok-ls-ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bok-ls-li {
+	display: flex;
+	justify-content: space-between;
+
+	padding: 1rem;
+
+	border: solid 4px #efe;
+	border-radius: 10px;
+}
+
+.bok-ls-title {
+	display: inline;
+	margin: 0;
+	margin-left: 2rem;
+}
+
+.bok-ls-image {
+	height: 30rem;
+	width: auto;
+}
