@@ -23,31 +23,29 @@
 		"info info gave"
 		"verdi order gave";
 
+	position: relative;
 
 	grid-template-rows: 5.2rem 3rem 8rem 4rem;
-	/*grid-template-rows: repeat(4, 6.25rem);*/
-	/*grid-template-rows: auto auto 6.25rem 6.25rem;*/
 	grid-template-columns: 1fr 1fr 24rem;
 
-
-	/*align-items: flex-start;*/
-
-	/*justify-content: center;*/
-
-	/*justify-items: center;*/
-
-	/*height: 20rem;*/
-
     width: 48%;
-    min-width: 58.5rem;
+    min-width: 60rem;
 
-    /*margin-bottom: 2rem;*/
-    margin: 0 1rem 2rem;
+    margin-bottom: 2rem;
     padding: 1rem;
 	background-color: #efe;
 
 	border: solid 1px #ccc;
 
+	box-sizing: border-box;
+
+}
+
+/* when containers are 2 on a row */
+@media only screen and (min-width: 1277px) {
+	.bok-container:nth-child(odd) {
+		margin-right: 2rem;
+	}
 }
 
 @media only screen and (max-width: 630px) {
@@ -60,8 +58,6 @@
 			"gave gave";
 
 		grid-template-rows: 5.2rem 3rem 8rem 4rem auto;
-		/*grid-template-rows: repeat(4, 6.25rem);*/
-		/*grid-template-rows: auto auto 6.25rem 6.25rem;*/
 		grid-template-columns: 1fr 1fr;
 		width: 100%;
 		min-width: auto;
@@ -89,10 +85,6 @@
 .bok-logo {
 	grid-area: logo;
 	margin-right: 1rem;
-
-
-	/*align-self: flex-start;*/
-	/*flex-*/
 }
 
 .bok-logo > img {
@@ -105,8 +97,6 @@
 	grid-area: gave;
 	height: 20rem;
 	width: 24rem;
-	/*height: 25rem;
-	width: 25rem;*/
 }
 
 .bok-info {
@@ -120,11 +110,6 @@
 	grid-area: verdi;
 
 	align-self: center;
-	/*justify-self: flex-start;*/
-
-	/*position: relative;*/
-	/*bottom: .5rem;*/
-	/*left: .5rem;*/
 
 	font-size: 2.4rem;
 	font-weight: 700;
@@ -138,7 +123,6 @@
 	justify-self: flex-start;
 	align-self: center;
 
-	/*margin-top: 1rem;*/
 
 	background-color: #2a2;
 	padding: .5rem 2.5rem;
@@ -155,10 +139,14 @@
 
 
 .bok-terning {
+	position: absolute;
+	top: 1rem;
+	right: 0;
 	width: 50px;
 	height: 50px;
 	background-color: #e22;
 	border-radius: 3px;
+	/*border: solid 3px black;*/
 	margin: 0 1rem;
 }
 
@@ -187,9 +175,6 @@
 
 		-ms-grid-rows: 5.2rem 3rem 8rem 4rem;
 		-ms-grid-columns: 1fr 1fr 24rem;
-		/*width: 20rem !important;*/
-		/*max-width: 20rem;*/
-		/*min-width: 48%;*/
 	}
 
 	.bok-title {

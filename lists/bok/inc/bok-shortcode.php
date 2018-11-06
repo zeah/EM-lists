@@ -148,101 +148,49 @@ final class Bok_shortcode {
 			if (isset($meta['info03']) && $meta['info03']) $html .= '<div class="bok-verdi">'.$meta['info03'].'</div>';
 			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a class="bok-order" href="'.$meta['bestill'].'">'.((isset($meta['bestill_text']) && $meta['bestill_text']) ? $meta['bestill_text'] : 'Bestill Her').'</a>';
 
+			// terning
+			if ($meta['terning'] != 'ingen') {
+				$html .= '<svg class="bok-terning">
+							<defs>
+							    <linearGradient id="bok-grad" x1="0%" y1="100%" x2="100%" y2="100%">
+							      <stop offset="0%" style="stop-color:rgb(200,0,0);stop-opacity:1" />
+							      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+							    </linearGradient>
+							  </defs>
+							<rect class="bok-rect-svg" rx="7" ry="7" fill="url(#bok-grad)"/>';
 
-			// $html .= print_r($meta, true);
+				switch ($meta['terning']) {
 
-			// title
-			// $html .= '<div class="emlanlist-title-container"><a class="emlanlist-title" href="'.$meta['readmore'].'">'.wp_kses_post($p->post_title).'</a></div>';
+					case 'seks':
+					$html .= '<circle class="bok-circle-svg" cx="11" cy="25" r="5"/>';
+					$html .= '<circle class="bok-circle-svg" cx="39" cy="25" r="5"/>';
 
-			// // thumbnail
-			// $html .= '<div class="emlanlist-logo-container"><a target="_blank" rel="noopener" href="'.$meta['bestill'].'"><img class="emlanlist-logo" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
+					case 'fire':
+					$html .= '<circle class="bok-circle-svg" cx="11" cy="10" r="5"/>';
+					$html .= '<circle class="bok-circle-svg" cx="39" cy="40" r="5"/>';
 
-			// // info container
-			// $html .= '<div class="emlanlist-info-container">';
+					case 'to':
+					$html .= '<circle class="bok-circle-svg" cx="11" cy="40" r="5"/>';
+					$html .= '<circle class="bok-circle-svg" cx="39" cy="10" r="5"/>';
+					break;
 
-			// // info 1
-			// if ($meta['info01']) $html .= '<div class="emlanlist-info emlanlist-info-en">'.$meta['info01'].'</div>';
+					case 'fem':
+					$html .= '<circle class="bok-circle-svg" cx="10" cy="10" r="5"/>';
+					$html .= '<circle class="bok-circle-svg" cx="40" cy="40" r="5"/>';
 
-			// // info 2
-			// if ($meta['info02']) $html .= '<div class="emlanlist-info emlanlist-info-to">'.$meta['info02'].'</div>';
+					case 'tre':
+					$html .= '<circle class="bok-circle-svg" cx="10" cy="40" r="5"/>';
+					$html .= '<circle class="bok-circle-svg" cx="40" cy="10" r="5"/>';
 
-			// // info 3
-			// if ($meta['info03']) $html .= '<div class="emlanlist-info emlanlist-info-tre">'.$meta['info03'].'</div>';
+					case 'en':
+					$html .= '<circle class="bok-circle-svg" cx="25" cy="25" r="5"/>';
+					break;
 
-			// // info 4
-			// if ($meta['info04']) $html .= '<div class="emlanlist-info emlanlist-info-fire">'.$meta['info04'].'</div>';
+				}
 
-			// $html .= '</div>';
+				$html .= '</svg>';
+			}
 
-			// // info list container 
-			// $html .= '<div class="emlanlist-list-container">';
-
-			// // info 5
-			// if ($meta['info05']) $html .= '<div class="emlanlist-info emlanlist-info-fem">'.$meta['info05'].'</div>';
-
-			// // info 6
-			// if ($meta['info06']) $html .= '<div class="emlanlist-info emlanlist-info-seks">'.$meta['info06'].'</div>';
-
-			// // info 7
-			// if ($meta['info07']) $html .= '<div class="emlanlist-info emlanlist-info-syv">'.$meta['info07'].'</div>';
-
-			// // info 8
-			// if ($meta['info08']) $html .= '<div class="emlanlist-info emlanlist-info-atte">'.$meta['info08'].'</div>';
-
-			// $html .= '</div>';
-
-			// $html .= '<div class="emlanlist-end-container">';
-			// // terning
-			// if ($meta['terning'] != 'ingen') {
-			// 	$html .= '<svg class="emlanlist-terning">
-			// 				<defs>
-			// 				    <linearGradient id="emlanlist-grad" x1="0%" y1="100%" x2="100%" y2="100%">
-			// 				      <stop offset="0%" style="stop-color:rgb(200,0,0);stop-opacity:1" />
-			// 				      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-			// 				    </linearGradient>
-			// 				  </defs>
-			// 				<rect class="emlanlist-rect-svg" rx="7" ry="7" fill="url(#emlanlist-grad)"/>';
-
-			// 	switch ($meta['terning']) {
-
-			// 		case 'seks':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="11" cy="25" r="5"/>';
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="39" cy="25" r="5"/>';
-
-			// 		case 'fire':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="11" cy="10" r="5"/>';
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="39" cy="40" r="5"/>';
-
-			// 		case 'to':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="11" cy="40" r="5"/>';
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="39" cy="10" r="5"/>';
-			// 		break;
-
-			// 		case 'fem':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="10" cy="10" r="5"/>';
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="40" cy="40" r="5"/>';
-
-			// 		case 'tre':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="10" cy="40" r="5"/>';
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="40" cy="10" r="5"/>';
-
-			// 		case 'en':
-			// 		$html .= '<circle class="emlanlist-circle-svg" cx="25" cy="25" r="5"/>';
-			// 		break;
-
-			// 	}
-
-			// 	$html .= '</svg>';
-			// }
-
-			// // bestill 
-			// $html .= '<div class="emlanlist-bestill-container">';
-			// // $html .= '<div class="emlanlist-bestill"><a target="_blank" rel="noopener" class="emlanlist-link" href="'.$meta['bestill'].'">Ansök här <svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 22" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path opacity="0.87" fill="none" d="M0,0h24v24H0V0z"/><path fill="#fff" d="M18,8h-1V6c0-2.76-2.24-5-5-5S7,3.24,7,6v2H6c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V10C20,8.9,19.1,8,18,8z M9,6c0-1.66,1.34-3,3-3s3,1.34,3,3v2H9V6z M18,20H6V10h12V20z M12,17c1.1,0,2-0.9,2-2c0-1.1-0.9-2-2-2c-1.1,0-2,0.9-2,2C10,16.1,10.9,17,12,17z"/></svg></a></div>';
-			// $html .= '<div class="emlanlist-bestill"><a target="_blank" rel="noopener" class="emlanlist-link" href="'.$meta['bestill'].'"><svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlanlist-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Ansök här!</a></div>';
-			// $html .= '<div class="emlanlist-bestilltext">'.$meta['bestill_text'].'</div>';
-			// $html .= '</div>';
-
-			// $html .= '</div>'; // end-container
 
 			$html .= '</li>';
 		}
