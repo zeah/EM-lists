@@ -7,6 +7,8 @@ final class Bok_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $pf = '-get';
+
 	private $name = 'bokliste';
 
 	// public $pixels = [];
@@ -52,6 +54,9 @@ final class Bok_shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
 		
+		$pf = get_option('em_lists');
+		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
+
 		if (is_array($atts) && array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
 		
 
@@ -118,7 +123,7 @@ final class Bok_shortcode {
 			// grid container
 			$html .= '<li class="bok-container">';
 			
-			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.'-get');
+			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
 
 			if (isset($meta['qstring']) && $meta['qstring']) { 
 				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
@@ -148,10 +153,13 @@ final class Bok_shortcode {
 
 			if (isset($meta['info02']) && $meta['info02']) $html .= '<div class="bok-info">'.$meta['info02'].'</div>';
 			
-			if (isset($meta['image']) && $meta['image']) $html .= '<img class="bok-gave" src="'.esc_url($meta['image']).'">';
+
+			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a target="_blank" rel=noopener class="bok-gave" href="'.$meta['bestill'].'">';
+			if (isset($meta['image']) && $meta['image']) $html .= '<img class="bok-gave-image" src="'.esc_url($meta['image']).'">';
+			if (isset($meta['bestill']) && $meta['bestill']) $html .= '</a>';
 
 			if (isset($meta['info03']) && $meta['info03']) $html .= '<div class="bok-verdi">'.$meta['info03'].'</div>';
-			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a class="bok-order" href="'.$meta['bestill'].'">'.((isset($meta['bestill_text']) && $meta['bestill_text']) ? $meta['bestill_text'] : 'Bestill Her').'</a>';
+			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a target="_blank" rel=noopener class="bok-order" href="'.$meta['bestill'].'">'.((isset($meta['bestill_text']) && $meta['bestill_text']) ? $meta['bestill_text'] : 'Bestill Her').'</a>';
 
 			// terning
 			if ($meta['terning'] != 'ingen') {

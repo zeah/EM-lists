@@ -104,21 +104,68 @@ final class EM_list_edit {
 		}
 	}
 
-	private static function update_redirect($post_type) {
+	// public static function update_redirect($post_type, $p = null, $postfix = null) {
+	public static function update_redirect($post_type) {
+		global $post;
+		$pn = $post->post_name;
+
+		$url = $_POST[$post_type.'_data'];
+		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
+		if (!isset($url['bestill']) || !$url['bestill']) return;
+
+		$opt = get_option($post_type.'_redirect');
+
+		if (isset($_POST[$post_type.'_redirect'])) $opt[$pn] = $url['bestill'];
+		else unset($opt[$pn]);
+
+		update_option($post_type.'_redirect', $opt);
+
+		// if (!isset($_POST[$post_type.'_redirect']) || !$_POST[$post_type.'_redirect'])
+
+		// if (!isset($url['_redirect']) || !$url['_redirect']) return;
+
+
+
+		// if ()
 		// $url = $_POST[$post_type.'_data'];
 
 		// if (!is_array($url)) return;
 		// if (!isset($url['bestill'])) return;
 
-		global $post;
-		$post_name = $post->post_name;
+		// if ($postfix) $pf = $postfix;
+		
+		// else {
+		// 	$pf = get_option('em_lists');
+		// 	if (isset($pf['redir_pf']) && $pf['redir_pf']) $pf = $pf['redir_pf'];
+		// 	else $pf = 'get';
+		// }
 
-		$red = $post_type.'_redirect';
-		$opt = get_option($red);
+		// $pf = '-'.ltrim($pf, '-');
 
-		$url = $_POST[$post_type.'_data'];
-		if (isset($_POST[$red]) && is_array($url) && isset($url['bestill'])) $opt[$post_name.'-get'] = $url['bestill'];
-		else unset($opt[$post_name.'-get']);
-		update_option($red, $opt);
+
+		// if ($p) $post_name = $p;
+		// else {
+		// 	global $post;
+		// 	$post_name = $post->post_name;
+		// }
+
+
+		// $red = $post_type.'_redirect';
+		// $opt = get_option($red);
+
+		// $url = $_POST[$post_type.'_data'];
+
+		// if (isset($url['bestill']) && $url['bestill']) {
+		// 	$data = ['url' => $url['bestill'], 'pf' => $pf];
+		// 	$opt[$post_name] = $data;
+		// }
+		// else unset($opt[$post_name]);
+
+		// // foreach ($opt as $key => $value)
+		// 	// if (strpos($key, $post_name.'-')) unset()
+		// // if (isset($_POST[$red]) && is_array($url) && isset($url['bestill'])) $opt[$post_name.'-fa'] = $url['bestill'];
+		// // else unset($opt[$post_name.'-fa']);
+		// update_option($red, $opt);
+		// wp_die('<xmp>'.print_r($opt, true).'</xmp>');
 	}
 }

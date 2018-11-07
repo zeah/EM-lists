@@ -95,6 +95,9 @@
 
 .bok-gave {
 	grid-area: gave;
+}
+
+.bok-gave-image {
 	height: 20rem;
 	width: 24rem;
 }
