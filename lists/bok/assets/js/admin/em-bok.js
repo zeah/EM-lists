@@ -176,7 +176,7 @@
 
 	// info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
 	info_container.appendChild(newinput({name: 'info03', title: 'Verdi'}));
-	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '200px', height: '100px'}));
+	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '340px', height: '80px'}));
 	info_container.appendChild(newinput({name: 'gave_title', title: 'Gave title (kun landingside)'}));
 	info_container.appendChild(newtext({name: 'gave_info', title: 'Gave Info (kun landingside)'}));
 	container.appendChild(dicedropdown());

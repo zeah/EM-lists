@@ -52,7 +52,7 @@ final class Bok_shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
 		
-		if (array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
+		if (is_array($atts) && array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
 		
 
 		return $this->get_html(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
