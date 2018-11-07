@@ -29,7 +29,6 @@ final class EM_list_redirect {
 		
 		$lists = get_option('em_lists');
 		$arr = [];
-
 		foreach ($lists as $key => $value) {
 			$temp = get_option($key.'_redirect');
 			if (is_array($temp)) $arr += $temp;
@@ -42,6 +41,7 @@ final class EM_list_redirect {
 			if (preg_match('/'.$key.'$/', $url)) continue;
 
 			if (preg_match('/'.$key.'((\?.*)|$)/', $_SERVER['REQUEST_URI'])) {
+
 				if (strpos($url, '?') === false && $_SERVER['QUERY_STRING']) $url .= '?';
 
 				wp_redirect($url.$_SERVER['QUERY_STRING']);

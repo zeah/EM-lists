@@ -82,7 +82,7 @@ final class EM_list_settings {
 
 	public function bok() {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists[embokliste]"'.(isset($data['embokliste']) ? ' checked' : '').'>';
+		echo '<input type="checkbox" name="em_lists[bokliste]"'.(isset($data['bokliste']) ? ' checked' : '').'>';
 	}
 
 	/* adding css and js*/

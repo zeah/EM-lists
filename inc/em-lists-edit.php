@@ -117,10 +117,8 @@ final class EM_list_edit {
 		$opt = get_option($red);
 
 		$url = $_POST[$post_type.'_data'];
-		
 		if (isset($_POST[$red]) && is_array($url) && isset($url['bestill'])) $opt[$post_name.'-get'] = $url['bestill'];
 		else unset($opt[$post_name.'-get']);
-
 		update_option($red, $opt);
 	}
 }
