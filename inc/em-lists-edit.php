@@ -111,12 +111,14 @@ final class EM_list_edit {
 
 		$url = $_POST[$post_type.'_data'];
 		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
-		if (!isset($url['bestill']) || !$url['bestill']) return;
+		// if (!isset($url['bestill']) || !$url['bestill']) return;
 
 		$opt = get_option($post_type.'_redirect');
 
-		if (isset($_POST[$post_type.'_redirect'])) $opt[$pn] = $url['bestill'];
-		else unset($opt[$pn]);
+		if (isset($_POST[$post_type.'_redirect'])) {
+			if (isset($url['bestill']) && $url['bestill']) $opt[$pn] = $url['bestill'];
+		}
+		elseif (isset($opt[$pn])) unset($opt[$pn]);
 
 		update_option($post_type.'_redirect', $opt);
 

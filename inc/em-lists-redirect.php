@@ -25,42 +25,82 @@ final class EM_list_redirect {
 	 */
 	public function redirect() {
 
+		$lists = get_option('em_lists');
+
+		if (!is_array($lists)) return;
+
+		$postfix = (isset($lists['redir_pf']) && $lists['redir_pf']) ? $lists['redir_pf'] : 'get';
+		$postfix = '-'.ltrim($postfix, '-');
+			
+		foreach ($lists as $li => $st) {
+			if ($li == 'redir_pf') continue;
+									
+			$url = get_option($li.'_redirect');
+			// wp_die('<xmp>'.print_r($url, true).'</xmp>');
+			
+			if (!is_array($url)) continue;
+
+			foreach ($url as $key => $dest) {
+				$key = str_replace('/', '\/', $key);
+
+				if (preg_match('/'.$key.$postfix.'((\?.*)|$)/', $_SERVER['REQUEST_URI'])) {
+					// wp_die('<xmp>'.print_r($_SERVER['QUERY_STRING'], true).'</xmp>');
+					
+					if ($_SERVER['QUERY_STRING']) {
+						if (!strpos($dest, '?')) $dest .= '?';
+						else $dest .= '&';
+					}
+
+					// if (!strpos($dest, '?') && $_SERVER['QUERY_STRING']) $dest .= '?';
+					// elseif (!strpos($dest, '?') $dest .= '&';
+					
+					wp_redirect($dest.$_SERVER['QUERY_STRING']);
+					exit;
+				}
+			}
+		}
+
+
+		// wp_die('<xmp>'.print_r($postfix, true).'</xmp>');
+		
+		// $pf = isset($lists['']);
+
 		// $url = $_SERVER['REQUEST_URI'];
 		// wp_die('<xmp>'.print_r($_SERVER['REQUEST_URI'], true).'</xmp>');
 		
-		$lists = get_option('em_lists');
-		$arr = [];
-		foreach ($lists as $key => $value) {
-			$temp = get_option($key.'_redirect');
-			if (is_array($temp)) $arr += $temp;
-		}
+		// $lists = get_option('em_lists');
+		// $arr = [];
+		// foreach ($lists as $key => $value) {
+		// 	$temp = get_option($key.'_redirect');
+		// 	if (is_array($temp)) $arr += $temp;
+		// }
 
-		if (!is_array($arr)) return;
-		// wp_die('<xmp>'.print_r($arr, true).'</xmp>');
-		foreach ($arr as $key => $a) {
-			if (!is_array($a)) continue;
+		// if (!is_array($arr)) return;
+		// // wp_die('<xmp>'.print_r($arr, true).'</xmp>');
+		// foreach ($arr as $key => $a) {
+		// 	if (!is_array($a)) continue;
 
-			if (!isset($a['pf'])) continue;
+		// 	if (!isset($a['pf'])) continue;
 
-			if (!isset($a['url']) || !esc_url($a['url'])) continue;
-			// avoiding infinite redirs
-			// wp_die('<xmp>'.print_r($a['url'], true).'</xmp>');
-			if (preg_match('/'.str_replace('/', '\/', $a['url']).'((\?.*)|$)/', $_SERVER['REQUEST_URI'])) continue;
-
-
-			$url = str_replace('/', '\/', $key.$a['pf']);
+		// 	if (!isset($a['url']) || !esc_url($a['url'])) continue;
+		// 	// avoiding infinite redirs
+		// 	// wp_die('<xmp>'.print_r($a['url'], true).'</xmp>');
+		// 	if (preg_match('/'.str_replace('/', '\/', $a['url']).'((\?.*)|$)/', $_SERVER['REQUEST_URI'])) continue;
 
 
-			if (preg_match('/'.$url.'((\/?\?.*)|$)/', $_SERVER['REQUEST_URI'])) {
-				if (strpos($a['url'], '?') === false && $_SERVER['QUERY_STRING']) $a['url'] .= '?';
+		// 	$url = str_replace('/', '\/', $key.$a['pf']);
 
-				$a['url'] = rtrim($a['url'], '&');
-				if ($_SERVER['QUERY_STRING']) $a['url'] .= '&';
 
-				wp_redirect($a['url'].$_SERVER['QUERY_STRING']);
-				exit;
-			}
-		}
+		// 	if (preg_match('/'.$url.'((\/?\?.*)|$)/', $_SERVER['REQUEST_URI'])) {
+		// 		if (strpos($a['url'], '?') === false && $_SERVER['QUERY_STRING']) $a['url'] .= '?';
+
+		// 		$a['url'] = rtrim($a['url'], '&');
+		// 		if ($_SERVER['QUERY_STRING']) $a['url'] .= '&';
+
+		// 		wp_redirect($a['url'].$_SERVER['QUERY_STRING']);
+		// 		exit;
+		// 	}
+		// }
 
 		// wp_die('<xmp>'.print_r($arr, true).'</xmp>');
 		// foreach($arr as $key => $url) {
