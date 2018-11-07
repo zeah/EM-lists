@@ -235,8 +235,8 @@
 	cBilde = newdiv();
 	cBilde.style.display = 'flex';
 
-	cBilde.appendChild(newimage({text: 'Gavebilde liste', name: 'gave_list'}));
-	cBilde.appendChild(newimage({text: 'Gavebilde landingside', name: 'gave_ls'}));
+	cBilde.appendChild(newimage({text: 'Gavebilde liste', name: 'image'}));
+	cBilde.appendChild(newimage({text: 'Gavebilde landingside', name: 'image_ls'}));
 
 	container.appendChild(cBilde);
 

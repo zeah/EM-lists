@@ -223,7 +223,7 @@ final class Bok_shortcode {
 			if (isset($meta['bestill'])) $html .= '<a class="bok-order" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Bestill</a> <h2 class="bok-ls-title">'.$meta['gave_title'].'</h2>';
 			if (isset($meta['gave_info'])) $html .= '<div class="bok-ls-info">'.wp_kses_post($meta['gave_info']).'</div>';
 			$html .= '</div>';
-			if (isset($meta['gave_ls'])) $html .= '<img class="bok-ls-image" alt="Bilde av velkomstgave" src="'.esc_url($meta['gave_ls']).'">';
+			if (isset($meta['gave_ls'])) $html .= '<img class="bok-ls-image" alt="Bilde av '.$meta['gave_title'].'" src="'.esc_url($meta['image_ls']).'">';
 
 			$html .= '</li>';
 			// gave_info
