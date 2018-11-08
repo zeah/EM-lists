@@ -50,7 +50,7 @@ final class EM_list_edit {
 			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
 
 		wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
-		echo '<div class="'.$name.'-meta-container"></div>';
+		echo '<div style="background-color: #fafafa;" class="'.$name.'-meta-container"></div>';
 	}
 
 
@@ -90,7 +90,7 @@ final class EM_list_edit {
 		// EM_lists::update_option($post_type.'_redirect', $post_id);
 
 		// global $post;
-		EM_list_edit::update_redirect($post_type);
+		// EM_list_edit::update_redirect($post_type);
 
 		// data is sent, then sanitized and saved
 		if (isset($_POST[$post_type.'_data'])) update_post_meta($post_id, $post_type.'_data', EM_lists::sanitize($_POST[$post_type.'_data']));
@@ -108,7 +108,7 @@ final class EM_list_edit {
 	public static function update_redirect($post_type) {
 		global $post;
 		$pn = $post->post_name;
-
+		// wp_die('<xmp>'.print_r($pn, true).'</xmp>');
 		$url = $_POST[$post_type.'_data'];
 		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
 		// if (!isset($url['bestill']) || !$url['bestill']) return;

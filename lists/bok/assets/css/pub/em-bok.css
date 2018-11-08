@@ -85,6 +85,7 @@
 .bok-logo {
 	grid-area: logo;
 	margin-right: 1rem;
+	justify-self: flex-start;
 }
 
 .bok-logo > img {

@@ -38,6 +38,10 @@
 		if (!o.type) input.setAttribute('type', 'text');
 		else input.setAttribute('type', o.type);
 
+		if (o.width) input.style.width = '100%';
+		else if (!o.type) input.style.width = '300px';
+		input.style.maxWidth = '100%';
+
 		if (o.type != 'checkbox') {
 			if (!o.sort) input.setAttribute('value', (bokliste_data.meta[o.name] == undefined) ? '' : bokliste_data.meta[o.name]);
 			else {
@@ -156,10 +160,10 @@
 
 	cOne.appendChild(newinput({name: 'ctitle', title: 'Custom Title'}));
 	cOne.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
-	cOne.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	// cOne.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text'}));
 
 	container.appendChild(cOne);
+	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link', width: '1000px'}));
 
 	let cTwo = newdiv();
 	cTwo.style.display = 'flex';
@@ -176,7 +180,7 @@
 
 	// info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
 	info_container.appendChild(newinput({name: 'info03', title: 'Verdi'}));
-	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '340px', height: '80px'}));
+	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '500px', height: '140px'}));
 	info_container.appendChild(newinput({name: 'gave_title', title: 'Gave title (kun landingside)'}));
 	info_container.appendChild(newtext({name: 'gave_info', title: 'Gave Info (kun landingside)'}));
 	container.appendChild(dicedropdown());

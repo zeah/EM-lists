@@ -17,6 +17,34 @@ final class EM_list_redirect {
 
 	private function wp_hooks() {
 		add_action('init', array($this, 'redirect'));
+		add_action('post_updated', [$this, 'update'], 10, 3);
+	}
+
+
+	public function update($post_id, $post_new, $post_old) {
+		$pt = $post_new->post_type;
+		$pnn = $post_new->post_name;
+		$pno = $post_old->post_name;
+		$bestill = isset($_POST[$pt.'_data']['bestill']) ? $_POST[$pt.'_data']['bestill'] : false;
+		$redir = isset($_POST[$pt.'_redirect']) ? $_POST[$pt.'_redirect'] : false;
+		$optn = $pt.'_redirect';
+		$opt = get_option($optn);
+
+		// redirection off
+		if (!$redir) {
+			unset($opt[$pno]);
+			unset($opt[$pnn]);
+
+			update_option($optn, $opt);
+			return;
+		}
+
+
+		// redirection is on
+		if ($pno) unset($opt[$pno]);
+		$opt[$pnn] = $bestill;
+
+		update_option($optn, $opt);
 	}
 
 
@@ -31,15 +59,13 @@ final class EM_list_redirect {
 
 		$postfix = (isset($lists['redir_pf']) && $lists['redir_pf']) ? $lists['redir_pf'] : 'get';
 		$postfix = '-'.ltrim($postfix, '-');
-			
+		
 		foreach ($lists as $li => $st) {
 			if ($li == 'redir_pf') continue;
 									
 			$url = get_option($li.'_redirect');
-			// wp_die('<xmp>'.print_r($url, true).'</xmp>');
-			
 			if (!is_array($url)) continue;
-
+			// wp_die('<xmp>'.print_r($url, true).'</xmp>');
 			foreach ($url as $key => $dest) {
 				$key = str_replace('/', '\/', $key);
 
