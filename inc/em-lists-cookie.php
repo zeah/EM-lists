@@ -25,6 +25,8 @@ final class EM_list_cookie {
 		if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
 		elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'bing']), time()+60*60*24*90);
 
+		// add country to cookie
+		// http://www.geoplugin.net/json.gp?ip=xx.xx.xx.xx
 
 		// wp_die('<xmp>'.print_r(json_decode($_COOKIE['eml_clid']), true).'</xmp>');
 	}
