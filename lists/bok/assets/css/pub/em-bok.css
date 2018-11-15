@@ -167,18 +167,19 @@
 /* 3.0 other browsers */
 
 /* 3.1 old safari and edge */
-@supports not (display: grid) {
+/*@supports not (display: grid) {*/
 
 
-} 
+/*} */
 
 /* 3.2 internet explorer */
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+@media all and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 	.bok-container {
 		display: -ms-grid;
 
 		-ms-grid-rows: 5.2rem 3rem 8rem 4rem;
 		-ms-grid-columns: 1fr 1fr 24rem;
+
 	}
 
 	.bok-title {

@@ -92,7 +92,7 @@ final class Bok_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0');
+        wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.1');
         // wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0', '(min-width: 815px)');
         // wp_enqueue_style($this->name.'-mobile', BOK_PLUGIN_URL.'assets/css/pub/em-bok-mobile.css', array(), '1.0.0', '(max-width: 816px)');
 	}
