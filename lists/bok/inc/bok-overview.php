@@ -17,11 +17,11 @@ final class Bok_overview {
 	}
 
 	public function add_menu() {
-		add_submenu_page('edit.php?post_type=emlanlistse', 'Overview', 'Overview', 'manage_options', 'emlanlistse-overview', array($this, 'add_page'));
+		add_submenu_page('edit.php?post_type=bokliste', 'Overview', 'Overview', 'manage_options', 'bokliste-overview', array($this, 'add_page'));
 	}
 
 	public function add_page() {
-		wp_enqueue_style('em-lanlist-se-admin-style', LANLIST_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.1');
+		wp_enqueue_style('em-bok-liste-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', array(), '1.0.0');
 
 		$args = [
 			'post_type' 		=> get_post_types(['public' => true]),
@@ -38,8 +38,8 @@ final class Bok_overview {
 
 			if ($post->post_type == 'attachment') continue;
 
-			if (strpos($post->post_content, '[lan') !== false) {
-				preg_match_all('/\[lan.*?\]/', $post->post_content, $matches);
+			if (strpos($post->post_content, '[bok') !== false) {
+				preg_match_all('/\[bok.*?\]/', $post->post_content, $matches);
 
 				$m = '';
 
