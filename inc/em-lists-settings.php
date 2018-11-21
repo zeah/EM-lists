@@ -55,6 +55,7 @@ final class EM_list_settings {
 		// add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan', 'Lån', array($this, 'lan'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-lan-se', 'Lån Sverige', array($this, 'lan_se'), 'em-lists-page', 'em-lists-section');
+		add_settings_field('em-lists-lan-dk', 'Lån Danmark', array($this, 'lan_dk'), 'em-lists-page', 'em-lists-section');
 		add_settings_field('em-lists-bok', 'Bokklubb', array($this, 'bok'), 'em-lists-page', 'em-lists-section');
 
 		add_settings_section('em-lists-redir', 'Redirection', array($this, 'list_redir_section'), 'em-lists-page');
@@ -86,6 +87,11 @@ final class EM_list_settings {
 		echo '<input type="checkbox" name="em_lists[emlanlistse]"'.(isset($data['emlanlistse']) ? ' checked' : '').'>';
 	}
 
+	public function lan_dk() {
+		$data = get_option('em_lists');
+		echo '<input type="checkbox" name="em_lists[emlanlistdk]"'.(isset($data['emlanlistdk']) ? ' checked' : '').'>';
+	}
+
 	public function bok() {
 		$data = get_option('em_lists');
 		echo '<input type="checkbox" name="em_lists[bokliste]"'.(isset($data['bokliste']) ? ' checked' : '').'>';
@@ -100,7 +106,7 @@ final class EM_list_settings {
 		echo '<input type="text" name="em_lists[redir_pf]" value="'.($data['redir_pf'] ? esc_attr($data['redir_pf']) : '').'">';
 	}
 
-	public function fixpf($old, $new) {
+	// public function fixpf($old, $new) {
 
 		// if (!is_array($new)) return;
 
@@ -119,7 +125,7 @@ final class EM_list_settings {
 		// 			EM_list_edit::update_option($key, $p, $new['redir_pf']);
 		// 	}
 		// }
-	}
+	// }
 
 	/* adding css and js*/
 	public function add_sands() {

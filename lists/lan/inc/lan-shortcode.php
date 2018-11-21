@@ -51,7 +51,7 @@ final class Lan_shortcode {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return $this->get_html(EM_list_sc::posts('emlanlist', 'lan', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts($this->name, 'lan', $atts, $content), $atts);
 
 	}
 

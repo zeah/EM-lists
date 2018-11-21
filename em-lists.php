@@ -3,7 +3,7 @@
 /*
 Plugin Name: EM Lists
 Description: Lists
-Version: 0.0.7
+Version: 0.0.8
 GitHub Plugin URI: zeah/EM-lists
 */
 
@@ -20,6 +20,7 @@ require_once 'inc/em-lists-edit.php';
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/bok/em-bok.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
+require_once 'lists/lan-dk/em-lanlist-dk.php';
 require_once 'lists/kredittkort/em-kredittkort.php';
 // require_once 'lists/kredittkort-se/em-kredittkortlist.php';
 // require_once 'lists/casino/em-casino.php';
@@ -66,6 +67,7 @@ final class EM_lists {
 		// if (isset($data['kredittkort_se'])) EM_kredittkortlist::get_instance();
 		if (isset($data['emlanlist'])) EM_lan::get_instance();
 		if (isset($data['emlanlistse'])) EM_se_lan::get_instance();
+		if (isset($data['emlanlistdk'])) EM_dk_lan::get_instance();
 		if (isset($data['bokliste'])) EM_bok::get_instance();
 		// if (isset($data['casino'])) EM_casino::get_instance();
 
