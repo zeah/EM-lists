@@ -57,6 +57,9 @@ final class EM_list_sc {
 
 		$posts = get_posts($args);	
 
+		// wp_die('<xmp>'.print_r($args, true).'</xmp>');
+		
+
 		$sorted_posts = [];
 		if ($names) {
 			foreach(explode(',', preg_replace('/ /', '', $atts['name'])) as $n)

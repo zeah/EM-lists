@@ -7,6 +7,8 @@ final class Lan_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $name = 'emlanlist';
+
 	public $pixels = [];
 
 	public static function get_instance() {
@@ -48,6 +50,8 @@ final class Lan_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+
+		// return 'hi';
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
@@ -103,6 +107,8 @@ final class Lan_shortcode {
 		$html = '<ul class="emlanlist-ul">';
 
 		$star = '<svg class="emlanlist-star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path class="emlanlist-star-path" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
+
+
 
 		foreach ($posts as $p) {
 			
