@@ -33,7 +33,13 @@
 		let title = newdiv({class: 'emlanlist-input-title', text: o.title});
 		container.appendChild(title);
 
+
 		let input = document.createElement('input');
+
+		if (o.style) {
+			input.setAttribute('style', o.style); 
+			container.setAttribute('style', o.style);
+		}
 
 		if (!o.type) input.setAttribute('type', 'text');
 		else input.setAttribute('type', o.type);
@@ -69,6 +75,27 @@
 		return container;
 	}
 
+	let newtext = (o = {}) => {
+		let container = newdiv({class: 'bokliste-input-container'});
+
+		let title = newdiv({class: 'bokliste-input-title', text: o.title});
+		container.appendChild(title);
+
+		let textarea = document.createElement('textarea');
+		textarea.setAttribute('name', 'emlanlist_data['+o.name+']');
+		if (o.width) textarea.style.width = o.width;
+		else textarea.style.width = '500px';
+		
+		if (o.height) textarea.style.height = o.height;
+		else textarea.style.height = '100px';
+
+		if (emlanlist_data.meta[o.name]) textarea.appendChild(document.createTextNode(emlanlist_data.meta[o.name]));
+
+		container.appendChild(textarea);
+
+		return container;
+	}
+
 	// creating the drop down for dice selection
 	let dicedropdown = (o = {}) => {
 		let container = document.createElement('div');
@@ -91,14 +118,6 @@
 		let v = ['ingen', 'en', 'to', 'tre', 'fire', 'fem', 'seks'];
 		for (let i of v)
 			input.appendChild(addOption({value: i}));
-
-		// input.appendChild(addOption({value: 'ingen'}));
-		// input.appendChild(addOption({value: 'en'}));
-		// input.appendChild(addOption({value: 'to'}));
-		// input.appendChild(addOption({value: 'tre'}));
-		// input.appendChild(addOption({value: 'fire'}));
-		// input.appendChild(addOption({value: 'fem'}));
-		// input.appendChild(addOption({value: 'seks'}));
 
 		container.appendChild(input);
 
@@ -146,7 +165,8 @@
 	info_container.appendChild(newinput({name: 'info06', title: 'Nedbetaling'}));
 	info_container.appendChild(newinput({name: 'info07', title: 'Aldersgrense'}));
 	info_container.appendChild(newinput({name: 'info04', title: 'Effektiv Rente'}));
-	info_container.appendChild(newinput({name: 'info08', title: 'Eks. eff rente'}));
+	info_container.appendChild(newtext({name: 'info08', title: 'Eks. eff rente'}));
+	// info_container.appendChild(newinput({name: 'info08', title: 'Eks. eff rente', style: 'width: 100%;'}));
 
 	container.appendChild(info_container);
 

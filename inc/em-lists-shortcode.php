@@ -21,7 +21,6 @@ final class EM_list_sc {
 	/* getting the posts */
 	public static function posts($name, $sc, $atts, $content = null) {
 		if (!is_array($atts)) $atts = [];
-
 		$type = false;
 		if (isset($atts[$sc])) $type = $atts[$sc];
 		if (isset($atts['type'])) $type = $atts['type'];
@@ -57,8 +56,7 @@ final class EM_list_sc {
 
 		$posts = get_posts($args);	
 
-		// wp_die('<xmp>'.print_r($args, true).'</xmp>');
-		
+		// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 
 		$sorted_posts = [];
 		if ($names) {

@@ -94,8 +94,8 @@ final class Lan_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style($this->name.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.2');
-		wp_enqueue_script($this->name.'-admin', LANLIST_PLUGIN_URL . 'assets/js/admin/em-lanlist.js', array(), '1.0.3', true);
+		wp_enqueue_style($this->name.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.3');
+		wp_enqueue_script($this->name.'-admin', LANLIST_PLUGIN_URL . 'assets/js/admin/em-lanlist.js', array(), '1.0.4', true);
 	}
 
 

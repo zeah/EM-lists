@@ -188,6 +188,10 @@
 	align-items: center;
 }
 
+.emlanlist-bestill > .emlanlist-link::after {
+	content: ' Ansøg her';
+}
+
 
 /* 2.7.1 bestill anchor */
 .emlanlist-link {

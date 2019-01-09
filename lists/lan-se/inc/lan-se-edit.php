@@ -125,66 +125,6 @@ final class Lan_se_edit {
 	 */
 	public function save($post_id) {
 		EM_list_edit::save($post_id, $this->name);
-
-		// post type is emlanlistse
-		// if (!get_post_type($post_id) == 'emlanlistse') return;
-
-		// // is on admin screen
-		// if (!is_admin()) return;
-
-		// // user is logged in and has permission
-		// if (!current_user_can('edit_posts')) return;
-
-		// // nonce is sent
-		// if (!isset($_POST['emlanlistse_nonce'])) return;
-
-		// // nonce is checked
-		// if (!wp_verify_nonce($_POST['emlanlistse_nonce'], 'em'.basename(__FILE__))) return;
-
-		// // saves to wp option instead of post meta
-		// // when adding
-		// $this->u_option('emlanlistse_exclude', $post_id);
-		// $this->u_option('emlanlistse_exclude_serp', $post_id);
-		// if (isset($_POST['emlanlistse_exclude'])) {
-		// 	$option = get_option('emlanlistse_exclude');
-
-		// 	// to avoid php error
-		// 	if (!is_array($option)) $option = [];
-
-		// 	// if not already added
-		// 	if (array_search($post_id, $option) === false) {
-
-		// 		// if to add to collection
-		// 		if (is_array($option)) {
-		// 			array_push($option, intval($post_id));
-
-		// 			update_option('emlanlistse_exclude', $option);
-		// 		}
-				
-		// 		// if to create collection (of one)
-		// 		else update_option('emlanlistse_exclude', [$post_id]);
-		// 	}
-		// }
-		// // when removing
-		// else {
-		// 	$option = get_option('emlanlistse_exclude');
-
-		// 	if (array_search($post_id, $option) !== false) {
-		// 		unset($option[array_search($post_id, $option)]);
-		// 		update_option('emlanlistse_exclude', $option);
-		// 	}
-		// }
-
-		// data is sent, then sanitized and saved
-		// if (isset($_POST['emlanlistse_data'])) update_post_meta($post_id, 'emlanlistse_data', $this->sanitize($_POST['emlanlistse_data']));
-		// if (isset($_POST['emlanlistse_sort'])) update_post_meta($post_id, 'emlanlistse_sort', floatval($_POST['emlanlistse_sort']));
-
-		// // saving emlanlistse_sort_***
-		// foreach($_POST as $key => $po) {
-		// 	if (strpos($key, 'emlanlistse_sort_') !== false)
-		// 		update_post_meta($post_id, sanitize_text_field(str_replace(' ', '', $key)), floatval($po));
-		// }
-
 	}
 
 }

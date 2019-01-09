@@ -92,14 +92,6 @@
 		for (let i of v)
 			input.appendChild(addOption({value: i}));
 
-		// input.appendChild(addOption({value: 'ingen'}));
-		// input.appendChild(addOption({value: 'en'}));
-		// input.appendChild(addOption({value: 'to'}));
-		// input.appendChild(addOption({value: 'tre'}));
-		// input.appendChild(addOption({value: 'fire'}));
-		// input.appendChild(addOption({value: 'fem'}));
-		// input.appendChild(addOption({value: 'seks'}));
-
 		container.appendChild(input);
 
 		return container; 

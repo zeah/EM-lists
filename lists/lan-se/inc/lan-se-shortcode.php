@@ -48,8 +48,8 @@ final class Lan_se_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+
 		return $this->get_html(EM_list_sc::posts('emlanlistse', 'lan', $atts, $content), $atts);
 	}
 

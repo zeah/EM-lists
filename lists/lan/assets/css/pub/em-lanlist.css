@@ -167,6 +167,10 @@ html {
 	font-weight: 700;
 }
 
+.emlanlist-order-link::after {
+	content: 'Få Tilbud Nå';
+}
+
 /* after link element */
 .emlanlist-order-solo:after,
 .emlanlist-order:after {
@@ -222,6 +226,10 @@ html {
 /* 1.4.1 read more */
 .emlanlist-lesmer {
 	width: 20rem; /* same width as button */
+}
+
+.emlanlist-lenke-lesmer::after {
+	content: 'les mer';
 }
 
 

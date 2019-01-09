@@ -9,7 +9,7 @@ final class Lan_shortcode {
 
 	private $name = 'emlanlist';
 
-	public $pixels = [];
+	private $pf = '-get';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -18,6 +18,11 @@ final class Lan_shortcode {
 	}
 
 	private function __construct() {
+
+		$pf = get_option('em_lists');
+		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
+
+
 		$this->wp_hooks();
 	}
 
@@ -112,7 +117,8 @@ final class Lan_shortcode {
 
 		foreach ($posts as $p) {
 			
-			$meta = get_post_meta($p->ID, 'emlanlist_data');
+			$meta = get_post_meta($p->ID, $this->name.'_data');
+
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
@@ -124,9 +130,9 @@ final class Lan_shortcode {
 			// sanitize meta
 			$html .= '<li class="emlanlist-container">';
 			
-			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.'-get');
+			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
 
-			if ($meta['qstring']) { 
+			if (isset($meta['qstring']) && $meta['qstring']) { 
 				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
 				$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
 			}
@@ -137,6 +143,7 @@ final class Lan_shortcode {
 
 			$html .= '<div class="emlanlist-logo"><a target="_blank" rel="noopener" href="'.$meta['readmore'].'"><img class="emlanlist-image" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
 
+
 			if ($meta['info05']) $html .= '<div class="emlanlist-belop emlanlist-top-info">'.$meta['info05'].'</div>';
 
 			if ($meta['info06']) $html .= '<div class="emlanlist-nedbetaling emlanlist-top-info">'.$meta['info06'].'</div>';
@@ -145,7 +152,7 @@ final class Lan_shortcode {
 
 			if ($meta['info04']) $html .= '<div class="emlanlist-effrente emlanlist-top-info">'.$meta['info04'].'</div>';
 
-			if ($meta['bestill']) $html .= '<div class="emlanlist-order"><a class="emlanlist-link emlanlist-order-link" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Få Tilbud Nå</a></div>';
+			if ($meta['bestill']) $html .= '<div class="emlanlist-order"><a class="emlanlist-link emlanlist-order-link" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'"></a></div>';
 			
 			$html .= '</div>';
 
@@ -167,12 +174,14 @@ final class Lan_shortcode {
 
 			if ($meta['info08']) $html .= '<div class="emlanlist-info emlanlist-info-atte">'.$meta['info08'].'</div>';
 
-			if ($meta['readmore']) $html .= '<div class="emlanlist-lesmer"><a class="emlanlist-lenke-lesmer" href="'.esc_url($meta['readmore']).'">les mer</a></div>';
+			if ($meta['readmore']) $html .= '<div class="emlanlist-lesmer"><a class="emlanlist-lenke-lesmer" href="'.esc_url($meta['readmore']).'"></a></div>';
 
 
 			$html .= '</div>';
 
 			$html .= '</li>';
+
+			
 		}
 
 		$html .= '</ul>';

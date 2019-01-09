@@ -20,6 +20,9 @@ final class Bok_shortcode {
 	}
 
 	private function __construct() {
+		$pf = get_option('em_lists');
+		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
+		
 		$this->wp_hooks();
 	}
 
@@ -54,8 +57,8 @@ final class Bok_shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
 		
-		$pf = get_option('em_lists');
-		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
+		// $pf = get_option('em_lists');
+		// if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
 
 		if (is_array($atts) && array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
 		
@@ -114,11 +117,9 @@ final class Bok_shortcode {
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
-
 			$redir = get_post_meta($p->ID, $this->name.'_redirect');
 			if (isset($redir[0]) && $redir[0]) $redir = true;
 			else $redir = false;
-			// if ($redir) wp_die('<xmp>'.print_r($redir, true).'</xmp>');
 
 			// grid container
 			$html .= '<li class="bok-container">';

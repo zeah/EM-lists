@@ -23,7 +23,7 @@ final class Lan_dk_taxonomy {
 		for custom post type: emkort
 	*/
 	public function create_tax() {
-		EM_list_tax::create_tax('emlanlisttypedk', 'emlanlistdk', 'Lån Type', 'Lån Type');
+		EM_list_tax::create_tax('emlanlistdktype', 'emlanlistdk', 'Lån Type', 'Lån Type');
 		// $plur = 'Lånlist Type';
 		// $sing = 'Lånlist Type';
 		// $labels = array(
