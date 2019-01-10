@@ -20,15 +20,44 @@ final class EM_list_cookie {
 
 	private function cookie() {
 
-		parse_str($_SERVER['QUERY_STRING'], $result);
+		// wp_die('<xmp>'.print_r((time()+(60*60*24*712)), true).'</xmp>');
+		
 
-		if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
-		elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'bing']), time()+60*60*24*90);
+		if (!isset($_COOKIE['em_cid']))
+			setcookie('em_cid', $this->gen_uuid(), (time()+(60*60*24*712)));
+
+		// parse_str($_SERVER['QUERY_STRING'], $result);
+
+		// if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
+		// elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'bing']), time()+60*60*24*90);
 
 		// add country to cookie
 		// http://www.geoplugin.net/json.gp?ip=xx.xx.xx.xx
 
 		// wp_die('<xmp>'.print_r(json_decode($_COOKIE['eml_clid']), true).'</xmp>');
+	}
+
+
+	private function gen_uuid() {
+	    return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+	        // 32 bits for "time_low"
+	        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+
+	        // 16 bits for "time_mid"
+	        mt_rand( 0, 0xffff ),
+
+	        // 16 bits for "time_hi_and_version",
+	        // four most significant bits holds version number 4
+	        mt_rand( 0, 0x0fff ) | 0x4000,
+
+	        // 16 bits, 8 bits for "clk_seq_hi_res",
+	        // 8 bits for "clk_seq_low",
+	        // two most significant bits holds zero and one for variant DCE1.1
+	        mt_rand( 0, 0x3fff ) | 0x8000,
+
+	        // 48 bits for "node"
+	        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+	    );
 	}
 
 }

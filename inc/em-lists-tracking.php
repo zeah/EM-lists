@@ -13,7 +13,6 @@ final class EM_list_tracking {
 	}
 
 	private function __construct() {
-		
 	}
 
 	public static function query($url, $template = null) {

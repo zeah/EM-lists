@@ -49,8 +49,9 @@ final class EM_lists {
 	}
 
 	private function __construct() {
-		EM_list_redirect::get_instance();
+		// EM_list_tracking::get_instance();
 		EM_list_cookie::get_instance();
+		EM_list_redirect::get_instance();
 		EM_list_settings::get_instance();
 		// EM_list_edit::get_instance();
 		
