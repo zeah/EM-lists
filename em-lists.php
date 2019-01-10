@@ -3,7 +3,7 @@
 /*
 Plugin Name: EM Lists
 Description: Lists
-Version: 0.0.10
+Version: 0.0.11
 GitHub Plugin URI: zeah/EM-lists
 */
 
@@ -61,7 +61,8 @@ final class EM_lists {
 
 	private function add_plugins() {
 		$data = get_option('em_lists');
-
+		// wp_die('<xmp>'.print_r($_SERVER, true).'</xmp>');
+		
 		if (!is_array($data)) return;
 
 		if (isset($data['emkredittkort'])) EM_kredittkort::get_instance();

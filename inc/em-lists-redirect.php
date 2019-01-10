@@ -88,7 +88,7 @@ final class EM_list_redirect {
 
 						if (!$label) preg_match('/(?:.*\/)(.*)/', $r_url, $label);
 
-						$dl = $_SERVER['REDIRECT_URL'];
+						$dl = $_SERVER['HTTP_REFERER'];
 						$ip = $_SERVER['REMOTE_ADDR'];
 						$t = 'event';
 						$ec = 'List Plugin Clicks';
