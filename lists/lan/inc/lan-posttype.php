@@ -29,6 +29,6 @@ final class Lan_posttype {
 		create custom post type: emkort 
 	*/
 	public function create_cpt() {
-		EM_lists::create_cpt('emlanlist', 'Lån', 'Lånlist', 'dashicons-money');
+		EM_lists::create_cpt('emlanlist', 'Lån', 'Lån NO', 'dashicons-money');
 	}
 }

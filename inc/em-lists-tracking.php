@@ -36,10 +36,7 @@ final class EM_list_tracking {
 	}
 
 	public static function pixel($url, $template = null) {
-		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
-		if (!$template) return $url;
-
-		$url = EM_list_tracking::query($url, $template);
+		if ($template) $url = EM_list_tracking::query($url, $template);
 
 		return '<img width=0 height=0 src="'.esc_url($url).'" style="position:absolute">';
 	}

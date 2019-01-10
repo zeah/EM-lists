@@ -30,6 +30,6 @@ final class Lan_se_posttype {
 	*/
 	public function create_cpt() {
 
-		EM_lists::create_cpt('emlanlistse', 'Lån', 'Lånlist', 'dashicons-money');
+		EM_lists::create_cpt('emlanlistse', 'Lån', 'Lån SE', 'dashicons-money');
 	}
 }
