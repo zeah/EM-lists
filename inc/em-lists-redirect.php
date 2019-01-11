@@ -151,7 +151,7 @@ final class EM_list_redirect {
 		$tag = get_option('theme_google_scripts');
 
 		// adwords is just analytics misspelled
-		if (isset($tag['adwords']) && $tag['adwords'] && strpos($_SERVER['HTTP_HOST'], 'googlebot') === false) { 
+		if (isset($tag['adwords']) && $tag['adwords'] && $_SERVER['HTTP_REFERER'] && !is_user_logged_in()) { 
 
 			$r_url = $_SERVER['REDIRECT_URL'];
 

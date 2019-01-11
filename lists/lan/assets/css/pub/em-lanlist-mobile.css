@@ -154,6 +154,10 @@ html {
 	font-weight: 700;
 }
 
+.emlanlist-order-link::after {
+	content: 'Få Tilbud Nå';
+}
+
 /* after link element */
 .emlanlist-order-solo:after,
 .emlanlist-order:after {
