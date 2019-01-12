@@ -1,0 +1,257 @@
+/**
+ * 	ul
+ *  |	li 		
+ *  |	|	toprow
+ *  |	|	|	logo top-info top-info 
+ *  |	|	|	top-info top-info order
+ *  |	|	middlerow
+ *  |	|	|	info 
+ *  |	|	|	info 
+ *  |	|	|	info
+ *  |	|	bottomrow
+ *  |	|	|	eff-rente 
+ *  |	|	|	readmore
+ *
+ *
+ *	0.1 html
+ *	
+ * 		list container (ul)
+ * 		1.0 list item
+ * 			1.1 row
+ * 			
+ * 		 	1.2 top row
+ *     			1.2.1 logo container
+ * 			    	1.2.1.1 logo image
+ * 		      	1.2.2 top info
+ * 				     1.2.2.1 lånebeløp
+ * 				     1.2.2.2 nedbetaling
+ * 				     1.2.2.3 aldersgrense
+ * 				     1.2.2.4 eff rente
+ * 				1.2.3 order (button)
+ * 					 1.2.3.1 stand alone button
+ * 					 1.2.3.2 thumb svg
+ * 			
+ * 		 	1.3 middle row
+ * 			 	1.3.1 info container
+ * 				 	1.3.1.1 star svg 
+ * 				 	
+ * 		    1.4 bottom row
+ * 			   	1.4.1 eff interest example
+ * 			    1.4.2 read more link
+ *
+ *		2.0 media rule: 610 -> 1024
+ *			2.1 list container (ul)
+ * 	 			2.1.1 list item
+ */
+
+
+/* 0.1 html */
+html {
+	font-size: 62.5%;
+}
+
+
+/* list container */
+.matkasselist-ul {
+	opacity: 1 !important;
+	list-style: none;
+	padding: 0;
+}
+
+/* 1.0 list item */
+.matkasselist-container {
+	display: flex;
+	flex-direction: column;
+	background-color: hsl(0, 0%, 96%);
+	margin-bottom: 3rem;
+	font-size: 1.6rem;
+}
+
+
+/* 1.1 row */
+.matkasselist-row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
+/* 1.2 top row */
+
+/* 1.2.1 logo container */
+.matkasselist-logo {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin: 2rem 0;
+}
+
+/* 1.2.1.1 logo image */
+/* list only */
+.matkasselist-logo > a > .matkasselist-image {
+	width: 20rem;
+}
+
+/* logo image */
+.matkasselist-image {
+	display: block;
+}
+
+/* 1.2.2 top info */
+.matkasselist-top-info {
+	margin: .5rem auto;
+	min-width: 45%;
+	text-align: center;	
+	white-space: nowrap;
+}
+
+.matkasselist-top-info:before {
+	display: block;
+	font-weight: bold;
+}
+
+
+
+/* 1.2.2.1 lånebeløp */
+.matkasselist-navn::before {
+	content: 'Navn';
+}
+
+/* 1.2.2.2 dager */
+.matkasselist-dager::before {
+	content: 'Antall Dager';
+}
+
+/* 1.2.2.3 personersgrense */
+.matkasselist-personer::before {
+	content: 'Antall Personer';
+}
+
+/* 1.2.2.4 eff rente */
+.matkasselist-pris::before {
+	content: 'Pris per rett';
+}
+
+
+/* 1.2.3 order (button) */
+.matkasselist-order {
+	margin: 2rem auto;
+}
+
+/* link element */
+.matkasselist-link {
+	padding: 1rem 2rem;
+	border-radius: 5px;
+	font-size: 2.4rem;
+	text-decoration: none;
+	color: white;
+	white-space: nowrap;
+}
+.matkasselist-order-link {
+	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
+	border: solid 1px #60AE40;
+
+	font-family: Arial, sans-serif;
+	font-size: 2.2rem;
+	font-weight: 700;
+}
+
+.matkasselist-order-link::after {
+	content: 'Bestill Nå';
+}
+
+/* after link element */
+.matkasselist-order-solo:after,
+.matkasselist-order:after {
+	display: block;
+	content: 'Annonselenke';
+	position: relative;
+	top: 1.5rem;
+	text-align: center;
+}
+
+/* 1.2.3.1 stand alone button */
+/* container for stand alone order button */
+.matkasselist-order-solo {
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+.matkasselist-order-solo:after {
+	background-color: #fff;
+}
+
+/* 1.2.3.2 thumb svg */
+.matkasselist-svg {
+	filter: drop-shadow(1px 1px 1px #333);
+}
+/* path element */
+.matkasselist-thumb {
+	fill: #fff;
+}
+
+
+
+/* 1.3 middle row  */
+.matkasselist-middlerow {
+	align-self: center;
+	display: block;
+
+	max-width: 70%;
+	margin: 1rem auto;
+	text-align: left !important;
+}
+
+/* 1.3.1 info container */
+.matkasselist-info {
+	display: flex;
+	margin-bottom: 1rem;
+	align-items: flex-start;
+}
+
+/* 1.3.1.1 star svg */
+.matkasselist-star {
+	flex-shrink: 0;
+	margin-right: .5rem;
+}
+.matkasselist-star-path {
+	fill: hsl(35, 100%, 60%);
+}
+
+
+/* 1.4 bottom row */
+.matkasselist-bottomrow {
+	margin-bottom: 2rem;
+}
+
+/* 1.4.1 eff interest example */
+.matkasselist-info-atte {
+	font-style: italic;
+	font-size: 1.2rem;
+	padding: 0 1rem;
+	text-align: center;
+}
+
+/* 1.4.2 read more */
+.matkasselist-lenke-lesmer {
+	padding: 0.3rem 1rem;
+}
+
+
+/* 2.0 double mobile columns */
+@media screen and (min-width: 610px) and (max-width: 1024px) {
+	/* 2.1 list container */
+	.matkasselist-ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		clear: both;
+	}
+
+	/* 2.1.1 list item*/
+	.matkasselist-container {
+		width: 48%;
+		margin: 1rem auto;		
+	}
+}

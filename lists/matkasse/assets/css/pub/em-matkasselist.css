@@ -1,0 +1,236 @@
+/**
+ * 	ul
+ *  |	li 		
+ *  |	|	toprow
+ *  |	|	|	logo top-info top-info top-info top-info order
+ *  |	|	middlerow
+ *  |	|	|	info info info
+ *  |	|	bottomrow
+ *  |	|	|	eff-rente readmore
+ *
+ *
+ *	0.1 html
+ *		list container
+ *		1.0 list item
+ *			1.1 row
+ *			
+ *			1.2 top row
+ *				1.2.1 logo container
+ *					1.2.1.1 logo image in list
+ *					1.2.1.2 logo image
+ *					1.2.1.3 stand alone logo container
+ *				1.2.2 top info 
+ *				 	1.2.2.1 lånebeløp
+ * 				    1.2.2.2 dager
+ * 				    1.2.2.3 personersgrense
+ * 				    1.2.2.4 eff rente
+ * 				1.2.3 order 
+ * 					1.2.3.1 button link
+ * 					1.2.3.2 thumb svg
+ * 					1.2.3.3 stand alone container
+ * 			      
+ *			1.3 middle row
+ *   			1.3.1 info
+ * 
+ *			1.4 bottom row
+ *				1.4.1 read more
+ *	
+ * 
+ */
+
+
+/* 0.1 html */
+html {
+	font-size: 62.5%;
+}
+
+.matkasselist-star {
+	position: relative;
+	top: 4px;
+}
+
+.matkasselist-star-path {
+	fill: hsl(35, 100%, 60%);
+}
+
+
+/* list container */
+.matkasselist-ul {
+	opacity: 1 !important;
+	list-style: none;
+	padding: 0;
+}
+
+/* 1.0 list item */
+.matkasselist-container {
+	padding: 1rem;
+	background-color: hsl(0, 0%, 96%);
+	box-shadow: 0 0 6px hsl(0, 0%, 50%);
+	text-align: center;
+	margin-bottom: 3rem;
+	font-size: 1.4rem;
+
+}
+
+/* 1.1 row  */
+.matkasselist-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.matkasselist-row:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border: none;
+}
+
+
+/* 1.2 top row */
+.matkasselist-toprow {
+	padding-bottom: 2rem;
+}
+
+/* 1.2.1 logo container */
+
+/* 1.2.1.1 logo image in list */
+.matkasselist-logo > a > .matkasselist-image {
+	width: 15rem;
+	min-width: 10rem;
+}
+
+/* 1.2.1.2 logo image */
+.matkasselist-image {
+	display: block;
+}
+
+/* 1.2.1.3 stand alone logo container*/
+.matkasselist-logo-ls {
+	display: flex;
+	justify-content: center;
+}
+
+
+/* 1.2.2 top info */
+.matkasselist-top-info {
+	padding: 0 2rem;
+	white-space: nowrap;
+	font-weight: 700;
+}
+.matkasselist-top-info:after {
+	display: block;
+	font-weight: 400;
+}
+
+
+/* 1.2.2.1 lånebeløp */
+.matkasselist-navn:after {
+	content: 'Navn';
+}
+
+/* 1.2.2.2 dager */
+.matkasselist-dager:after {
+	content: 'Antall Dager';
+}
+
+/* 1.2.2.3 personersgrense */
+.matkasselist-personer:after {
+	content: 'Antall Personer';
+}
+
+/* 1.2.2.4 eff rente */
+.matkasselist-pris:after {
+	content: 'Pris per rett';
+}
+
+/* 1.2.3 order button */
+.matkasselist-order {
+	/*width: 20rem;*/
+}
+
+/* 1.2.3.1 button link */
+.matkasselist-link {
+	padding: 1rem 2rem;
+	border-radius: 5px;
+	font-size: 2rem;
+	text-decoration: none;
+	color: white;
+	white-space: nowrap;
+}
+.matkasselist-order-link {
+	position: relative;
+	top: 1rem;
+	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
+	border: solid 1px #60AE40;
+
+	font-family: Arial, sans-serif;
+	font-size: 2.2rem;
+	font-weight: 700;
+}
+
+.matkasselist-order-link::after {
+	content: 'Bestill Nå';
+}
+
+/* after link element */
+.matkasselist-order-solo:after,
+.matkasselist-order:after {
+	content: 'Annonselenke';
+
+	display: block;
+	position: relative;
+	top: 2rem;
+	
+	text-align: center;
+	font-size: 1.4rem;
+}
+
+/* 1.2.3.2 thumb svg */
+.matkasselist-svg {
+	filter: drop-shadow(1px 1px 1px #333);
+}
+.matkasselist-thumb {
+	fill: #fff;
+}
+
+/* 1.2.3.3 stand alone container */
+.matkasselist-order-container {
+	margin: 1rem auto;
+	text-align: center;
+	padding-bottom: 3rem;
+}
+
+
+/* 1.3 middle row */
+.matkasselist-middlerow {
+	justify-content: center;
+	padding: 0.5rem 0;
+	font-size: 1.4rem;
+	background-color: hsla(0, 0%, 90%, .3);
+	border-top: dashed 1px hsla(0, 0%, 30%, .1);
+	border-bottom: dashed 1px hsla(0, 0%, 30%, .1);
+}
+
+/* 1.3.1 info */
+.matkasselist-info {
+	padding: 0 1rem;
+	position: relative;
+	bottom: 3px;
+}
+
+
+/* 1.4 bottom row */
+.matkasselist-bottomrow {
+	padding-top: 1rem;
+}
+
+/* 1.4.1 read more */
+.matkasselist-lesmer {
+	width: 20rem; /* same width as button */
+}
+
+.matkasselist-lenke-lesmer::after {
+	content: 'les mer';
+}
+
+
+

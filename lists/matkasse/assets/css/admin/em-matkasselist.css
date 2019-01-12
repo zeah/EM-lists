@@ -1,0 +1,71 @@
+.matkasselist-sort-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.matkasselist-meta-container input {
+	width: 300px;
+	margin: 0 10px 10px 0;
+}
+
+.matkasselist-sort-container input {
+	/*width: 150px;*/
+}
+
+.matkasselist-info-container {
+	display: flex;
+	flex-wrap: wrap;
+	width: 650px;
+	justify-content: flex-start;
+	/*display: inline-grid;*/
+	/*grid-template-columns: 1fr 1fr;*/
+}
+
+.matkasselist-info-container .matkasselist-input-container {
+	/*width: 40%;*/
+}
+
+.matkasselist-info-container .matkasselist-input-container:nth-child(3),
+.matkasselist-info-container .matkasselist-input-container:nth-child(7) {
+	margin-bottom: 25px;
+}
+
+.matkasselist-info-container .matkasselist-input-container:nth-child(3)::after {
+	content: '';
+	width: 300px;
+	display: inline-block;
+	/*height: 4rem;*/
+}
+
+.matkasselist-input-title {
+	font-size: 16px;
+}
+
+.matkasselist-input-container input[type=checkbox]{
+	width: auto;
+}
+
+/* overview window */
+
+#myTable2 {
+	border-collapse:separate; 
+  	border-spacing: 0 3px;
+}
+
+#myTable2 tr:nth-child(even) {
+	background-color: #fff;
+}
+
+#myTable2 tr:hover {
+	background-color: #aae;
+	/*border: solid 1px black;*/
+	/*margin-bottom: 30px;*/
+}
+
+#myTable2 th {
+	cursor: pointer;
+}
+
+#myTable2 td {
+	padding: 3px 10px;
+}
