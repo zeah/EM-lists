@@ -161,11 +161,12 @@ final class EM_list_redirect {
 
 			$dl = $_SERVER['HTTP_REFERER'];
 			$ip = $_SERVER['REMOTE_ADDR'];
+			$ua = $_SERVER['HTTP_USER_AGENT'];
 			$t = 'event';
 			$ec = 'List Plugin Clicks';
 			$ea = 'Clicks';
 			$el = $label[1];
-			$cookie = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : '555';
+			$cookie = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : rand(10000, 50000);
 
 			switch ($li) {
 
@@ -181,7 +182,6 @@ final class EM_list_redirect {
 
 			if (isset($m[1])) $ea = $ea . ' to ' . $m[1];
 			
-			// referrer; page; ip; domain; 
 			$content = wp_remote_post('https://www.google-analytics.com/collect', array(
 				'method' => 'POST',
 				'timeout' => 30,
@@ -193,7 +193,8 @@ final class EM_list_redirect {
 					'v' => '1', 
 					'tid' => $tag['adwords'], 
 					'cid' => $cookie,
-					'uip' => $ip, 
+					'uip' => $ip,
+					'ua' => $ua,
 					't' => $t, 
 					'ec' => $ec, 
 					'ea' => $ea, 
