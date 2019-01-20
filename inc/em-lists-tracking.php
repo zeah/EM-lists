@@ -24,10 +24,12 @@ final class EM_list_tracking {
 
 		$cookie = json_decode(str_replace('\\', '', $_COOKIE['eml_clid']));
 
+		$cid = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : '';
+
 		if (!$cookie) $cookie = 'none'; // remove clid from $res instead?
 		elseif ($cookie->id) $cookie = $cookie->id; 
 
-		$s = ['{site}', '{page}', '{clid}', '{time}'];
+		$s = ['{site}', '{page}', '{clid}', '{time}', '{cid}'];
 		$r = [$_SERVER['SERVER_NAME'], $post->post_name, $cookie, date('y-m-d-H:ie')];
 
 		

@@ -20,11 +20,11 @@ final class EM_list_cookie {
 
 	private function cookie() {
 
-		// wp_die('<xmp>'.print_r((time()+(60*60*24*712)), true).'</xmp>');
 		
 
-		if (!isset($_COOKIE['em_cid']))
-			setcookie('em_cid', $this->gen_uuid(), (time()+(60*60*24*712)));
+		if (!isset($_COOKIE['em_cid'])) setcookie('em_cid', $this->gen_uuid(), (time()+(60*60*24*712)));
+
+
 
 		// parse_str($_SERVER['QUERY_STRING'], $result);
 

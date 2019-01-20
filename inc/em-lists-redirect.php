@@ -75,69 +75,8 @@ final class EM_list_redirect {
 						if (!strpos($dest, '?')) $dest .= '?';
 						else $dest .= '&';
 					}
-					// wp_die('<xmp>'.print_r($li, true).'</xmp>');
 					
 					$this->ga($li, $dest);
-
-					// $tag = get_option('theme_google_scripts');
-
-					// // adwords is just analytics misspelled
-					// if (isset($tag['adwords']) && $tag['adwords'] && strpos($_SERVER['HTTP_HOST'], 'googlebot') === false) { 
-
-					// 	$r_url = $_SERVER['REDIRECT_URL'];
-
-					// 	preg_match('/(?:.*)\/(.*)-.*$/', $r_url, $label);
-
-					// 	if (!$label) preg_match('/(?:.*\/)(.*)/', $r_url, $label);
-
-					// 	$dl = $_SERVER['HTTP_REFERER'];
-					// 	$ip = $_SERVER['REMOTE_ADDR'];
-					// 	$t = 'event';
-					// 	$ec = 'List Plugin Clicks';
-					// 	$ea = 'Clicks';
-					// 	$el = $label[1];
-					// 	$cookie = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : '555';
-
-					// 	switch ($li) {
-
-					// 		case 'emlanlist': $ec = 'Lån NO'; break;
-					// 		case 'emlanlistse': $ec = 'Lån SE'; break;
-					// 		case 'emlanlistdk': $ec = 'Lån DK'; break;
-					// 		case 'bokliste': $ec = 'Bokliste'; break;
-
-					// 		default: $ec = 'List Plugin Clicks';
-					// 	}
-						
-					// 	preg_match('/^(?:.*\/\/)(.*?)\/(?:.*)$/', $dest, $m);
-
-					// 	if (isset($m[1])) $ea = $ea . ' to ' . $m[1];
-						
-					// 	// referrer; page; ip; domain; 
-					// 	$content = wp_remote_post('https://www.google-analytics.com/collect', array(
-					// 		'method' => 'POST',
-					// 		'timeout' => 30,
-					// 		'redirection' => 5,
-					// 		'httpversion' => '1.0',
-					// 		'blocking' => false,
-					// 		'headers' => array(),
-					// 		'body' => [
-					// 			'v' => '1', 
-					// 			'tid' => $tag['adwords'], 
-					// 			'cid' => $cookie,
-					// 			'uip' => $ip, 
-					// 			't' => $t, 
-					// 			'ec' => $ec, 
-					// 			'ea' => $ea, 
-					// 			'el' => $el, 
-					// 			'dl' => $dl
-					// 		],
-					// 		'cookies' => array()
-					// 		)
-					// 	);
-					// 	// wp_die('<xmp>'.print_r($content['body'], true).'</xmp>');
-					// }
-					
-					
 					
 					wp_redirect($dest.$_SERVER['QUERY_STRING']);
 					exit;
