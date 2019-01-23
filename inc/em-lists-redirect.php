@@ -105,7 +105,8 @@ final class EM_list_redirect {
 			$ec = 'List Plugin Clicks';
 			$ea = 'Clicks';
 			$el = $label[1];
-			$cookie = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : rand(10000, 50000);
+			// $cookie = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : rand(10000, 50000);
+			$cookie = isset($_COOKIE['_ga']) ? $_COOKIE['_ga'] : $_COOKIE['em_cid'];
 
 			switch ($li) {
 

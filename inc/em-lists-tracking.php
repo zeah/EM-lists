@@ -24,7 +24,7 @@ final class EM_list_tracking {
 
 		$cookie = json_decode(str_replace('\\', '', $_COOKIE['eml_clid']));
 
-		$cid = $_COOKIE['em_cid'] ? $_COOKIE['em_cid'] : '';
+		$cid = $_COOKIE['_ga'] ? $_COOKIE['_ga'] : $_COOKIE['em_cid'];
 
 		if (!$cookie) $cookie = 'none'; // remove clid from $res instead?
 		elseif ($cookie->id) $cookie = $cookie->id; 
