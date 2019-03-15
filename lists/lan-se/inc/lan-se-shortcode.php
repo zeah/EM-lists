@@ -85,8 +85,8 @@ final class Lan_se_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style($this->name.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.1', '(min-width: 801px)');
-        wp_enqueue_style($this->name.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.1', '(max-width: 800px)');
+        wp_enqueue_style($this->name.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.2', '(min-width: 801px)');
+        wp_enqueue_style($this->name.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.2', '(max-width: 800px)');
 	}
 
 
