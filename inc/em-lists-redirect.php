@@ -56,7 +56,8 @@ final class EM_list_redirect {
 		$lists = get_option('em_lists');
 
 		if (!is_array($lists)) return;
-
+		// wp_die('<xmp>'.print_r($lists, true).'</xmp>');
+		
 		$postfix = (isset($lists['redir_pf']) && $lists['redir_pf']) ? $lists['redir_pf'] : 'get';
 		$postfix = '-'.ltrim($postfix, '-');
 		
