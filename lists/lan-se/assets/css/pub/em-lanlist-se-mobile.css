@@ -166,6 +166,7 @@
 	text-align: center;*/
 }
 
+.emlanlistse-link,
 .emlanlist-link {
 	padding: 1rem 2rem;
 
@@ -183,6 +184,15 @@
 	white-space: nowrap;
 }
 
+.emlanlistse-order-container {
+	text-align: center;
+	margin: 2rem 0 1rem;
+}
+
+.emlanlistse-order-link::after {
+	content: ' Ansök här!';
+}
+
 .emlanlist-bestill-mobile {
 	position: fixed;
 	bottom: 20px;
@@ -198,6 +208,7 @@
 	fill: #fff;
 }
 
+.emlanlistse-logo-ls,
 .emlanlist-logo-ls {
 	text-align: center;
 }

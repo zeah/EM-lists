@@ -190,6 +190,7 @@
 
 
 /* 2.7.1 bestill anchor */
+.emlanlistse-link,
 .emlanlist-link {
 	padding: 1rem 2rem;
 
@@ -205,6 +206,15 @@
 	text-decoration: none;
 
 	white-space: nowrap;
+}
+
+.emlanlistse-order-container {
+	text-align: center;
+	margin: 2rem 0 1rem;
+}
+
+.emlanlistse-order-link::after {
+	content: ' Ansök här!';
 }
 
 

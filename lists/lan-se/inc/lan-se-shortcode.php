@@ -8,7 +8,7 @@ final class Lan_se_shortcode {
 	private static $instance = null;
 
 	private $name = 'emlanlistse';
-
+	private $pf = '-get';
 	// public $pixels = [];
 
 	public static function get_instance() {
@@ -18,6 +18,9 @@ final class Lan_se_shortcode {
 	}
 
 	private function __construct() {
+		$pf = get_option('em_lists');
+		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
+
 		$this->wp_hooks();
 	}
 
@@ -82,8 +85,8 @@ final class Lan_se_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style($this->name.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.1', '(min-width: 801px)');
-        wp_enqueue_style($this->name.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.1', '(max-width: 800px)');
+        wp_enqueue_style($this->name.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.2', '(min-width: 801px)');
+        wp_enqueue_style($this->name.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.2', '(max-width: 800px)');
 	}
 
 
@@ -111,7 +114,7 @@ final class Lan_se_shortcode {
 			// grid container
 			$html .= '<li class="emlanlist-container">';
 			
-			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.'-get');
+			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
 
 			if (isset($meta['qstring']) && $meta['qstring']) { 
 				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);

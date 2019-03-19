@@ -26,10 +26,10 @@ final class EM_list_cookie {
 
 
 
-		// parse_str($_SERVER['QUERY_STRING'], $result);
+		parse_str($_SERVER['QUERY_STRING'], $result);
 
-		// if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
-		// elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'bing']), time()+60*60*24*90);
+		if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
+		elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['msclkid'], 'source' => 'bing']), time()+60*60*24*90);
 
 		// add country to cookie
 		// http://www.geoplugin.net/json.gp?ip=xx.xx.xx.xx
