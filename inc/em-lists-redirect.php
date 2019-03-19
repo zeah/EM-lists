@@ -98,7 +98,11 @@ final class EM_list_redirect {
 
 			if (!$label) preg_match('/(?:.*\/)(.*)/', $r_url, $label);
 
-			$dl = $_SERVER['HTTP_REFERER'];
+			$dl = parse_url($_SERVER['HTTP_REFERER']);
+
+			$dl = isset($dl['path']) ? $dl['path'] : '/';
+
+
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$ua = $_SERVER['HTTP_USER_AGENT'];
 			$t = 'event';
