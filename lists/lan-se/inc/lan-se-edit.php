@@ -33,6 +33,34 @@ final class Lan_se_edit {
 
 		add_filter('emtheme_doc', array($this, 'add_doc'), 99);
 
+		add_action('admin_enqueue_scripts', [$this, 'add_js']);
+
+	}
+
+	public function add_js() {
+		$id = get_current_screen();
+
+		if ($id->id != 'edit-emlanlistse') return;
+
+
+		$args = [
+			'post_type' 		=> 'emlanlistse',
+			'posts_per_page' 	=> -1,
+			'orderby'			=> [
+										'meta_value_num' => 'ASC',
+										'title' => 'ASC'
+								   ]
+		];
+
+		$posts = get_posts($args);
+
+		$po = [];
+
+		foreach ($posts as $p) $po[$p->ID] = $p->post_name;
+
+		wp_enqueue_script('emlanlist-col', LAN_SE_PLUGIN_URL.'assets/js/admin/em-lanlist-se-column.js', ['jquery'], false, true);
+		wp_localize_script('emlanlist-col', 'emlanlistse', json_encode($po));
+		
 	}
 
 
@@ -43,6 +71,8 @@ final class Lan_se_edit {
 	 * @return [array]           [array going through wp filter]
 	 */
 	public function column_head($defaults) {
+
+
 		return EM_lists::custom_head($defaults, $this->name.'_sort');
 	}
 
