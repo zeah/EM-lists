@@ -39,7 +39,7 @@ final class Lan_se_edit {
 
 	public function add_js() {
 		$id = get_current_screen();
-
+		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
 		if ($id->id != 'edit-emlanlistse') return;
 
 
@@ -58,8 +58,21 @@ final class Lan_se_edit {
 
 		foreach ($posts as $p) $po[$p->ID] = $p->post_name;
 
-		wp_enqueue_script('emlanlist-col', LAN_SE_PLUGIN_URL.'assets/js/admin/em-lanlist-se-column.js', ['jquery'], false, true);
-		wp_localize_script('emlanlist-col', 'emlanlistse', json_encode($po));
+		$po['name'] = 'lan';
+
+		$po['tax'] = 'emlanlistsetype';
+
+		// $tax = get_taxonomies(['post_type' => 'emlanlistsetype']);
+		// $tax = get_terms(['taxonomy' => 'emlanlistsetype']);
+
+		// wp_die('<xmp>'.print_r($tax, true).'</xmp>');
+
+
+		wp_register_script('emlist_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
+
+		wp_enqueue_script('emlist_column');
+		// wp_enqueue_script('emlanlist-col', LAN_SE_PLUGIN_URL.'assets/js/admin/em-lanlist-se-column.js', ['jquery'], false, true);
+		wp_localize_script('emlist_column', 'listdata', json_encode($po));
 		
 	}
 
