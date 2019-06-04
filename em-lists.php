@@ -173,7 +173,7 @@ final class EM_lists {
 			),
 		);
 		
-		register_post_type($name, $args);
+		if (!post_type_exists($name)) register_post_type($name, $args);
 	}
 
 	/* add custom column */
