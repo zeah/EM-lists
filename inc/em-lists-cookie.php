@@ -28,8 +28,28 @@ final class EM_list_cookie {
 
 		parse_str($_SERVER['QUERY_STRING'], $result);
 
-		if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
-		elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['msclkid'], 'source' => 'bing']), time()+60*60*24*90);
+		$source = false;
+		$id = false;
+
+		if (isset($result['gclid'])) {
+			$source = 'google';
+			$id = $result['gclid'];
+		}
+
+		if (isset($result['msclkid'])) {
+			$source = 'bing';
+			$id = $result['msclkid'];
+		}
+
+		if ($source && $id) {
+			setcookie('em_clid', $id, time()+60*60*24*90);
+			setcookie('em_source', $source, time()+60*60*24*90);
+		}
+
+		// wp_die('<xmp>'.print_r($result, true).'</xmp>');
+
+		// if (isset($result['gclid'])) setcookie('eml_clid', json_encode(['id' => $result['gclid'], 'source' => 'google']), time()+60*60*24*90);
+		// elseif (isset($result['msclkid'])) setcookie('eml_clid', json_encode(['id' => $result['msclkid'], 'source' => 'bing']), time()+60*60*24*90);
 
 		// add country to cookie
 		// http://www.geoplugin.net/json.gp?ip=xx.xx.xx.xx

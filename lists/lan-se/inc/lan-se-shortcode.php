@@ -46,12 +46,31 @@ final class Lan_se_shortcode {
 		add_filter('search_first', array($this, 'add_serp'));
 	}
 
+	public function add_inline_script() {
+		global $post;
+		printf('<script>
+			var eles = document.querySelectorAll(".emlanlist-link");
+			for (var i = 0; i < eles.length; i++) 
+				eles[i].addEventListener("click", function(e) {
+					try {
+						if ("ga" in window) {
+						    tracker = ga.getAll()[0];
+						    if (tracker) tracker.send("event", "List Plugin", "%s", this.getAttribute("data-name"), 0);
+						}
+					}
+				
+					catch (e) { console.log("ga failed") }
+				});
+		</script>', $post->post_name);
+	}
+
 
 	/**
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
 		return $this->get_html(EM_list_sc::posts('emlanlistse', 'lan', $atts, $content), $atts);
 	}
@@ -64,6 +83,7 @@ final class Lan_se_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
 		return EM_list_sc::image($this->name, $atts, $content);
 	}
@@ -76,6 +96,7 @@ final class Lan_se_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
 		return EM_list_sc::link($this->name, $atts, $content);
 	}
@@ -98,28 +119,33 @@ final class Lan_se_shortcode {
 	private function get_html($posts, $atts = null) {
 		$html = '<ul class="emlanlist-ul">';
 
+
+		$parts = EM_list_parts::get_instance();
+
 		foreach ($posts as $p) {
-			
 			$meta = get_post_meta($p->ID, $this->name.'_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
+			$meta['post_name'] = $p->post_name;
 
-			$redir = get_post_meta($p->ID, $this->name.'_redirect');
-			if (isset($redir[0]) && $redir[0]) $redir = true;
-			else $redir = false;
+			// $redir = get_post_meta($p->ID, $this->name.'_redirect');
+			// if (isset($redir[0]) && $redir[0]) $redir = true;
+			// else $redir = false;
 
 			// grid container
-			$html .= '<li class="emlanlist-container">';
+			$html .= sprintf(
+				'<li><form class="emlanlist-container" target="_blank" rel=nofollow action="%s" method="get">', 
+				preg_replace('/\?.*$/', '', $meta['bestill']));
 			
-			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
+			// if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
 
-			if (isset($meta['qstring']) && $meta['qstring']) { 
-				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
-				$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
-			}
+			// if (isset($meta['qstring']) && $meta['qstring']) { 
+			// 	if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
+			// 	$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
+			// }
 
 			// sanitize meta
 			$meta = $this->esc_kses($meta);
@@ -127,8 +153,17 @@ final class Lan_se_shortcode {
 			// title
 			$html .= '<div class="emlanlist-title-container"><a class="emlanlist-title" href="'.$meta['readmore'].'">'.wp_kses_post($p->post_title).'</a></div>';
 
+			// $test = wp_get_attachment_image_src(get_the_post_thumbnail_url($p,'post-thumbnail'));
+ 			// $img = wp_get_attachment_image_src( get_post_thumbnail_id($p->ID), "post-thumbnail" );
+
+			// wp_die('<xmp>'.print_r($img, true).'</xmp>');
+
 			// thumbnail
-			$html .= '<div class="emlanlist-logo-container"><a target="_blank" rel="noopener" href="'.$meta['bestill'].'"><img class="emlanlist-logo" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
+			$html .= $parts->logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
+				'meta' => $meta
+			]);
+			// $html .= '<div class="emlanlist-logo-container"><a target="_blank" rel="noopener" href="'.$meta['bestill'].'"><img class="emlanlist-logo" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
 
 			// info container
 			$html .= '<div class="emlanlist-info-container">';
@@ -209,25 +244,22 @@ final class Lan_se_shortcode {
 			}
 
 			// bestill 
-			$html .= '<div class="emlanlist-bestill-container">';
-			// $html .= '<div class="emlanlist-bestill"><a target="_blank" rel="noopener" class="emlanlist-link" href="'.$meta['bestill'].'">Ansök här <svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 22" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path opacity="0.87" fill="none" d="M0,0h24v24H0V0z"/><path fill="#fff" d="M18,8h-1V6c0-2.76-2.24-5-5-5S7,3.24,7,6v2H6c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V10C20,8.9,19.1,8,18,8z M9,6c0-1.66,1.34-3,3-3s3,1.34,3,3v2H9V6z M18,20H6V10h12V20z M12,17c1.1,0,2-0.9,2-2c0-1.1-0.9-2-2-2c-1.1,0-2,0.9-2,2C10,16.1,10.9,17,12,17z"/></svg></a></div>';
-			// $html .= '<div class="emlanlist-bestill"><a target="_blank" rel="noopener" class="emlanlist-link" href="'.$meta['bestill'].'"><svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlanlist-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Ansök här!</a></div>';
-			// $html .= '<div class="emlanlist-bestilltext">'.$meta['bestill_text'].'</div>';
+			// $html .= '<div class="emlanlist-bestill-container">';
 
+			$html .= $parts->button([
+							'form' => true, 
+							'name' => 'emlanlist',
+							'meta' => $meta,
+							'button_text' => 'Ansök här!'
+						]);
 
-			$html .= '<form action="'.$meta['bestill'].'">';
-
-			$html .= '<div class="emlanlist-bestill"><button type="submit" class="emlanlist-link"><svg class="emlanlist-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="emlanlist-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Ansök här!</button></div>';
-			$html .= '<div class="emlanlist-bestilltext">'.$meta['bestill_text'].'</div>';
-			$html .= '</form>';
-
-			$html .= '</div>';
+			// $html .= '</div>';
 
 
 
 			$html .= '</div>'; // end-container
 
-			$html .= '</li>';
+			$html .= '</form></li>';
 		}
 
 		$html .= '</ul>';

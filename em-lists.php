@@ -16,6 +16,7 @@ require_once 'inc/em-lists-tax.php';
 require_once 'inc/em-lists-cookie.php';
 require_once 'inc/em-lists-tracking.php';
 require_once 'inc/em-lists-edit.php';
+require_once 'inc/em-lists-parts.php';
 
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/bok/em-bok.php';
