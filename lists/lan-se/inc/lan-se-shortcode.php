@@ -42,10 +42,17 @@ final class Lan_se_shortcode {
 		if (!shortcode_exists('lan-bestill')) add_shortcode('lan-bestill', array($this, 'add_shortcode_bestill'));
 		else add_shortcode('emlanlist-bestill', array($this, 'add_shortcode_bestill'));
 
+		// button and clickable logo
+		if (!shortcode_exists('lan-landingside')) add_shortcode('lan-landingside', array($this, 'add_shortcode_landingside'));
+		else add_shortcode('emlanlist-landingside', array($this, 'add_shortcode_landingside'));
+
 
 		add_filter('search_first', array($this, 'add_serp'));
 	}
 
+	/**
+	 * adding js for google analytics
+	 */
 	public function add_inline_script() {
 		global $post;
 		printf('<script>
@@ -82,10 +89,14 @@ final class Lan_se_shortcode {
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
-		return EM_list_sc::image($this->name, $atts, $content);
+		return EM_list_parts::logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], 'emlanlistse'),'post-thumbnail')),
+				'title' => 'Ansök här!',
+				'name' => 'emlanlistse'
+			]);
 	}
 
 
@@ -98,7 +109,25 @@ final class Lan_se_shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
-		return EM_list_sc::link($this->name, $atts, $content);
+		$p = EM_list_parts::gp($atts['name'], 'emlanlistse');
+
+		if (!$p) return '';
+
+		$meta = get_post_meta($p->ID, 'emlanlistse_data');
+
+		if (!is_array($meta) || !isset($meta[0])) return '';
+
+		$meta = $meta[0];
+
+		return sprintf(
+			'<div class="emlanlistse-solo-button"><form class="emlanlistse-container" target="_blank" rel=nofollow action="%s" method="get">%s</form></div>', 
+			preg_replace('/\?.*$/', '', $meta['bestill']),
+			EM_list_parts::button([
+				'name' => 'emlanlistse',
+				'meta' => $meta,
+				'button_text' => 'Ansök här!'
+			])
+		);
 	}
 
 
@@ -120,7 +149,7 @@ final class Lan_se_shortcode {
 		$html = '<ul class="emlanlist-ul">';
 
 
-		$parts = EM_list_parts::get_instance();
+		// $parts = EM_list_parts::get_instance();
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, $this->name.'_data');
@@ -137,7 +166,7 @@ final class Lan_se_shortcode {
 
 			// grid container
 			$html .= sprintf(
-				'<li><form class="emlanlist-container" target="_blank" rel=nofollow action="%s" method="get">', 
+				'<li class="emlanlist-list"><form class="emlanlist-container" target="_blank" rel=nofollow action="%s" method="get">', 
 				preg_replace('/\?.*$/', '', $meta['bestill']));
 			
 			// if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
@@ -159,9 +188,12 @@ final class Lan_se_shortcode {
 			// wp_die('<xmp>'.print_r($img, true).'</xmp>');
 
 			// thumbnail
-			$html .= $parts->logo([
+			$html .= EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
-				'meta' => $meta
+				'meta' => $meta,
+				'title' => 'Ansök här!',
+				'name' => 'emlanlistse'
+
 			]);
 			// $html .= '<div class="emlanlist-logo-container"><a target="_blank" rel="noopener" href="'.$meta['bestill'].'"><img class="emlanlist-logo" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
 
@@ -246,9 +278,9 @@ final class Lan_se_shortcode {
 			// bestill 
 			// $html .= '<div class="emlanlist-bestill-container">';
 
-			$html .= $parts->button([
-							'form' => true, 
-							'name' => 'emlanlist',
+			$html .= EM_list_parts::button([
+							// 'form' => true, 
+							'name' => 'emlanlistse',
 							'meta' => $meta,
 							'button_text' => 'Ansök här!'
 						]);
@@ -265,6 +297,12 @@ final class Lan_se_shortcode {
 		$html .= '</ul>';
 
 		return $html;
+	}
+
+	public function add_shortcode_landingside($atts = [], $content = null) {
+		add_action('wp_footer', [$this, 'add_inline_script'], 0);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		return EM_list_parts::landingside(['type' => 'emlanlistse', 'atts' => $atts, 'button_text' => 'Ansök Här!']);
 	}
 
 	/**

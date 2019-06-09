@@ -50,21 +50,25 @@
 	/*"title infoC infoL terning bestillc"*/
 	/*"logo infoC infoL terning bestillc";*/
 	
-	padding: 2rem 1rem 1rem 1rem;
 
-	border-bottom: solid 1px #aaa;
 	font-size: 1.4rem;
 }
 
+.emlanlist-list {
+	padding: 2rem 1rem 1rem 1rem;
+	border-bottom: solid 1px #aaa;
+
+	list-style: none;
+}
 
 /* list item background */
-.emlanlist-container:nth-child(odd) {
+.emlanlist-list:nth-child(odd) {
 	background-color: #eee;
 }
 
 
 /* removes border from last item*/
-.emlanlist-container:last-child {
+.emlanlist-list:last-child {
 	border-bottom: none;
 }
 
@@ -92,18 +96,28 @@
 
 
 /* 2.3 logo */
+.emlanlistse-logo-container,
 .emlanlist-logo-container {
 	grid-area: logo;
 }
+
+.emlanlistse-logo,
 .emlanlist-logo {
 	width: 18rem;
 	height: auto;
 }
 
-.emlanlist-logo-ls {
-	text-align: center;
+.emlanlistse-link:focus,
+.emlanlistse-logo:focus {
+	outline: none;
 }
 
+
+.list-logo {
+	display: block;
+}
+
+.emlanlistse-logo-button,
 .emlanlist-logo-button {
 	display: inline;
 	width: 18rem;
@@ -119,13 +133,15 @@
 
 
 /* 2.4 info container */
-.emlanlist-info-container {
+.emlanlist-info-container,
+.emlanlistse-info-container {
 	grid-area: infoC;
 }
 
 
 /* 2.4.1 info element (and list info elements) */
-.emlanlist-info {
+.emlanlist-info,
+.emlanlistse-info {
 	margin: 0 0 1rem 2rem;
 	/*margin: 0 0 1rem 6rem;*/
 }
@@ -195,10 +211,15 @@
 	/*align-self: center;*/
 	/*margin-top: 1.6rem;*/
 }
-.emlanlist-bestill {
+.emlanlistse-bestill {
+	text-align: center;
 	/*display: flex;*/
 	/*justify-content: center;*/
 	/*align-items: center;*/
+}
+
+.emlanlistse-solo-button > .emlanlistse-container {
+	display: block;
 }
 
 
@@ -223,6 +244,11 @@
 	cursor: pointer;
 }
 
+.emlanlist-link:hover {
+	background-image: linear-gradient(hsl(120, 70%, 65%) 0%, hsl(120, 70%, 55%) 100%);
+	border: solid 1px hsl(120, 50%, 65%);
+}
+
 .emlanlistse-order-container {
 	text-align: center;
 	margin: 2rem 0 1rem;
@@ -232,21 +258,48 @@
 	content: ' Ansök här!';
 }
 
+.emlanlistse-disabled:hover,
+.emlanlistse-disabled {
+
+	background: none;
+	background-color: hsl(0, 0%, 70%) !important;
+	border: solid 1px hsl(0, 0%, 70%);
+
+	cursor: default;
+}
+
+
 
 /* 2.7.2 bestill svg (thumb icon )*/
-.emlanlist-svg {
+.emlanlist-svg,
+.emlanlistse-svg {
 	filter: drop-shadow(1px 1px 1px #333);
 }
+
+.emlanlistse-thumb,
 .emlanlist-thumb {
 	fill: #fff;
 }
 
 
 /* 2.7.3 bestill text */
-.emlanlist-bestilltext {
+.emlanlist-bestilltext,
+.emlanlistse-bestilltext {
 	margin-top: 0.5rem;
 	text-align: center;
 	padding-bottom: 1rem;
+}
+
+
+.emlanlistse-ls-container {
+	text-align: center;
+}
+
+.emlanlistse-ls-container > .emlanlistse-logo {
+	
+	display: block;
+	margin: 0 auto;
+	padding-bottom: 2rem;
 }
 
 /* 3.0 other browsers */

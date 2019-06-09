@@ -184,6 +184,15 @@
 	white-space: nowrap;
 }
 
+.emlanlist-disabled {
+
+	background: none;
+	background-color: hsl(0, 0%, 70%) !important;
+	border: solid 1px hsl(0, 0%, 70%);
+
+	cursor: default;
+}
+
 .emlanlistse-order-container {
 	text-align: center;
 	margin: 2rem 0 1rem;
