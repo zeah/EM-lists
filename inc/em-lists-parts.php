@@ -85,7 +85,7 @@ final class EM_list_parts {
 
 		// returns order button and order text
 		return sprintf(
-			'<div class="%2$sbestill">%5$s<button data-name="%7$s" class="%2$slink%9$s" type="submit"%8$s>%3$s%4$s</button><div class="%2$sbestilltext">%6$s</div></div>',
+			'<div class="%2$sbestill">%5$s<button data-name="%7$s" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button><div class="%2$sbestilltext">%6$s</div></div>',
 
 			$url,
 
@@ -143,24 +143,23 @@ final class EM_list_parts {
 
 
 	public static function logo($o = []) {
-
 		if (!isset($o['image']) || !$o['image']) return '';
 
 		if (!isset($o['meta']['bestill']) || !$o['meta']['bestill'])
-		return sprintf(
-			'<img class="%slogo list-logo%s" src="%s">',
-			isset($o['name']) ? $o['name'].'-' : '',
-			isset($o['class']) ? ' '.$o['class'] : '',
-			$o['image']
-		);
+			return sprintf(
+				'<img class="%slogo list-logo%s" src="%s">',
+				isset($o['name']) ? $o['name'].'-' : '',
+				isset($o['class']) ? ' '.$o['class'] : '',
+				$o['image']
+			);
 
-
 		return sprintf(
-			'<input title="%s" class="%slogo%s" type="image" src="%s">', 
+			'<input title="%s" class="%slogo emlist-link%s" type="image" src="%s" data-name="%s">', 
 			isset($o['title']) ? $o['title'] : 'Apply now', 
 			isset($o['name']) ? $o['name'].'-' : '', 
 			isset($o['class']) ? ' '.$o['class'] : '',
-			$o['image']
+			$o['image'],
+			isset($o['meta']['post_name']) ? $o['meta']['post_name'] : 'na'
 		);
 	}
 
@@ -171,7 +170,6 @@ final class EM_list_parts {
 
 		$atts = $o['atts'];
 		$type = $o['type'];
-
 		$button_text = isset($o['button_text']) ? $o['button_text'] : 'Apply Now';
 
 		if (!isset($atts['name']) && !isset($atts[0])) return '';
@@ -179,19 +177,13 @@ final class EM_list_parts {
 		if (!isset($atts['name'])) $name = $atts[0];
 		else $name = $atts['name'];
 
-		// return '<div>'.$name.'</div>';
-
 		$args = [
 			'post_type' 		=> $type,
 			'posts_per_page'	=> 1,
 			'name' 				=> sanitize_text_field($name)
 		];
 
-
-		// wp_die('<xmp>'.print_r($args, true).'</xmp>');
-		
 		$post = get_posts($args);
-
 		if (!is_array($post) && !isset($post[0])) return '';
 
 		$p = $post[0];
@@ -203,7 +195,9 @@ final class EM_list_parts {
 		if (isset($meta[0])) $meta = $meta[0];
 		else return '';
 
-		$html = sprintf(
+		$meta['post_name'] = $p->post_name;
+
+		return sprintf(
 			'<form class="%s-ls-container" target="_blank" rel=nofollow action="%s" method="get">%s%s</form>',
 
 			$type,
@@ -212,20 +206,8 @@ final class EM_list_parts {
 
 			self::logo(['image' => $thumbnail, 'meta' => $meta, 'name' => $type, 'title' => $button_text]),
 
-
 			self::button(['name' => $type, 'meta' => $meta, 'button_text' => $button_text])
 		);
-
-		return $html;
-
-		// wp_die('<xmp>'.print_r($meta, true).'</xmp>');
-		
-
-		// return '<img src="'.get_the_post_thumbnail_url($p, 'full').'">';
-
-		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
-		
-
 	}
 
 	public static function gp($name, $type) {
@@ -239,6 +221,56 @@ final class EM_list_parts {
 		if (!is_array($posts) || !isset($posts[0])) return false;
 
 		return $posts[0];
+	}
+
+	public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $inline = null, $content = null) {
+		if (!isset($atts['name']) || $atts['name'] == '') return;
+
+		if ($obj) {
+			if ($sands) add_action('wp_enqueue_scripts', [$obj, $sands]);
+			// if ($inline) add_action('wp_footer', [$obj, $inline], 0);
+		}
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		// EM_list_parts::add_ga();
+
+		$p = self::gp($atts['name'], $type);
+
+		if (!$p) return '';
+
+		$meta = get_post_meta($p->ID, $type.'_data');
+
+		if (!is_array($meta) || !isset($meta[0])) return '';
+
+		$meta = $meta[0];
+
+		return sprintf(
+			'<div class="%1$s-solo-button"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">%3$s</form></div>',
+			$type, 
+			preg_replace('/\?.*$/', '', $meta['bestill']),
+			self::button([
+				'name' => $type,
+				'meta' => $meta,
+				'button_text' => $button_text
+			])
+		);
+	}
+
+	public static function add_ga() {
+		global $post;
+		printf('<script>
+			var eles = document.querySelectorAll(".emlist-link");
+			for (var i = 0; i < eles.length; i++) 
+				eles[i].addEventListener("click", function(e) {
+					try {
+						if ("ga" in window) {
+						    tracker = ga.getAll()[0];
+						    if (tracker) tracker.send("event", "List Plugin", "%s", this.getAttribute("data-name"), 0);
+						}
+					}
+				
+					catch (e) { console.log("ga failed") }
+				});
+		</script>', $post->post_name);
 	}
 
 

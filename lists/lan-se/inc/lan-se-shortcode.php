@@ -77,7 +77,7 @@ final class Lan_se_shortcode {
 	 */
 	public function add_shortcode($atts, $content = null) {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-		add_action('wp_footer', [$this, 'add_inline_script'], 0);
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return $this->get_html(EM_list_sc::posts('emlanlistse', 'lan', $atts, $content), $atts);
 	}
@@ -90,7 +90,8 @@ final class Lan_se_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		add_action('wp_footer', [$this, 'add_inline_script'], 0);
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		// add_action('wp_footer', [$this, 'add_inline_script'], 0);
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], 'emlanlistse'),'post-thumbnail')),
@@ -104,30 +105,7 @@ final class Lan_se_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		if (!isset($atts['name']) || $atts['name'] == '') return;
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-		add_action('wp_footer', [$this, 'add_inline_script'], 0);
-
-		$p = EM_list_parts::gp($atts['name'], 'emlanlistse');
-
-		if (!$p) return '';
-
-		$meta = get_post_meta($p->ID, 'emlanlistse_data');
-
-		if (!is_array($meta) || !isset($meta[0])) return '';
-
-		$meta = $meta[0];
-
-		return sprintf(
-			'<div class="emlanlistse-solo-button"><form class="emlanlistse-container" target="_blank" rel=nofollow action="%s" method="get">%s</form></div>', 
-			preg_replace('/\?.*$/', '', $meta['bestill']),
-			EM_list_parts::button([
-				'name' => 'emlanlistse',
-				'meta' => $meta,
-				'button_text' => 'Ansök här!'
-			])
-		);
+		return EM_list_parts::sc_button($atts, 'emlanlistse', 'Ansök Här!', $this, 'add_css');
 	}
 
 
@@ -300,7 +278,8 @@ final class Lan_se_shortcode {
 	}
 
 	public function add_shortcode_landingside($atts = [], $content = null) {
-		add_action('wp_footer', [$this, 'add_inline_script'], 0);
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		// add_action('wp_footer', [$this, 'add_inline_script'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		return EM_list_parts::landingside(['type' => 'emlanlistse', 'atts' => $atts, 'button_text' => 'Ansök Här!']);
 	}
