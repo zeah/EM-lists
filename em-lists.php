@@ -9,7 +9,7 @@ GitHub Plugin URI: zeah/EM-lists
 
 defined('ABSPATH') or die('Blank Space');
 
-require_once 'inc/em-lists-redirect.php';
+// require_once 'inc/em-lists-redirect.php';
 require_once 'inc/em-lists-settings.php';
 require_once 'inc/em-lists-shortcode.php';
 require_once 'inc/em-lists-tax.php';
@@ -30,15 +30,12 @@ require_once 'lists/matkasse/em-matkasse.php';
 // constant for plugin location
 define('EM_LISTS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-
-
-
-function init_emlistscode() {
-
+function init_emlists() {
 	EM_lists::get_instance();
-
 }
-add_action('plugins_loaded', 'init_emlistscode');
+add_action('plugins_loaded', 'init_emlists');
+
+
 
 final class EM_lists {
 	/* singleton */
@@ -53,7 +50,7 @@ final class EM_lists {
 	private function __construct() {
 		// EM_list_tracking::get_instance();
 		EM_list_cookie::get_instance();
-		EM_list_redirect::get_instance();
+		// EM_list_redirect::get_instance();
 		EM_list_settings::get_instance();
 		// EM_list_edit::get_instance();
 		
@@ -223,53 +220,3 @@ final class EM_lists {
 	}
 
 }
-
-// function my_custom_post_status(){
-
-// 	register_post_status( 'unread', array(
-// 		'label'                     => _x( 'Unread', 'post' ),
-// 		'public'                    => true,
-// 		'exclude_from_search'       => false,
-// 		'show_in_admin_all_list'    => true,
-// 		'show_in_admin_status_list' => true,
-// 		'post_type'                 => array( 'emlanlistse', 'post' ),
-// 		'label_count'               => _n_noop( 'Unread <span class="count">(%s)</span>', 'Unread <span class="count">(%s)</span>' ),
-// 	) );
-// }
-// add_action( 'init', 'my_custom_post_status' );
-
-
-// Registering custom post status
-// function wpb_custom_post_status(){
-//     register_post_status('rejected', array(
-//         'label'                     => _x( 'Rejected', 'post' ),
-//         'public'                    => false,
-//         'exclude_from_search'       => false,
-//         'show_in_admin_all_list'    => true,
-//         'show_in_admin_status_list' => true,
-//         'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ),
-//     ) );
-// }
-// add_action( 'init', 'wpb_custom_post_status' );
- 
-// // Using jQuery to add it to post status dropdown
-// add_action('admin_footer-post.php', 'wpb_append_post_status_list');
-// function wpb_append_post_status_list(){
-// 	global $post;
-// 	$complete = '';
-// 	$label = '';
-// 	// if($post->post_type == 'post'){
-// 		if($post->post_status == 'rejected'){
-// 			$complete = ' selected="selected"';
-// 			$label = '<span id="post-status-display"> Rejected</span>';
-// 		}
-// 		echo '
-// 		<script>
-// 		jQuery(document).ready(function($){
-// 		$("select#post_status").append("<option value=\"rejected\" '.$complete.'>Rejected</option>");
-// 		$(".misc-pub-section label").append("'.$label.'");
-// 		});
-// 		</script>
-// 		';
-// 	// }
-// }

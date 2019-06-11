@@ -21,7 +21,7 @@ final class Lan_se_overview {
 	}
 
 	public function add_page() {
-		wp_enqueue_style('em-lanlist-se-admin-style', LANLIST_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.1');
+		wp_enqueue_style('em-lanlist-se-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.1');
 
 		$args = [
 			'post_type' 		=> get_post_types(['public' => true]),
@@ -47,10 +47,18 @@ final class Lan_se_overview {
 					$m .= $match.' ';
 
 				$html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.str_replace(get_site_url(), '', get_permalink($post)).'</a></td><td>'.$post->post_title.'</td><td>'.$m.'</td></tr>';
-				// $html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.$post->post_name.'</a></td><td>'.$m.'</td></tr>';
+			}
+			elseif (strpos($post->post_content, '[emlanlistse') !== false) {
+				preg_match_all('/\[emlanlistse.*?\]/', $post->post_content, $matches);
+
+				$m = '';
+
+				foreach($matches[0] as $match)
+					$m .= $match.' ';
+
+				$html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.str_replace(get_site_url(), '', get_permalink($post)).'</a></td><td>'.$post->post_title.'</td><td>'.$m.'</td></tr>';
 			}
 			else $html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.str_replace(get_site_url(), '', get_permalink($post)).'</a></td><td>'.$post->post_title.'</td><td></td></tr>';
-			// else $html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.$post->post_name.'</a></td><td></td></tr>';
 
 		}
 

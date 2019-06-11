@@ -6,10 +6,12 @@ defined('ABSPATH') or die('Blank Space');
 
 // constant for plugin location
 define('LAN_SE_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('EMLAN_SE', 'emlanlistse');
 
 require_once 'inc/lan-se-posttype.php';
 require_once 'inc/lan-se-shortcode.php';
 require_once 'inc/lan-se-doc.php';
+require_once 'inc/lan-se-links.php';
 
 
 final class EM_se_lan {
@@ -27,6 +29,7 @@ final class EM_se_lan {
 		Lan_se_posttype::get_instance();
 		Lan_se_shortcode::get_instance();
 		Lan_se_doc::get_instance();
+		Lan_se_links::get_instance();
 	}
 
 }

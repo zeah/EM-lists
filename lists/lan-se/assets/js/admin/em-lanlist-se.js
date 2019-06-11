@@ -104,7 +104,7 @@
 		notData: true, 
 		sort: 'default', 
 		type: 'number',
-		step: 0.01
+		step: 1
 	}));
 
 	container.appendChild(container_sort);
@@ -116,17 +116,16 @@
 			notData: true, 
 			sort: sort, 
 			type: 'number',
-			step: 0.01
+			step: 1
 		}));
 
 	container.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
 
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
-	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
-	container.appendChild(newinput({name: 'emlanlistse_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	// container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	// container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	// container.appendChild(newinput({name: 'emlanlistse_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 
 	let info_container = newdiv({class: 'emlanlistse-info-container'});
 
@@ -142,6 +141,8 @@
 	container.appendChild(info_container);
 
 	container.appendChild(dicedropdown());
+	
+	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
 
 
 	// adding existing category

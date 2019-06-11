@@ -273,5 +273,77 @@ final class EM_list_parts {
 		</script>', $post->post_name);
 	}
 
+	public static function dice($name = null, $eyes = 'seks', $left_color = 'rgb(200,0,0)', $right_color = 'rgb(255,0,0)') {
+
+		if ($name) $name .= '-';
+
+		$no_eyes = false;
+
+		$html = '';
+		switch ($eyes) {
+			case 'seks':
+			$html .= self::eye(11, 25);
+			$html .= self::eye(39, 25);
+
+			case 'fire':
+			$html .= self::eye(11, 10);
+			$html .= self::eye(39, 40);
+
+			case 'to':
+			$html .= self::eye(11, 40);
+			$html .= self::eye(39, 10);
+			break;
+
+			case 'fem':
+			$html .= self::eye(10, 10);
+			$html .= self::eye(40, 40);
+
+			case 'tre':
+			$html .= self::eye(10, 40);
+			$html .= self::eye(40, 10);
+
+			case 'en':
+			$html .= self::eye(25, 25);
+			break;
+
+			default: $no_eyes = true;
+
+		}
+
+		return sprintf(
+			'<svg class="%1$sterning"%5$s>
+				<defs>
+				    <linearGradient id="%1$sgrad" x1="0%%" y1="100%%" x2="100%%" y2="100%%">
+				      <stop offset="0%%" style="stop-color:%3$s;stop-opacity:1" />
+				      <stop offset="100%%" style="stop-color:%4$s;stop-opacity:1" />
+				    </linearGradient>
+				</defs>
+				<rect class="%1$srect-svg" rx="7" ry="7" fill="url(#%1$sgrad)"/>
+				%2$s
+			</svg>',
+
+			$name,
+
+			sprintf($html, $name),
+
+			$left_color,
+
+			$right_color,
+
+			$no_eyes ? ' style="opacity: 0"' : ''
+
+		);
+	}
+
+	private static function eye($x, $y) {
+
+		return sprintf(
+			'<circle class="%%1$scircle-svg" cx="%s" cy="%s" r="5"/>',
+			$x,
+			$y
+		);
+
+	} 
+
 
 }

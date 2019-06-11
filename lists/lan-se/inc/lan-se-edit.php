@@ -8,8 +8,6 @@ final class Lan_se_edit {
 	/* singleton */
 	private static $instance = null;
 
-	private $name = 'emlanlistse';
-
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
 		return self::$instance;
@@ -20,13 +18,13 @@ final class Lan_se_edit {
 	private function __construct() {
 
 
-		add_action('manage_'.$this->name.'_posts_columns', array($this, 'column_head'));
-		add_filter('manage_'.$this->name.'_posts_custom_column', array($this, 'custom_column'));
-		add_filter('manage_edit-'.$this->name.'_sortable_columns', array($this, 'sort_column'));
+		add_action('manage_'.EMLAN_SE.'_posts_columns', array($this, 'column_head'));
+		add_filter('manage_'.EMLAN_SE.'_posts_custom_column', array($this, 'custom_column'));
+		add_filter('manage_edit-'.EMLAN_SE.'_sortable_columns', array($this, 'sort_column'));
 		add_action('pre_get_posts', array($this, 'set_sort'));
 		
 		/* metabox, javascript */
-		add_action('add_meta_boxes_'.$this->name, array($this, 'create_meta'));
+		add_action('add_meta_boxes_'.EMLAN_SE, array($this, 'create_meta'));
 		/* hook for page saving/updating */
 		add_action('save_post', array($this, 'save'));
 
@@ -39,12 +37,11 @@ final class Lan_se_edit {
 
 	public function add_js() {
 		$id = get_current_screen();
-		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
-		if ($id->id != 'edit-emlanlistse') return;
+		if ($id->id != 'edit-'.EMLAN_SE) return;
 
 
 		$args = [
-			'post_type' 		=> 'emlanlistse',
+			'post_type' 		=> EMLAN_SE,
 			'posts_per_page' 	=> -1,
 			'orderby'			=> [
 										'meta_value_num' => 'ASC',
@@ -60,20 +57,11 @@ final class Lan_se_edit {
 
 		$po['name'] = 'lan';
 
-		$po['tax'] = 'emlanlistsetype';
+		$po['tax'] = EMLAN_SE.'type';
 
-		// $tax = get_taxonomies(['post_type' => 'emlanlistsetype']);
-		// $tax = get_terms(['taxonomy' => 'emlanlistsetype']);
+		wp_enqueue_script(EMLAN_SE.'_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
 
-		// wp_die('<xmp>'.print_r($tax, true).'</xmp>');
-
-
-		wp_register_script('emlist_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
-
-		wp_enqueue_script('emlist_column');
-		// wp_enqueue_script('emlanlist-col', LAN_SE_PLUGIN_URL.'assets/js/admin/em-lanlist-se-column.js', ['jquery'], false, true);
-		wp_localize_script('emlist_column', 'listdata', json_encode($po));
-		
+		wp_localize_script(EMLAN_SE.'_column', 'listdata', json_encode($po));
 	}
 
 
@@ -86,7 +74,7 @@ final class Lan_se_edit {
 	public function column_head($defaults) {
 
 
-		return EM_lists::custom_head($defaults, $this->name.'_sort');
+		return EM_lists::custom_head($defaults, EMLAN_SE.'_sort');
 	}
 
 
@@ -98,7 +86,7 @@ final class Lan_se_edit {
 	 */
 	public function custom_column($column_name) {
 		global $post;
-		EM_lists::custom_column($post->ID, $this->name, $column_name);
+		EM_lists::custom_column($post->ID, EMLAN_SE, $column_name);
 	}
 
 
@@ -109,11 +97,11 @@ final class Lan_se_edit {
 	 * @return [array]           [array going through wp filter]
 	 */
 	public function sort_column($columns) {
-		return EM_lists::sort_column($columns, $this->name.'_sort');
+		return EM_lists::sort_column($columns, EMLAN_SE.'_sort');
 	}
 
 	public function set_sort($query) {
-		Em_lists::set_sort($query, $this->name);
+		Em_lists::set_sort($query, EMLAN_SE);
 	}
 
 	/*
@@ -124,24 +112,24 @@ final class Lan_se_edit {
 
 		/* lan info meta */
 		add_meta_box(
-			$this->name.'_meta', // name
+			EMLAN_SE.'_meta', // name
 			'Lån Info', // title 
 			array($this,'create_meta_box'), // callback
-			$this->name // page
+			EMLAN_SE // page
 		);
 
 		/* to show or not on front-end */
 		add_meta_box(
-			$this->name.'_exclude',
+			EMLAN_SE.'_exclude',
 			'Aldri vis',
 			array($this, 'exclude_meta_box'),
-			$this->name,
+			EMLAN_SE,
 			'side'
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style($this->name.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.2');
-		wp_enqueue_script($this->name.'-admin', LAN_SE_PLUGIN_URL . 'assets/js/admin/em-lanlist-se.js', array(), '1.0.2', true);
+		wp_enqueue_style(EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.2');
+		wp_enqueue_script(EMLAN_SE.'-admin', LAN_SE_PLUGIN_URL . 'assets/js/admin/em-lanlist-se.js', array(), '1.0.2', true);
 	}
 
 
@@ -158,7 +146,7 @@ final class Lan_se_edit {
  	 */
 	public function exclude_meta_box() {
 		global $post;
-		EM_list_edit::create_exclude_box($post, $this->name);
+		EM_list_edit::create_exclude_box($post, EMLAN_SE);
 	}
 
 
@@ -167,7 +155,7 @@ final class Lan_se_edit {
 	 * wp action when saving
 	 */
 	public function save($post_id) {
-		EM_list_edit::save($post_id, $this->name);
+		EM_list_edit::save($post_id, EMLAN_SE);
 	}
 
 }

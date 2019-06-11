@@ -25,17 +25,17 @@ final class Lan_se_doc {
 	 * @param [array] $data [array passing through theme filter]
 	 */
 	public function add_doc($data) {
-		$data['emlanlistse']['title'] = '<h1 id="emlanlistse">Lånlist Sverige (Plugin)</h1>';
+		$data[EMLAN_SE]['title'] = '<h1 id="'.EMLAN_SE.'">Lånlist Sverige (Plugin)</h1>';
 
-		$data['emlanlistse']['index'] = '<li><h2><a href="#emlanlistse">Lånlist Sverige (Plugin)</a></h2>
+		$data[EMLAN_SE]['index'] = '<li><h2><a href="#'.EMLAN_SE.'">Lånlist Sverige (Plugin)</a></h2>
 											<ul>
-												<li><a href="#emlanlistse-shortcode">Shortcode</a></li>
-												<li><a href="#emlanlistse-aldri">Aldri vis</a></li>
-												<li><a href="#emlanlistse-sort">Sorting order</a></li>
-												<li><a href="#emlanlistse-overview">Overview</a></li>
+												<li><a href="#'.EMLAN_SE.'-shortcode">Shortcode</a></li>
+												<li><a href="#'.EMLAN_SE.'-aldri">Aldri vis</a></li>
+												<li><a href="#'.EMLAN_SE.'-sort">Sorting order</a></li>
+												<li><a href="#'.EMLAN_SE.'-overview">Overview</a></li>
 											</ul>
 										</li>';
-		$data['emlanlistse']['info'] = '<li id="emlanlistse-shortcode"><h2>Shortcodes</h2>
+		$data[EMLAN_SE]['info'] = '<li id="'.EMLAN_SE.'-shortcode"><h2>Shortcodes</h2>
 										<ul>
 											<li><b>[lan]</b>
 											<p>[lan] will show all.</p>
@@ -62,17 +62,17 @@ final class Lan_se_doc {
 											
 										</ul>
 										</li>
-										<li id="emlanlistse-aldri"><h2>Aldri vis</h2>
+										<li id="'.EMLAN_SE.'-aldri"><h2>Aldri vis</h2>
 										<p>If tagged, then the loan will never appear on the front-end.</p>
 										</li>
 										</li>
-										<li id="emlanlistse-sort"><h2>Sorting order</h2>
+										<li id="'.EMLAN_SE.'-sort"><h2>Sorting order</h2>
 										<p>The loans will be shown with the lowest "Sort"-value first.
 										<br>When only showing a specific category on loan page, then the sort order column will reflect 
 										<br>that category\'s sort order.</p>
 										</li>
-										<li id="emlanlistse-overview"><h2>Overview</h2>
-										<p> The <a target="_blank" href="'.get_site_url().'/wp-admin/edit.php?post_type=emlanlistse&page=emlanlistse-overview">overview page</a> will show every post and page and whether or not there are
+										<li id="'.EMLAN_SE.'-overview"><h2>Overview</h2>
+										<p> The <a target="_blank" href="'.get_site_url().'/wp-admin/edit.php?post_type='.EMLAN_SE.'&page='.EMLAN_SE.'-overview">overview page</a> will show every post and page and whether or not there are
 										<br>any lan shortcodes in them.
 										<br>You can sort the columns alphabetically</p>
 										</li>
