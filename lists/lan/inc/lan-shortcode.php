@@ -7,9 +7,6 @@ final class Lan_shortcode {
 	/* singleton */
 	private static $instance = null;
 
-	// private $name = 'emlanlist';
-
-	// private $pf = '-get';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -18,10 +15,6 @@ final class Lan_shortcode {
 	}
 
 	private function __construct() {
-
-		// $pf = get_option('em_lists');
-		// if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
-
 
 		$this->wp_hooks();
 	}
@@ -43,6 +36,10 @@ final class Lan_shortcode {
 		// loan button
 		if (!shortcode_exists('lan-bestill')) add_shortcode('lan-bestill', array($this, 'add_shortcode_bestill'));
 		else add_shortcode(EMLAN.'-bestill', array($this, 'add_shortcode_bestill'));
+
+		// button and clickable logo
+		if (!shortcode_exists('lan-landingside')) add_shortcode('lan-landingside', array($this, 'add_shortcode_landingside'));
+		else add_shortcode(EMLAN_SE.'-landingside', array($this, 'add_shortcode_landingside'));
 
 
 		add_filter('search_first', array($this, 'add_serp'));
@@ -116,12 +113,6 @@ final class Lan_shortcode {
 	 * returns only thumbnail from loan
 	 */
 	public function add_shortcode_bilde($atts, $content = null) {
-		// if (!isset($atts['name']) || $atts['name'] == '') return;
-
-		// add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		// return EM_list_sc::image('emlanlist', $atts, $content);
-
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
@@ -130,7 +121,8 @@ final class Lan_shortcode {
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN),'post-thumbnail')),
 				'title' => 'Søk Nå',
-				'name' => EMLAN
+				'name' => EMLAN,
+				'atts' => $atts
 			]);
 	}
 
@@ -141,21 +133,20 @@ final class Lan_shortcode {
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
 		return EM_list_parts::sc_button($atts, EMLAN, 'Søk Nå', $this, 'add_css');
-		// if (!isset($atts['name']) || $atts['name'] == '') return;
-
-		// add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		// return EM_list_sc::link('emlanlist', $atts, $content);
 	}
 
-
+	public function add_shortcode_landingside($atts = [], $content = null) {
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => 'Søk Nå']);
+	}
 
 	/**
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('emlanlist-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', array(), '1.0.3', '(min-width: 951px)');
-        wp_enqueue_style('emlanlist-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', array(), '1.0.3', '(max-width: 950px)');
+        wp_enqueue_style(EMLAN.'-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', array(), '1.0.3', '(min-width: 951px)');
+        wp_enqueue_style(EMLAN.'-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', array(), '1.0.3', '(max-width: 950px)');
 	}
 
 
@@ -178,30 +169,17 @@ final class Lan_shortcode {
 
 
 		foreach ($posts as $p) {
-			
 			$meta = get_post_meta($p->ID, EMLAN.'_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
-			// $redir = get_post_meta($p->ID, EMLAN.'_redirect');
-			// if (isset($redir[0]) && $redir[0]) $redir = true;
-			// else $redir = false;
-			
-			// sanitize meta
-			// $html .= '<li class="emlanlist-container">';
 			$html .= sprintf(
 				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				EMLAN, 
 				preg_replace('/\?.*$/', '', $meta['bestill'])
 			);
-			// if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
-
-			// if (isset($meta['qstring']) && $meta['qstring']) { 
-			// 	if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
-			// 	$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
-			// }
 
 			$meta = $this->esc_kses($meta);
 
@@ -213,20 +191,11 @@ final class Lan_shortcode {
 
 			]);
 
-			$html .= sprintf(
-				'<div class="%1$s-row %1$s-toprow">%2$s', 
-				EMLAN,
-				$logo
-			);
-
-			// $html .= '<div class="emlanlist-logo"><a target="_blank" rel="noopener" href="'.$meta['readmore'].'"><img class="emlanlist-image" src="'.wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')).'"></a></div>';
-
-			$top_info = [['belop','info05'], ['nedbetaling', 'info06'], ['alder', 'info07'], ['effrente', 'info04']];
-
-			$top
-			foreach ($top_info as $ti)
+			// $top
+			$top = '';
+			foreach ([['belop','info05'], ['nedbetaling', 'info06'], ['alder', 'info07'], ['effrente', 'info04']] as $ti)
 				if (isset($meta[$ti[1]]) && $meta[$ti[1]])
-					$html .= sprintf(
+					$top .= sprintf(
 						'<div class="%1$s-%2$s %1$s-top-info">%3$s</div>',
 
 						EMLAN,
@@ -234,19 +203,9 @@ final class Lan_shortcode {
 						$ti[0],
 
 						$meta[$ti[1]]
-					);		
+					);
 
-			// if ($meta['info05']) $html .= '<div class="emlanlist-belop emlanlist-top-info">'.$meta['info05'].'</div>';
-
-			// if ($meta['info06']) $html .= '<div class="emlanlist-nedbetaling emlanlist-top-info">'.$meta['info06'].'</div>';
-
-			// if ($meta['info07']) $html .= '<div class="emlanlist-alder emlanlist-top-info">'.$meta['info07'].'</div>';
-
-			// if ($meta['info04']) $html .= '<div class="emlanlist-effrente emlanlist-top-info">'.$meta['info04'].'</div>';
-
-			// if ($meta['bestill']) $html .= '<div class="emlanlist-order"><a class="emlanlist-link emlanlist-order-link" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'"></a></div>';
-			
-			$html .= sprintf(
+			$order = sprintf(
 				'<div class="%s-order">%s</div>',
 
 				EMLAN,
@@ -258,30 +217,61 @@ final class Lan_shortcode {
 						])
 			);
 
-			$html .= '</div>';
+
+			// top row
+			$html .= sprintf(
+				'<div class="%1$s-row %1$s-toprow">%2$s%3$s%4$s</div>', 
+				EMLAN,
+				$logo,
+				$top,
+				$order
+			);
 
 
-			$html .= sprintf('<div class="%1$s-row %1$s-middlerow">', EMLAN);
+			$middle = '';
+			foreach ([['en','info01'], ['to', 'info02'], ['tre', 'info03']] as $val)
+				if (isset($meta[$val[1]]) && $meta[$val[1]])
+					$middle .= sprintf(
+						'<div class="%1$s-info %1$s-info-%2$s">%3$s %4$s</div>',
 
-			// info 1
-			if ($meta['info01']) $html .= '<div class="emlanlist-info emlanlist-info-en">'.$star.'<span>'.$meta['info01'].'</span></div>';
+						EMLAN,
 
-			// info 2
-			if ($meta['info02']) $html .= '<div class="emlanlist-info emlanlist-info-to">'.$star.'<span>'.$meta['info02'].'</span></div>';
+						$val[0],
 
-			// info 3
-			if ($meta['info03']) $html .= '<div class="emlanlist-info emlanlist-info-tre">'.$star.'<span>'.$meta['info03'].'</span></div>';
+						$star,
 
-			$html .= '</div>';
+						$meta[$val[1]]
+					);
 
-			$html .= '<div class="emlanlist-row emlanlist-bottomrow">';
+			// middle row
+			$html .= sprintf(
+				'<div class="%1$s-row %1$s-middlerow">%2$s</div>',
+				EMLAN,
+				$middle
+			);
 
-			if ($meta['info08']) $html .= '<div class="emlanlist-info emlanlist-info-atte">'.$meta['info08'].'</div>';
 
-			if ($meta['readmore']) $html .= '<div class="emlanlist-lesmer"><a class="emlanlist-lenke-lesmer" href="'.esc_url($meta['readmore']).'"></a></div>';
+			// bottom
+			$html .= sprintf(
+				'<div class="%1$s-row %1$s-bottomrow">%2$s%3$s</div>',
 
+				EMLAN,
 
-			$html .= '</div>';
+				(isset($meta['info08']) && $meta['info08']) 
+					? sprintf(
+						'<div class="%1$s-info %1$s-info-atte">%2$s</div>', 
+						EMLAN, 
+						$meta['info08']) 
+					: '',
+				
+				(isset($meta['readmore']) && $meta['readmore']) 
+					? sprintf(
+						'<div class="%1$s-lesmer"><a class="%1$s-lenke-lesmer" href="%2$s"></a></div>', 
+						EMLAN, 
+						esc_url($meta['readmore'])) 
+					: ''
+			);
+
 
 			$html .= '</form></li>';
 
@@ -304,13 +294,13 @@ final class Lan_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != 'emlanlist') return $data;
+		if ($post->post_type != EMLAN) return $data;
 
-		$exclude = get_option('emlanlist_exclude');
+		$exclude = get_option(EMLAN.'_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option('emlanlist_exclude_serp');
+		$exclude_serp = get_option(EMLAN.'_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 

@@ -17,7 +17,7 @@ final class Lan_overview {
 	}
 
 	public function add_menu() {
-		add_submenu_page('edit.php?post_type=emlanlist', 'Overview', 'Overview', 'manage_options', 'emlanlist-overview', array($this, 'add_page'));
+		add_submenu_page('edit.php?post_type='.EMLAN, 'Overview', 'Overview', 'manage_options', EMLAN.'-overview', array($this, 'add_page'));
 	}
 
 	public function add_page() {

@@ -23,12 +23,12 @@ final class Lan_posttype {
 		Lan_overview::get_instance();
 
 		/* creates custom post type: emkort */
-		add_action('init', array($this, 'create_cpt'));
+		add_action('init', [$this, 'create_cpt']);
 	}
 	/*
 		create custom post type: emkort 
 	*/
 	public function create_cpt() {
-		EM_lists::create_cpt('emlanlist', 'Lån', 'Lån NO', 'dashicons-money');
+		EM_lists::create_cpt(EMLAN, 'Lån', 'Lån NO', 'dashicons-money');
 	}
 }

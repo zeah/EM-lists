@@ -1,5 +1,5 @@
 
-.emlanlist-ul {
+.emlanlistse-ul {
 	padding: 0;
 	margin: 0;
 	clear: both;
@@ -7,7 +7,7 @@
 	/*display: flex;*/
 }
 
-.emlanlist-container {
+.emlanlistse-container {
 	list-style: none;
 
 	display: flex;
@@ -23,76 +23,76 @@
 }
 
 
-.emlanlist-container:nth-child(odd) {
+.emlanlistse-container:nth-child(odd) {
 	background-color: #eee;
 }
 
 @media only screen and (min-width: 600px) {
 
-	.emlanlist-ul {
+	.emlanlistse-ul {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.emlanlist-container {
+	.emlanlistse-container {
 		width: 50%;
 		margin-bottom: 0;
 		padding-top: 1rem;
 	}
-	.emlanlist-container:nth-child(odd) {
+	.emlanlistse-container:nth-child(odd) {
 		background-color: inherit;
 	}
 
-	.emlanlist-container:nth-child(4n) {
+	.emlanlistse-container:nth-child(4n) {
 		background-color: #eee;
 	}
 
-	.emlanlist-container:nth-child(4n+1) {
+	.emlanlistse-container:nth-child(4n+1) {
 		background-color: #eee;
 	}
 
 	
 } 
 
-.emlanlist-title-container {
+.emlanlistse-title-container {
 	margin: 0.5rem 0;
 }
 
-.emlanlist-title {
+.emlanlistse-title {
 	font-size: 2rem;
 	text-decoration: none;
 	color: #000;
 }
 
-.emlanlist-title-container,
-.emlanlist-terning,
-.emlanlist-bestill-container,
-.emlanlist-logo-container {
+.emlanlistse-title-container,
+.emlanlistse-terning,
+.emlanlistse-bestill-container,
+.emlanlistse-logo-container {
 	/*align-self: center;*/
 }
 
-.emlanlist-title,
-.emlanlist-info-fem,
-.emlanlist-info-en {
+.emlanlistse-title,
+.emlanlistse-info-fem,
+.emlanlistse-info-en {
 	font-weight: 700;
 }
 
 
-.emlanlist-logo-container {
+.emlanlistse-logo-container {
 	/*display: flex;
 	justify-content: center;*/
 	max-width: 90%;
 }
 
-.emlanlist-logo {
+.emlanlistse-logo {
 	width: 25rem;
 	height: auto;
 
 }
 
-.emlanlist-info-fem:before,
-.emlanlist-info-seks:before,
-.emlanlist-info-syv:before,
-.emlanlist-info-atte:before {
+.emlanlistse-info-fem:before,
+.emlanlistse-info-seks:before,
+.emlanlistse-info-syv:before,
+.emlanlistse-info-atte:before {
 	content: '\2022	';
 	color: gold;
 	text-shadow: 0 0 1px black;
@@ -102,72 +102,73 @@
 	/*margin-bottom: 1.5rem;*/
 }
 
-.emlanlist-info-container,
-.emlanlist-list-container {
+.emlanlistse-info-container,
+.emlanlistse-list-container {
 	width: 25rem;
 	max-width: 90%;
 	/*margin: 1.5rem 0;*/
 	/*margin: 0 6rem;*/
 }
 
-.emlanlist-info-container {
+.emlanlistse-info-container {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
 }
 
-.emlanlist-list-container {
-	margin-bottom: 3rem;
+.emlanlistse-list-container {
+	margin-bottom: 2rem;
 }
 
-.emlanlist-info-fem,
-.emlanlist-info-seks,
-.emlanlist-info-syv,
-.emlanlist-info-atte {
+.emlanlistse-info-fem,
+.emlanlistse-info-seks,
+.emlanlistse-info-syv,
+.emlanlistse-info-atte {
 	margin-bottom: 1rem;
 }
 
-.emlanlist-end-container {
+.emlanlistse-end-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.emlanlist-terning {
+.emlanlistse-terning {
 	width: 50px;
 	height: 50px;
+
+	margin-bottom: 2rem;
 
 	background-color: #e22;
 }
 
 /* dice dimensions */
-.emlanlist-rect-svg {
+.emlanlistse-rect-svg {
 	height: 50px;
 	width: 50px;
 }
 
 /* dice eye color */
-.emlanlist-circle-svg {
+.emlanlistse-circle-svg {
 	fill: #ffffff;
 }
 
-.emlanlist-bestill-container {
+.emlanlistse-bestill-container {
 	margin: 2rem 0;
 }
 
-.emlanlist-bestill {
+.emlanlistse-bestill {
 	text-align: center;
 	/*display: flex;
 	justify-content: center;*/
 	margin-bottom: 1rem;
 }
 
-.emlanlist-bestilltext {
+.emlanlistse-bestilltext {
 	/*margin-top: 1rem;
 	text-align: center;*/
 }
 
-.emlanlistse-link,
-.emlanlist-link {
+.emlanlistse-link {
 	padding: 1rem 2rem;
 
 	background-image: linear-gradient(hsl(120, 70%, 60%) 0%, hsl(120, 70%, 50%) 100%);
@@ -184,7 +185,7 @@
 	white-space: nowrap;
 }
 
-.emlanlist-disabled {
+.emlanlistse-disabled {
 
 	background: none;
 	background-color: hsl(0, 0%, 70%) !important;
@@ -202,22 +203,26 @@
 	content: ' Ansök här!';
 }
 
-.emlanlist-bestill-mobile {
+.emlanlistse-bestill-mobile {
 	position: fixed;
 	bottom: 20px;
 	left: 0;
 	right: 0;
 }
 
-.emlanlist-svg {
+.emlanlistse-svg {
 	filter: drop-shadow(1px 1px 1px #333);
 }
 
-.emlanlist-thumb {
+.emlanlistse-thumb {
 	fill: #fff;
 }
 
-.emlanlistse-logo-ls,
-.emlanlist-logo-ls {
+.emlanlistse-ls-container,
+.emlanlistse-logo-ls {
 	text-align: center;
+}
+
+.emlanlistse-bestilltext {
+	margin: 1rem 0;
 }

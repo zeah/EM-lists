@@ -147,9 +147,10 @@ final class EM_list_parts {
 
 		if (!isset($o['meta']['bestill']) || !$o['meta']['bestill'])
 			return sprintf(
-				'<img class="%slogo list-logo%s" src="%s">',
+				'<img class="%slogo list-logo%s"%s src="%s">',
 				isset($o['name']) ? $o['name'].'-' : '',
 				isset($o['class']) ? ' '.$o['class'] : '',
+				isset($o['atts']['style']) ? sprintf(' style="%s"', $o['atts']['style']) : '', 
 				$o['image']
 			);
 
@@ -163,7 +164,6 @@ final class EM_list_parts {
 		);
 	}
 
-	// public function landingside($type = null, $atts = []) {
 	public static function landingside($o = []) {
 
 		if (!isset($o['type']) || !isset($o['atts'])) return '';

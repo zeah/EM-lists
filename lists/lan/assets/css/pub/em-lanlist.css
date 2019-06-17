@@ -182,13 +182,14 @@ html {
 /*}*/
 
 /* after link element */
-.emlanlist-order-solo:after,
-.emlanlist-order:after {
+/*.emlanlist-solo-button:after,*/
+/*.emlanlist-order:after {*/
+.emlanlist-bestill:after {
 	content: 'Annonselenke';
 
 	display: block;
 	position: relative;
-	top: 1rem;
+	top: 1.5rem;
 	
 	text-align: center;
 	font-size: 1.4rem;
@@ -243,4 +244,28 @@ html {
 }
 
 
+.emlanlist-solo-button > .emlanlist-container {
+	margin: 3rem 0;
+	background-color: transparent;
+	box-shadow: none;
+}
 
+
+.emlanlist-ls-container {
+	text-align: center;
+}
+
+.emlanlist-ls-container > .emlanlist-logo {
+	
+	display: block;
+	margin: 0 auto;
+	padding-bottom: 2rem;
+}
+
+.emlanlist-ls-container .emlanlist-link {
+	position: static;
+}
+
+.emlanlist-ls-container .emlanlist-bestill:after {
+	top: .5rem;
+}

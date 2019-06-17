@@ -15,7 +15,7 @@ final class Lan_taxonomy {
 
 	private function __construct() {
 		/* creates taxonomy: korttype */
-		add_action('init', array($this, 'create_tax'));
+		add_action('init', [$this, 'create_tax']);
 	}
 	
 	/*
@@ -23,6 +23,6 @@ final class Lan_taxonomy {
 		for custom post type: emkort
 	*/
 	public function create_tax() {
-		EM_list_tax::create_tax('emlanlisttype', 'emlanlist', 'Lån Type', 'Lån Type');
+		EM_list_tax::create_tax(EMLAN.'type', EMLAN, 'Lån Type', 'Lån Type');
 	}
 }

@@ -68,7 +68,8 @@ final class Lan_se_shortcode {
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN_SE),'post-thumbnail')),
 				'title' => 'Ansök här!',
-				'name' => EMLAN_SE
+				'name' => EMLAN_SE,
+				'atts' => $atts
 			]);
 	}
 
