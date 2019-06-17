@@ -69,6 +69,7 @@ html {
 	text-align: center;
 	margin-bottom: 3rem;
 	font-size: 1.4rem;
+	user-select: none;
 
 }
 
@@ -93,14 +94,16 @@ html {
 /* 1.2.1 logo container */
 
 /* 1.2.1.1 logo image in list */
-.emlanlist-logo > a > .emlanlist-image {
+/*.emlanlist-logo > a > .emlanlist-image {*/
+.emlanlist-logo {
 	width: 15rem;
 	min-width: 10rem;
+	/*display: block;*/
+	margin-left: 2rem;
 }
 
 /* 1.2.1.2 logo image */
 .emlanlist-image {
-	display: block;
 }
 
 /* 1.2.1.3 stand alone logo container*/
@@ -145,6 +148,7 @@ html {
 /* 1.2.3 order button */
 .emlanlist-order {
 	/*width: 20rem;*/
+	margin-right: 2rem;
 }
 
 /* 1.2.3.1 button link */
@@ -155,8 +159,8 @@ html {
 	text-decoration: none;
 	color: white;
 	white-space: nowrap;
-}
-.emlanlist-order-link {
+/*}*/
+/*.emlanlist-order-link {*/
 	position: relative;
 	top: 1rem;
 	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
@@ -165,11 +169,17 @@ html {
 	font-family: Arial, sans-serif;
 	font-size: 2.2rem;
 	font-weight: 700;
+
+	cursor: pointer;
 }
 
-.emlanlist-order-link::after {
-	content: 'Få Tilbud Nå';
+.emlanlist-link:focus {
+	outline: none;
 }
+
+/*.emlanlist-order-link::after {*/
+	/*content: 'Få Tilbud Nå';*/
+/*}*/
 
 /* after link element */
 .emlanlist-order-solo:after,
@@ -178,7 +188,7 @@ html {
 
 	display: block;
 	position: relative;
-	top: 2rem;
+	top: 1rem;
 	
 	text-align: center;
 	font-size: 1.4rem;

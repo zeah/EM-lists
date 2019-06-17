@@ -53,7 +53,7 @@ final class EM_list_sc {
 		$exclude = get_option($name.'_exclude');
 
 		if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
-
+		// wp_die('<xmp>'.print_r($args, true).'</xmp>');
 		$posts = get_posts($args);	
 
 		// wp_die('<xmp>'.print_r($posts, true).'</xmp>');

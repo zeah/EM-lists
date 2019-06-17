@@ -41,7 +41,7 @@ final class EM_list_edit {
 			// 'meta' => isset($meta[0]) ? $meta[0] : '',
 			'meta' => isset($meta[0]) ? EM_Lists::sanitize($meta[0]) : '',
 			$name.'_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
-			$name.'_redirect' => $redirect[0],
+			$name.'_redirect' => isset($redirect[0]) ? $redirect[0] : '',
 			'tax' => $taxes
 		];
 

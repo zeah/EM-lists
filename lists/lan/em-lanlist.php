@@ -6,6 +6,7 @@ defined('ABSPATH') or die('Blank Space');
 
 // constant for plugin location
 define('LANLIST_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('EMLAN', 'emlanlist');
 
 require_once 'inc/lan-posttype.php';
 require_once 'inc/lan-shortcode.php';
