@@ -24,7 +24,7 @@ require_once 'lists/lan-se/em-lanlist-se.php';
 require_once 'lists/lan-dk/em-lanlist-dk.php';
 require_once 'lists/kredittkort/em-kredittkort.php';
 require_once 'lists/matkasse/em-matkasse.php';
-// require_once 'lists/kredittkort-se/em-kredittkortlist.php';
+// require_once 'lists/kredittkort-se/em-kredittkort.php';
 // require_once 'lists/casino/em-casino.php';
 
 // constant for plugin location

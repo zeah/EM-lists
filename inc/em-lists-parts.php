@@ -77,15 +77,21 @@ final class EM_list_parts {
 		else $o['name'] .= '-';
 
 		// thumb's up icon
-		$thumb = sprintf('<svg class="%1$ssvg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="%1$sthumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg>',
+		$thumb = sprintf('<svg class="%1$ssvg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve">
+							<path fill="none" d="M0,0h24v24H0V0z"/>
+							<path class="%1$sthumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/>
+						  </svg> ',
 							$o['name']
 						);
 
+		if (isset($o['disable_thumb'])) $thumb = '';
+
 		if (isset($o['disable_sub_text'])) $m['bestill_text'] = '';
+
 
 		// returns order button and order text
 		return sprintf(
-			'<div class="%2$sbestill">%5$s<button data-name="%7$s" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button><div class="%2$sbestilltext">%6$s</div></div>',
+			'<div class="%2$sbestill">%5$s<button data-name="%7$s" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
 
 			$url,
 
@@ -93,17 +99,21 @@ final class EM_list_parts {
 
 			$thumb,
 
-			' '.$o['button_text'],
+			do_shortcode($o['button_text']),
 
 			$inputs,
 
-			isset($m['bestill_text']) ? $m['bestill_text'] : '',
+			isset($m['bestill_text']) ? sprintf('<div class="%sbestilltext">%s</div>', $o['name'], $m['bestill_text']) : '', // 
 
-			isset($m['post_name']) ? $m['post_name'] : '',
+			isset($m['post_name']) ? $m['post_name'] : '', // 
 
-			$disabled ? ' disabled' : '',
+			$disabled ? ' disabled' : '', // 
 
-			$disabled ? ' '.$o['name'].'disabled' : ''
+			$disabled ? ' '.$o['name'].'disabled' : '', // 
+
+			(isset($m['pixel']) && $m['pixel']) // 
+				? sprintf('<img width=0 height=0 src="%s" style="position: absolute">', esc_url($m['pixel']))
+				: ''
 
 		);
 	}
@@ -251,7 +261,7 @@ final class EM_list_parts {
 				'name' => $type,
 				'meta' => $meta,
 				'button_text' => $button_text
-			])
+			]),
 		);
 	}
 

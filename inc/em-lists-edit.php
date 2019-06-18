@@ -44,11 +44,13 @@ final class EM_list_edit {
 			$name.'_redirect' => isset($redirect[0]) ? $redirect[0] : '',
 			'tax' => $taxes
 		];
-
 		$ameta = get_post_meta($post->ID);
+		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
+		// wp_die('<xmp>'.print_r($ameta, true).'</xmp>');
 		foreach($ameta as $key => $value)
 			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
-
+		// wp_die('<xmp>'.print_r($json, true).'</xmp>');
+		
 		wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
 		echo '<div style="background-color: #fafafa;" class="'.$name.'-meta-container"></div>';
 	}

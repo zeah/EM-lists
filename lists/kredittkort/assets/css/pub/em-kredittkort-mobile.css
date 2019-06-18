@@ -28,11 +28,17 @@ html {
 	opacity: 1 !important;
 }
 
-/*
-	CONTAINER FOR EACH ITEM (LI)
-*/
-.kredittkort-container {
+
+.kredittkort-list {
 	list-style: none;
+}
+
+.kredittkort-ul {
+	padding: 0;
+	margin: 0;
+}
+
+.kredittkort-container {
 	margin-bottom: 3rem;
 
 	padding-bottom: 0.5rem;
@@ -85,7 +91,9 @@ html {
 
 /* DEFAULT BUTTON CSS */
 .kredittkort-link {
-	padding: 0.5rem 1rem;
+	display: block;
+
+	padding: 1rem;
 	border-radius: 5px;
 
 	background-color: red;
@@ -95,6 +103,7 @@ html {
 	text-decoration: none;
 	text-shadow: 0 0 1px black;
 	display: block;
+	width: 80%;
 }
 
 .kredittkort-sokna,
@@ -114,11 +123,16 @@ html {
 	align-items: center;
 }
 
+.kredittkort-bestill {
+	/*text-align: center;*/
+}
+
 .kredittkort-bestill:after {
 	content: 'Annonselenke';
 	display: block;
 	margin-top: .5rem;
-	background-color: white;
+	/*background-color: white;*/
+	text-align: center
 }
 
 
@@ -130,11 +144,15 @@ html {
 	margin: 1rem auto;
 }
 
-.kredittkort-sokna-lenke {
+.kredittkort-link {
 	/*background-color: #00b300;*/
 	background-image: linear-gradient(hsl(120, 70%, 60%), hsl(120, 70%, 30%));
 	font-size: 2.6rem;
 	white-space: nowrap;
+
+	margin: 0 auto;
+
+	border: none;
 }
 
 .kredittkort-thumb {
@@ -174,9 +192,20 @@ html {
 	text-align: center;
 	margin: 1rem auto;
 }
-.kredittkort-lesmer-lenke {
+
+.kredittkort-lesmer-link {
 	background-color: #bbb;
 	font-size: 1.6rem;
+
+	display: block;
+
+	padding: .5rem 1rem;
+	border-radius: 5px;
+
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 0 1px #000;
+
 }
 
 .kredittkort-aldersgrense,
@@ -186,12 +215,26 @@ html {
 	width: 48%;
 }
 
+.kredittkort-aldersgrense > b,
+.kredittkort-makskreditt > b,
+.kredittkort-rentefrikreditt > b,
+.kredittkort-alderow > b {
+	display: block;
+}
+
+.kredittkort-aldersgrense,
+.kredittkort-makskreditt {
+	margin: 2rem 0;
+}
+
 .kredittkort-aldersgrense,
 .kredittkort-rentefrikreditt,
 .kredittkort-makskreditt,
 .kredittkort-alderow {
 	text-align: center;
 	padding-bottom: 1rem;
+
+	list-style: none;
 }
 
 /*.kredittkort-makskreditt:before,
@@ -214,9 +257,15 @@ html {
 }*/
 
 .kredittkort-effrente {
-	margin: 1rem 0;
+	margin: 1rem auto;
 	text-align: center;
 	font-style: italic;
+	/*display: block;*/
+}
+
+.kredittkort-effrente,
+.kredittkort-blurb {
+	list-style: none;
 }
 
 .kredittkort-blurb-text {
@@ -226,6 +275,15 @@ html {
 
 .kredittkort-logo-container {
 	text-align: center;
+}
+
+.kredittkort-ls-container {
+	text-align: center;
+}
+
+.kredittkort-solo-button > .kredittkort-container {
+	background-color: transparent;
+	margin: 1rem 0;
 }
 
 

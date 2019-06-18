@@ -101,7 +101,7 @@ final class Lan_shortcode {
 		
 		// return 'hi';
 
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
 		return $this->get_html(EM_list_sc::posts(EMLAN, 'lan', $atts, $content), $atts);
 
@@ -116,7 +116,7 @@ final class Lan_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		// add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN),'post-thumbnail')),
@@ -137,7 +137,7 @@ final class Lan_shortcode {
 
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		// add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => 'Søk Nå']);
 	}
 

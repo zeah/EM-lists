@@ -6,6 +6,8 @@ defined('ABSPATH') or die('Blank Space');
 
 // constant for plugin location
 define('KREDITTKORT_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('KREDITTKORT', 'kredittkort');
+
 
 require_once 'inc/kredittkort-posttype.php';
 require_once 'inc/kredittkort-shortcode.php';

@@ -37,6 +37,9 @@ final class Kredittkort_shortcode {
 		if (!shortcode_exists('kredittkort-bestill')) add_shortcode('kredittkort-bestill', array($this, 'add_shortcode_bestill'));
 		else add_shortcode('emkredittkort-bestill', array($this, 'add_shortcode_bestill'));
 
+		if (!shortcode_exists('kredittkort-landingside')) add_shortcode('kredittkort-landingside', array($this, 'add_shortcode_landingside'));
+		else add_shortcode('emkredittkort-landingside', array($this, 'add_shortcode_landingside'));
+
 
 		add_filter('search_first', array($this, 'add_serp'));
 	}
@@ -46,6 +49,11 @@ final class Kredittkort_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts);
+
+
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
@@ -100,61 +108,28 @@ final class Kredittkort_shortcode {
 	}
 
 
+	public function add_shortcode_landingside($atts, $content = null) {
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		// add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		return EM_list_parts::landingside(['type' => KREDITTKORT, 'atts' => $atts, 'button_text' => 'Bestill Kortet']);
+
+	}
+
 	/**
 	 * returns only thumbnail from loan
 	 */
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		$args = [
-			'post_type' 		=> 'kredittkort',
-			'posts_per_page'	=> 1,
-			'name' 				=> sanitize_text_field($atts['name'])
-		];
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		$post = get_posts($args);
-
-		if (!is_array($post)) return;
-
-		if (!get_the_post_thumbnail_url($post[0])) return;
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		$meta = get_post_meta($post[0]->ID, 'kredittkort_data');
-		if (isset($meta[0])) $meta = $meta[0];
-
-		$float = false;
-		if ($atts['float']) 
-			switch ($atts['float']) {
-				case 'left': $float = ' style="float: left; margin-right: 3rem;"'; break;
-				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
-			}
-		
-		$html = '';
-
-		// if ($meta['pixel']) {
-		// 	if ($atts['source']) $meta['pixel'] = $this->add_source($meta['pixel'], $atts['source']); 
-		// 	$html .= $this->add_pixel($meta['pixel']);
-		// }
-		// if ($atts['source']) $meta['bestill'] = $this->add_source($meta['bestill'], $atts['source']);
-
-		// returns with anchor
-		if ($meta['bestill']) {
-			// adding tracking pixel
-			if ($meta['pixel']) {
-				if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-				else $html .= $this->add_pixel($meta['pixel']);
-			}
-
-			// fixing query string
-			if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-			$html .= '<div class="kredittkort-logo-ls"'.($float ? $float : '').'><a target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'"><img alt="'.esc_attr($post[0]->post_title).'" src="'.esc_url(get_the_post_thumbnail_url($post[0], 'full')).'"></a></div>';
-			return $html;
-		}
-		// anchor-less image
-		return '<div class="kredittkort-logo-ls"'.($float ? $float : '').'><img alt="'.esc_attr($post[0]->post_title).'" src="'.esc_url(get_the_post_thumbnail_url($post[0], 'full')).'"></div>';
-	
+		return EM_list_parts::logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], KREDITTKORT),'post-thumbnail')),
+				'title' => 'Bestill Kortet',
+				'name' => KREDITTKORT,
+				'atts' => $atts
+			]);
 	}
 
 
@@ -162,56 +137,7 @@ final class Kredittkort_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		if (!isset($atts['name']) || $atts['name'] == '') return;
-
-		$args = [
-			'post_type' 		=> 'kredittkort',
-			'posts_per_page'	=> 1,
-			'name' 				=> sanitize_text_field($atts['name'])
-		];
-
-		$post = get_posts($args);
-
-		if (!is_array($post)) return;
-
-		$meta = get_post_meta($post[0]->ID, 'kredittkort_data');
-
-		if (!is_array($meta)) return;
-
-		$meta = $meta[0];
-
-		if (!$meta['bestill']) return;
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		$float = false;
-		if ($atts['float']) 
-			switch ($atts['float']) {
-				case 'left': $float = ' style="float: left; margin-right: 3rem;"'; break;
-				case 'right': $float = ' style="float: right; margin-left: 3rem;"'; break;
-			}
-		
-
-		$html = '';
-
-		// if ($meta['pixel']) {
-		// 	if ($atts['source']) $meta['pixel'] = $this->add_source($meta['pixel'], $atts['source']); 
-		// 	$html .= $this->add_pixel($meta['pixel']);
-		// }
-		// // adding/overwriting source to query string in url
-		// if ($atts['source']) $meta['bestill'] = $this->add_source($meta['bestill'], $atts['source']);
-
-		// fixing query string
-		if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-		// adding tracking pixel
-		if ($meta['pixel']) {
-			if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-			else $html .= $this->add_pixel($meta['pixel']);
-		}
-		
-		$html .= '<div class="kredittkort-bestill kredittkort-bestill-mobile"'.($float ? $float : '').'><a target="_blank" rel="noopener" class="kredittkort-link kredittkort-sokna-lenke" href="'.esc_url($meta['bestill']).'"><svg class="kredittkort-svg" version="1.1" x="0px" y="0px" width="26px" height="20px" viewBox="0 0 26 20" enable-background="new 0 0 24 24" xml:space="preserve"><path fill="none" d="M0,0h24v24H0V0z"/><path class="kredittkort-thumb" d="M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.31l0.95-4.57l0.03-0.32c0-0.41-0.17-0.79-0.44-1.06L14.17,1L7.59,7.59C7.22,7.95,7,8.45,7,9v10c0,1.1,0.9,2,2,2h9c0.83,0,1.54-0.5,1.84-1.22l3.02-7.05C22.95,12.5,23,12.26,23,12V10z"/></svg> Bestill Kortet</a></div>';
-		return $html;
+		return EM_list_parts::sc_button($atts, KREDITTKORT, 'Bestill Kortet', $this, 'add_css');
 	}
 
 
@@ -231,238 +157,145 @@ final class Kredittkort_shortcode {
 	 */
 	private function get_html($posts, $atts) {
 
-		$html = '<div class="kredittkort-kortliste">';
+		$html = sprintf('<div class="%1$s-kortliste"><ul class="%1$s-ul">', KREDITTKORT);
 
 		foreach ($posts as $p) {
-			$meta = get_post_meta($p->ID, 'kredittkort_data');
+			$meta = get_post_meta($p->ID, KREDITTKORT.'_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
-			// if ($meta['pixel']) {
-			// 	if ($source) $meta['pixel'] = $this->add_source($meta['pixel'], $source);
-			// 	$html .= $this->add_pixel($meta['pixel']);
-			// }
-			// sanitize meta
-			
-			// if ($source && $meta['bestill']) $meta['bestill'] = $this->add_source($meta['bestill'], $source);
-
-			$html .= '<div class="kredittkort-container">'; // add class here
-
-			if ($meta['qstring']) $meta['bestill'] = $this->add_query_string($meta['bestill'], $atts['source'], $atts['page']);
-
-			if ($meta['pixel']) {
-				if ($meta['qstring']) $html .= $this->add_pixel($this->add_query_string($meta['pixel'], $atts['source'], $atts['page']));
-				else $html .= $this->add_pixel($meta['pixel']);
-			}
-			
 			$meta = $this->esc_kses($meta);
-			
+
+			$sep = '';
 			for ($i = 1; $i <= 6; $i++) 
-				$html .= '<div class="kredittkort-sep kredittkort-sep-'.$i.'"></div>';
-			
-			// title 
-			$html .= '<div class="kredittkort-title"><h2 class="kredittkort-title-header"><a class="kredittkort-title-text" href="'.esc_url($meta['readmore']).'">'.esc_html($p->post_title).'</a></h2></div>';
-		
-			// image
-			$html .= '<div class="kredittkort-thumbnail"><img class="kredittkort-thumbnail-image" src="'.get_the_post_thumbnail_url($p).'"></div>';
-			
-			// info en
-			if ($meta['info01']) $html .= '<div class="kredittkort-info-0 kredittkort-info">'.$meta['info01'].'</div>';
+				$sep .= sprintf('<div class="%1$s-sep %1$s-sep-'.$i.'"></div>', KREDITTKORT);
 
-			// info to
-			if ($meta['info02']) $html .= '<div class="kredittkort-info-1 kredittkort-info">'.$meta['info02'].'</div>';
+			$logo_meta = $meta;
+			unset($logo_meta['bestill']);
 
-			// info tre
-			if ($meta['info03']) $html .= '<div class="kredittkort-info-2 kredittkort-info">'.$meta['info03'].'</div>';
+			$logo = EM_list_parts::logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
+				'meta' => $logo_meta,
+				'title' => 'Bestill kortet',
+				'name' => KREDITTKORT
+			]);
 
-			// bestill button
-			$html .= '<div class="kredittkort-sokna">';
+			$find = ['[b]', '[/b]'];
+			$replace = ['<b>', '</b>'];
 
-			if ($meta['terning'] != 'ingen') {
-				$html .= '<svg class="kredittkort-terning">
-							<defs>
-							    <linearGradient id="kredittkort-grad" x1="0%" y1="100%" x2="100%" y2="100%">
-							      <stop offset="0%" style="stop-color:rgb(200,0,0);stop-opacity:1" />
-							      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-							    </linearGradient>
-							  </defs>
-							<rect class="rect-svg" rx="7" ry="7" fill="url(#kredittkort-grad)"/>';
+			$info = '';
+			$info_2 = '';
+			foreach([
+						['info01', 'info-0'], 
+						['info02', 'info-1'], 
+						['info03', 'info-2']
+					] as $v) {
 
-				switch ($meta['terning']) {
+				$info .= sprintf(
+					'<div class="%1$s-%2$s %1$s-info">%3$s</div>',
 
-					case 'seks':
-					$html .= '<circle class="kredittkort-circle-svg" cx="11" cy="25" r="5"/>';
-					$html .= '<circle class="kredittkort-circle-svg" cx="39" cy="25" r="5"/>';
+					KREDITTKORT,
 
-					case 'fire':
-					$html .= '<circle class="kredittkort-circle-svg" cx="11" cy="10" r="5"/>';
-					$html .= '<circle class="kredittkort-circle-svg" cx="39" cy="40" r="5"/>';
+					$v[1],
 
-					case 'to':
-					$html .= '<circle class="kredittkort-circle-svg" cx="11" cy="40" r="5"/>';
-					$html .= '<circle class="kredittkort-circle-svg" cx="39" cy="10" r="5"/>';
-					break;
+					isset($meta[$v[0]]) ? str_replace($find, $replace, sanitize_text_field($meta[$v[0]])) : ''
 
-					case 'fem':
-					$html .= '<circle class="kredittkort-circle-svg" cx="10" cy="10" r="5"/>';
-					$html .= '<circle class="kredittkort-circle-svg" cx="40" cy="40" r="5"/>';
-
-					case 'tre':
-					$html .= '<circle class="kredittkort-circle-svg" cx="10" cy="40" r="5"/>';
-					$html .= '<circle class="kredittkort-circle-svg" cx="40" cy="10" r="5"/>';
-
-					case 'en':
-					$html .= '<circle class="kredittkort-circle-svg" cx="25" cy="25" r="5"/>';
-					break;
-
-				}
-
-				$html .= '</svg>';
+				);
 			}
 
-			$html .= '<a target="_blank" rel="noopener" class="kredittkort-link kredittkort-sokna-lenke" href="'.esc_url($meta['bestill']).'">Bestill Kortet</a>';
-			$html .= '</div>';
-			
-			// read more button
-			$html .= '<div class="kredittkort-lesmer"><a class="kredittkort-link kredittkort-lesmer-lenke" href="'.esc_url($meta['readmore']).'">Les Mer</a></div>';
-			
-			// aldersgrense 
-			if ($meta['info05']) $html .= '<div class="kredittkort-aldersgrense">'.$meta['info05'].'</div>';
+			foreach([
+						['info07', 'aldersgrense'],
+						['info05', 'makskreditt'],
+						['info06', 'rentefrikreditt'],
+						['info08', 'effrente'],
+					] as $v) {
 
-			// maks rente
-			if ($meta['info06']) $html .= '<div class="kredittkort-makskreditt">'.$meta['info06'].'</div>';
-			
-			// rentefri kreditt
-			if ($meta['info07']) $html .= '<div class="kredittkort-rentefrikreditt">'.$meta['info07'].'</div>';
-			
-			// effektiv rente
-			if ($meta['info08']) $html .= '<div class="kredittkort-effrente">'.$meta['info08'].'</div>';
+				$info_2 .= sprintf(
+					'<div class="%1$s-%2$s %1$s-info">%3$s</div>',
 
-			// blurb and logos
-			$html .= '<div class="kredittkort-blurb"><div class="kredittkort-blurb-text">'.$meta['info04'].'</div>';
+					KREDITTKORT,
 
+					$v[1],
 
-			// visa/mastercard logo 
-			$html .= '<div class="kredittkort-logo-container">';
+					isset($meta[$v[0]]) ? str_replace($find, $replace, sanitize_text_field($meta[$v[0]])) : ''
 
-			$terms = wp_get_post_terms($p->ID, 'kredittkorttype');
-			foreach($terms as $term) {
+				);
+			}
+
+			$cards = '';
+			foreach(wp_get_post_terms($p->ID, KREDITTKORT.'type') as $term) {
 				switch ($term->slug) {
-					case 'visa': $html .= '<img class="kredittkort-logo" src="'.KREDITTKORT_PLUGIN_URL.'assets/img/visa-logo.png">'; break;
-					case 'mastercard': $html .= '<img class="kredittkort-logo" src="'.KREDITTKORT_PLUGIN_URL.'assets/img/mastercard-logo.png">'; break;
+					case 'visa': $cards .= sprintf('<img class="%s-card" src="'.KREDITTKORT_PLUGIN_URL.'assets/img/visa-logo.png">', KREDITTKORT); break;
+					case 'mastercard': $cards .= sprintf('<img class="%s-card" src="'.KREDITTKORT_PLUGIN_URL.'assets/img/mastercard-logo.png">', KREDITTKORT); break;
 				}
 			}
 
-			$html .= '</div>'; // visa/mastercard container
+			$info_2 .= sprintf(
+					'<div class="%1$s-%2$s %1$s-info"><div class="%1$s-%2$s-text">%3$s</div>%4$s</div>',
+					
+					KREDITTKORT,
 
-			$html .= '</div>'; // blurb container
-			
-			$html .= '</div>';
+					'blurb',
+
+					isset($meta['info04']) ? str_replace($find, $replace, sanitize_text_field($meta['info04'])) : '',
+
+					$cards
+						? sprintf('<div class="%1$s-logo-container">%2$s</div>', KREDITTKORT, $cards)
+						: ''
+
+			);
+
+			$html .= sprintf(
+				'<li class="%1$s-list">
+					<form target="_blank" rel=nofollow class="%1$s-container" action="%2$s" method="get">
+						%3$s
+						<div class="%1$s-title"><h2 class="%1$s-title-header">%4$s</h2></div>
+						%5$s
+						%6$s
+						%7$s
+						%8$s
+						%9$s
+					</form>
+				</li>',
+
+				KREDITTKORT,
+
+				preg_replace('/\?.*$/', '', $meta['bestill']),
+
+				$sep,
+
+				(isset($meta['readmore']) && $meta['readmore']) 
+					? sprintf('<a class="%s-title-text" href="%s">%s</a>', KREDITTKORT, esc_url($meta['readmore']), $p->post_title)
+					: $p->post_title,
+
+				$logo ? sprintf('<div class="%s-thumbnail">%s</div>', KREDITTKORT, $logo) : '',
+
+				$info,
+
+				EM_list_parts::button([
+									'name' => KREDITTKORT,
+									'meta' => $meta,
+									'disable_thumb' => true,
+									'button_text' => 'Bestill Kortet'
+								]),
+
+
+				(isset($meta['readmore']) && $meta['readmore']) 
+					? sprintf('<div class="%1$s-lesmer"><a class="%1$s-lesmer-link" href="%2$s">Les mer</a></div>', KREDITTKORT, esc_url($meta['readmore']))
+					: '',
+
+				$info_2
+			);
 
 		}
 
-		$html .= '</div>';
+		$html .= '</ul></div>';
 		return $html;
 	}
 
 
-
-
-
-
-
-
-
-
-	private function add_pixel($pixel) {
-		if ($this->pixels[$pixel]) return '';
-
-		$this->pixels[$pixel] = true;
-
-		return '<img width=0 height=0 src="'.esc_url($pixel).'" style="position:absolute">';
-	}
-
-
-
-
-
-	private function add_query_string($link = null, $source = null, $page = null) {
-		
-		$axo = [
-			'page' => 'aff_sub2',
-			'source' => 'source',
-			'click_id' => 'aff_click_id',
-			'type' => 'aff_sub'
-		];
-
-		$adservice = [
-			'page' => 'sub'
-		];
-
-		if (strpos($link, 'axo') !== false) $def = $axo;
-		elseif (strpos($link, 'adservice') !== false) $def = $adservice;
-		else $def = $axo; // axo is currently default
-
-		// parsing given url for query string
-		parse_str(parse_url($link)['query'], $url_query);
-
-		// parsing current url for query string
-		parse_str($_SERVER['QUERY_STRING'], $result);
-		// wp_die('<xmp>'.print_r($url_query, true).'</xmp>');
-		
-		// source
-		if ($def['source']) {
-			if ($source) $result[$def['source']] = $source;
-			// elseif ($url_query[$def['source']]) $result[$def['source']] = $url_query[$def['source']];
-			elseif (!$url_query[$def['source']]) $result[$def['source']] = $_SERVER['SERVER_NAME'];
-		}
-
-
-		// page (aff_sub2)
-		if ($def['page']) {
-			global $post;
-			// global $pagename;
-			if ($page) $result[$def['page']] = $page;
-			// elseif ($url_query[$def['page']]) $result[$def['page']] = $url_query[$def['page']]; 
-			elseif (!$url_query[$def['page']]) $result[$def['page']] = $post->post_name;
-		}
-			// wp_die('<xmp>'.print_r($result, true).'</xmp>');
-		// aff_sub 
-		// aff_click_id
-		// from google ad, bing ad or organic
-		if ($def['type']) {
-		$result[$def['type']] = 'organic';
-		foreach($result as $key => $value)
-			switch ($key) {
-				case 'gclid': 
-					$result[$def['type']] = 'google'; 
-					$result[$def['click_id']] = $value;
-					break;
-				case 'msclkid': 
-					$result[$def['type']] = 'bing'; 
-					$result[$def['click_id']] = $value;
-					break;
-			}
-		// removing google ad and bing ad parameter
-			unset($result['gclid']);
-			unset($result['msclkid']);
-		}
-
-		return add_query_arg($result, $link);
-	}
-
-
-
-
-
-
-
-	// public function add_pixel_footer() {
-	// 	foreach ($this->pixels as $key => $value)
-	// 		echo '<img width=0 height=0 src="'.esc_url($key).'" style="position:absolute">';
-	// }
 
 	/**
 	 * wp filter for adding to internal serp
@@ -492,19 +325,6 @@ final class Kredittkort_shortcode {
 		return $data;
 	}
 
-	// private function add_source($meta, $source) {
-
-	// 	// removing current source
-	// 	if (preg_match('/(?:(?!\?|&))(?:source=.*?)(?:(&|$))/', $meta, $matches))
-	// 		$meta = str_replace($matches[0], '', $meta); 
-	// 	$meta = preg_replace('/\?$/', '', $meta);
-
-	// 	// adding source
-	// 	if (strpos($meta, '?') !== false) $meta .= '&source=' . $source;
-	// 	else $meta .= '?source=' . $source;
-
-	// 	return $meta;
-	// }
 
 	/**
 	 * kisses the data

@@ -51,7 +51,8 @@ final class Kredittkort_posttype {
 			'labels'              => $labels,
 			'hierarchical'        => false,
 			'description'         => 'description',
-			'taxonomies'          => array('kredittkorttype'),
+			'taxonomies'          => [KREDITTKORT.'type'],
+			// 'taxonomies'          => array('kredittkorttype'),
 			'public'              => false,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
@@ -72,6 +73,6 @@ final class Kredittkort_posttype {
 			),
 		);
 		
-		register_post_type('kredittkort', $args);
+		register_post_type(KREDITTKORT, $args);
 	}
 }
