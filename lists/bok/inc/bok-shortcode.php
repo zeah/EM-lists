@@ -1,5 +1,18 @@
 <?php 
 
+/***
+	for redirection:
+
+	legg til hidden input med post id
+
+	legg til hidden input med redirection = true
+
+	når redirection == true
+	hent meta[bestill] med post id
+
+	redirekt videre med kopiert query string
+*/
+
 /**
  * WP Shortcodes
  */
@@ -7,7 +20,6 @@ final class Bok_shortcode {
 	/* singleton */
 	private static $instance = null;
 
-	private $pf = '-get';
 
 	private $name = 'bokliste';
 
@@ -20,9 +32,6 @@ final class Bok_shortcode {
 	}
 
 	private function __construct() {
-		$pf = get_option('em_lists');
-		if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
-		
 		$this->wp_hooks();
 	}
 
@@ -36,15 +45,6 @@ final class Bok_shortcode {
 		if (!shortcode_exists('bok')) add_shortcode('bok', array($this, 'add_shortcode'));
 		else add_shortcode('embok', array($this, 'add_shortcode'));
 
-		// loan thumbnail
-		if (!shortcode_exists('bok-bilde')) add_shortcode('bok-bilde', array($this, 'add_shortcode_bilde'));
-		else add_shortcode('embok-bilde', array($this, 'add_shortcode_bilde'));
-
-		// loan button
-		if (!shortcode_exists('bok-bestill')) add_shortcode('bok-bestill', array($this, 'add_shortcode_bestill'));
-		else add_shortcode('embok-bestill', array($this, 'add_shortcode_bestill'));
-
-
 		add_filter('search_first', array($this, 'add_serp'));
 	}
 
@@ -53,51 +53,19 @@ final class Bok_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-		// wp_die('<xmp>'.print_r($atts, true).'</xmp>');
-		
-		// $pf = get_option('em_lists');
-		// if (isset($pf['redir_pf']) && $pf['redir_pf']) $this->pf = '-'.ltrim($pf['redir_pf'], '-');
-
-		if (is_array($atts) && array_search('gave', $atts) !== false) return $this->get_landing(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
-		
-
-		return $this->get_html(EM_list_sc::posts($this->name, 'bok', $atts, $content), $atts);
-	}
-
-
-	/**
-	 * returns only thumbnail from loan
-	 */
-	public function add_shortcode_bilde($atts, $content = null) {
-		if (!isset($atts['name']) || $atts['name'] == '') return;
-
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return EM_list_sc::image($this->name, $atts, $content);
+		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts);
 	}
 
-
-	/**
-	 * returns bestill button only from loan
-	 */
-	public function add_shortcode_bestill($atts, $content = null) {
-		if (!isset($atts['name']) || $atts['name'] == '') return;
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		return EM_list_sc::link($this->name, $atts, $content);
-	}
 
 
 	/**
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.1');
-        // wp_enqueue_style($this->name.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', array(), '1.0.0', '(min-width: 815px)');
-        // wp_enqueue_style($this->name.'-mobile', BOK_PLUGIN_URL.'assets/css/pub/em-bok-mobile.css', array(), '1.0.0', '(max-width: 816px)');
+        wp_enqueue_style(BOK.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', [], '1.0.2');
 	}
 
 
@@ -111,102 +79,74 @@ final class Bok_shortcode {
 
 		foreach ($posts as $p) {
 			
-			$meta = get_post_meta($p->ID, $this->name.'_data');
+			$meta = get_post_meta($p->ID, BOK.'liste_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
-			$redir = get_post_meta($p->ID, $this->name.'_redirect');
-			if (isset($redir[0]) && $redir[0]) $redir = true;
-			else $redir = false;
-
 			// grid container
-			$html .= '<li class="bok-container">';
-			
-			if ($redir) $meta['bestill'] = EM_list_sc::add_site($p->post_name.$this->pf);
-
-			if (isset($meta['qstring']) && $meta['qstring']) { 
-				if ($meta['pixel']) $html .= EM_list_tracking::pixel($meta['pixel'], $meta['ttemplate']);
-				$meta['bestill'] = EM_list_tracking::query($meta['bestill'], $meta['ttemplate']);
-			}
-
-			// sanitize meta
 			$meta = $this->esc_kses($meta);
 
-			$title = $p->post_title;
+			$meta['post_name'] = $p->post_name;
 
+			$title = $p->post_title;
 			if (isset($meta['ctitle']) && $meta['ctitle']) $title = $meta['ctitle'];
 
-			$html .= '<h2 class="bok-title">'.$title.'</h2>';
+			$logo_meta = $meta;
+			unset($logo_meta['bestill']);
+			$logo = EM_list_parts::logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
+				'meta' => $logo_meta,
+				'title' => 'Les mer',
+				'name' => BOK
+			]);
 
-			$thumbnail = get_the_post_thumbnail_url($p, 'full');
-			if ($thumbnail) {
-				if (isset($meta['readmore']) && $meta['readmore']) $html .= '<a class="bok-logo" href="'.$meta['readmore'].'">';
-				
-				$html .= '<img src="'.$thumbnail.'">';
+			$image = EM_list_parts::logo([
+				'image' => $meta['image'],
+				'meta' => $meta,
+				'title' => 'Bestill nå',
+				'name' => BOK
+			]);
 
-				if (isset($meta['readmore']) && $meta['readmore']) $html .= '</a>';
-			}
-			// $html .= '<a href="''"'
+			$html .= sprintf(
+				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">
+					<h2 class="%1$s-title">%3$s</h2>
+					%4$s
+					%5$s
+					%6$s
+					%7$s
+					%8$s
+					</form></li>
+				',
+				BOK, 
 
-			// $html .= '<div class="emlanlist-logo-container"><a target="_blank" rel="noopener" href="'.$meta['bestill'].'"><img class="emlanlist-logo" src="'.wp_kses_post(get_the_post_thumbnail_url($p, 'full')).'"></a></div>';
+				preg_replace('/\?.*$/', '', $meta['bestill']),
 
-			if (isset($meta['info02']) && $meta['info02']) $html .= '<div class="bok-info">'.$meta['info02'].'</div>';
+				$title,
+
+				(isset($meta['readmore']) && $meta['readmore']) 
+					? sprintf('<a class="%s-logo-top" href="%s">%s</a>', BOK, $meta['readmore'], $logo)
+					: $logo,
+
+				(isset($meta['info02']) && $meta['info02'])
+					? sprintf('<div class="%s-info">%s</div>', BOK, $meta['info02'])
+					: '',
+
+				sprintf('<div class="%s-image">%s</div>', BOK, $image), // 6 
+
+				(isset($meta['info03']) && $meta['info03'])
+					? sprintf('<div class="%s-verdi">%s</div>', BOK, $meta['info03'])
+					: '',
+
+				EM_list_parts::button([
+							'name' => BOK,
+							'meta' => $meta,
+							'button_text' => 'Bestill'
+						])
+			);
+
 			
-
-			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a target="_blank" rel=noopener class="bok-gave" href="'.$meta['bestill'].'">';
-			if (isset($meta['image']) && $meta['image']) $html .= '<img class="bok-gave-image" src="'.esc_url($meta['image']).'">';
-			if (isset($meta['bestill']) && $meta['bestill']) $html .= '</a>';
-
-			if (isset($meta['info03']) && $meta['info03']) $html .= '<div class="bok-verdi">'.$meta['info03'].'</div>';
-			if (isset($meta['bestill']) && $meta['bestill']) $html .= '<a target="_blank" rel=noopener class="bok-order" href="'.$meta['bestill'].'">'.((isset($meta['bestill_text']) && $meta['bestill_text']) ? $meta['bestill_text'] : 'Bestill Her').'</a>';
-
-			// terning
-			if ($meta['terning'] != 'ingen') {
-				$html .= '<svg class="bok-terning">
-							<defs>
-							    <linearGradient id="bok-grad" x1="0%" y1="100%" x2="100%" y2="100%">
-							      <stop offset="0%" style="stop-color:rgb(200,0,0);stop-opacity:1" />
-							      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-							    </linearGradient>
-							  </defs>
-							<rect class="bok-rect-svg" rx="7" ry="7" fill="url(#bok-grad)"/>';
-
-				switch ($meta['terning']) {
-
-					case 'seks':
-					$html .= '<circle class="bok-circle-svg" cx="11" cy="25" r="5"/>';
-					$html .= '<circle class="bok-circle-svg" cx="39" cy="25" r="5"/>';
-
-					case 'fire':
-					$html .= '<circle class="bok-circle-svg" cx="11" cy="10" r="5"/>';
-					$html .= '<circle class="bok-circle-svg" cx="39" cy="40" r="5"/>';
-
-					case 'to':
-					$html .= '<circle class="bok-circle-svg" cx="11" cy="40" r="5"/>';
-					$html .= '<circle class="bok-circle-svg" cx="39" cy="10" r="5"/>';
-					break;
-
-					case 'fem':
-					$html .= '<circle class="bok-circle-svg" cx="10" cy="10" r="5"/>';
-					$html .= '<circle class="bok-circle-svg" cx="40" cy="40" r="5"/>';
-
-					case 'tre':
-					$html .= '<circle class="bok-circle-svg" cx="10" cy="40" r="5"/>';
-					$html .= '<circle class="bok-circle-svg" cx="40" cy="10" r="5"/>';
-
-					case 'en':
-					$html .= '<circle class="bok-circle-svg" cx="25" cy="25" r="5"/>';
-					break;
-
-				}
-
-				$html .= '</svg>';
-			}
-
-
-			$html .= '</li>';
 		}
 
 		$html .= '</ul>';
@@ -214,36 +154,6 @@ final class Bok_shortcode {
 		return $html;
 	}
 
-	private function get_landing($posts, $atts = null) {
-		if (!is_array($posts)) return;
-
-		$html = '<ul class="bok-ls-ul">';
-
-		foreach ($posts as $p) {
-
-			$meta = get_post_meta($p->ID, $this->name.'_data');
-			if (isset($meta[0])) $meta = $meta[0];
-			else continue;
-
-			
-			$html .= '<li class="bok-ls-li">';
-
-			$html .= '<div class="bok-ls-left">';
-			if (isset($meta['bestill'])) $html .= '<a class="bok-order" target="_blank" rel=noopener href="'.esc_url($meta['bestill']).'">Bestill</a> <h2 class="bok-ls-title">'.$meta['gave_title'].'</h2>';
-			if (isset($meta['gave_info'])) $html .= '<div class="bok-ls-info">'.wp_kses_post($meta['gave_info']).'</div>';
-			$html .= '</div>';
-			if (isset($meta['gave_ls'])) $html .= '<img class="bok-ls-image" alt="Bilde av '.$meta['gave_title'].'" src="'.esc_url($meta['image_ls']).'">';
-
-			$html .= '</li>';
-			// gave_info
-			// gave_ls
-
-		}
-
-		$html .= '</ul>';
-
-		return $html;
-	}
 
 	/**
 	 * wp filter for adding to internal serp
@@ -255,20 +165,20 @@ final class Bok_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != $this->name) return $data;
+		if ($post->post_type != BOK.'liste') return $data;
 
-		$exclude = get_option($this->name.'_exclude');
+		$exclude = get_option(BOK.'liste_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option($this->name.'_exclude_serp');
+		$exclude_serp = get_option(BOK.'liste_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 
 		$html['html'] = $this->get_html([$post]);
 
 		array_push($data, $html);
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
 		return $data;
 	}

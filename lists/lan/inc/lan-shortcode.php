@@ -137,7 +137,7 @@ final class Lan_shortcode {
 
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		// add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => 'Søk Nå']);
 	}
 

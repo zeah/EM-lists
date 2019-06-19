@@ -36,8 +36,10 @@ final class EM_list_parts {
 		preg_match('/(gclid|msclkid)=(.*?)(?:&|$)/', $_SERVER['QUERY_STRING'], $match);
 
 		// default values - paramter with default value will not be added
-		$clid = '[clid]';
+		$clid = 'organic';
 		$source = '[source]';
+
+		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) $source = 'organic';
 
 		// if cpc found in query string
 		if (isset($match[2])) {
@@ -64,6 +66,8 @@ final class EM_list_parts {
 		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME']	];
 		parse_str(preg_replace($find, $replace, $m['bestill']), $out);
 
+		// wp_die('<xmp>'.print_r($out, true).'</xmp>');
+
 		// turn query string into hidden html inputs
 		$inputs = '';
 		foreach ($out as $value => $key) {
@@ -71,7 +75,7 @@ final class EM_list_parts {
 			$inputs .= sprintf('<input type="hidden" name="%s" value="%s">',
 								$value, $key);
 		}
-
+		// wp_die('<xmp>'.print_r($inputs, true).'</xmp>');
 		// fixes name for class name
 		if (!isset($o['name'])) $o['name'] = '';
 		else $o['name'] .= '-';

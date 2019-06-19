@@ -22,14 +22,10 @@ final class Bok_posttype {
 		Bok_taxonomy::get_instance();
 		Bok_overview::get_instance();
 
-		/* creates custom post type: emkort */
-		add_action('init', array($this, 'create_cpt'));
+		add_action('init', [$this, 'create_cpt']);
 	}
-	/*
-		create custom post type: emkort 
-	*/
-	public function create_cpt() {
 
-		EM_lists::create_cpt('bokliste', 'Bok', 'Bokliste', 'dashicons-book-alt');
+	public function create_cpt() {
+		EM_lists::create_cpt(BOK.'liste', 'Bok', 'Bokliste', 'dashicons-book-alt');
 	}
 }

@@ -12,10 +12,27 @@
 	flex-wrap: wrap;
 
 	justify-content: center;
+
+	/*width: 150rem;*/
+}
+
+
+.bok-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	/*background-color: #efe;*/
+	display: inline-block;
+    width: 48%;
+    min-width: 60rem;
+
+    margin-bottom: 2rem;
 }
 
 .bok-container {
+    padding: 1rem;
 	display: grid;
+	background-color: #efe;
 
 	grid-template-areas: 
 		"logo logo gave"
@@ -28,50 +45,15 @@
 	grid-template-rows: 5.2rem 3rem 8rem 4rem;
 	grid-template-columns: 1fr 1fr 24rem;
 
-    width: 48%;
-    min-width: 60rem;
-
-    margin-bottom: 2rem;
-    padding: 1rem;
-	background-color: #efe;
-
+	width: 100%;
 	border: solid 1px #ccc;
 
 	box-sizing: border-box;
 
 }
 
-/* when containers are 2 on a row */
-@media only screen and (min-width: 1277px) {
-	.bok-container:nth-child(odd) {
-		margin-right: 2rem;
-	}
-}
 
-@media only screen and (max-width: 630px) {
-	.bok-container {
-		grid-template-areas: 
-			"logo logo"
-			"title title"
-			"info info"
-			"verdi order"
-			"gave gave";
-
-		grid-template-rows: 5.2rem 3rem 8rem 4rem auto;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-		min-width: auto;
-	}
-
-	.bok-verdi,
-	.bok-order,
-	.bok-gave {
-		justify-self: center;
-		margin-top: 1rem;
-	}
-}
-
-.bok-container:nth-child(odd) {
+.bok-list:nth-child(odd) .bok-container {
 	background-color: #eef;
 }
 
@@ -82,26 +64,33 @@
 	margin: 0;
 }
 
-.bok-logo {
+.bok-logo-top {
 	grid-area: logo;
 	margin-right: 1rem;
 	justify-self: flex-start;
 }
 
-.bok-logo > img {
+.bok-logo-top > img {
 	height: 5rem;
 	width: auto;
-	
 }
 
-.bok-gave {
+.bok-image {
 	grid-area: gave;
+
+	display: flex;
+	align-items: center;
 }
 
-.bok-gave-image {
+.bok-image > .bok-logo {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+/*.bok-gave-image {
 	height: 20rem;
 	width: 24rem;
-}
+}*/
 
 .bok-info {
 	grid-area: info;
@@ -113,7 +102,7 @@
 .bok-verdi {
 	grid-area: verdi;
 
-	align-self: center;
+	align-self: flex-end;
 
 	font-size: 2.4rem;
 	font-weight: 700;
@@ -122,11 +111,13 @@
 	white-space: nowrap;
 }
 
-.bok-order {
+.bok-bestill {
 	grid-area: order;
-	justify-self: flex-start;
-	align-self: center;
+	align-self: flex-end;
 
+}
+
+.bok-link {
 
 	background-color: #2a2;
 	padding: .5rem 2.5rem;
@@ -137,10 +128,19 @@
 
 	color: #fff;
 	text-decoration: none;
-
+	border: none;
 	border-radius: 5px;
+	fill: #fff;
+
+	cursor: pointer;
+
+	text-shadow: 0 0 1px #000;
+
 }
 
+.bok-svg {
+	filter: drop-shadow(1px 1px 1px #333);
+}
 
 .bok-terning {
 	position: absolute;
@@ -150,7 +150,6 @@
 	height: 50px;
 	background-color: #e22;
 	border-radius: 3px;
-	/*border: solid 3px black;*/
 	margin: 0 1rem;
 }
 
@@ -163,7 +162,59 @@
 	fill: #ffffff;
 }
 
+/* when containers are 2 on a row */
+@media only screen and (min-width: 1277px) {
+	.bok-list:nth-child(odd) {
+		margin-right: 2rem;
+	}
+}
 
+@media only screen and (max-width: 720px) {
+	.bok-list {
+		width: 100%;
+		/*height: 100%;*/
+		min-width: auto;
+	}
+
+	.bok-container {
+		grid-template-areas: 
+			"logo logo"
+			"title title"
+			"info info"
+			"verdi order"
+			"gave gave";
+
+		grid-template-rows: 5.2rem 3rem 8rem 6rem auto;
+		grid-template-columns: 1fr 1fr;
+	}
+
+
+	.bok-verdi,
+	.bok-bestill,
+	.bok-image {
+		/*justify-self: center;*/
+		margin-top: 1rem;
+	}
+
+	.bok-bestill {
+		justify-self: flex-end;
+		align-self: center;
+	}
+
+	.bok-verdi {
+		align-self: center;
+		font-size: 3rem;
+	}
+
+	.bok-image > .bok-logo {
+		width: 100%;
+		max-height: none;
+	}
+
+	.bok-link {
+		padding: 1rem 2rem;
+	}
+}
 /* 3.0 other browsers */
 
 /* 3.1 old safari and edge */
@@ -177,7 +228,7 @@
 	.bok-container {
 		display: -ms-grid;
 
-		-ms-grid-rows: 5.2rem 3rem 8rem 4rem;
+		-ms-grid-rows: 5.2rem 3rem 8rem 5rem;
 		-ms-grid-columns: 1fr 1fr 24rem;
 
 	}
@@ -186,6 +237,8 @@
 		-ms-grid-row: 2;
 		-ms-grid-column: 1;
 		-ms-grid-column-span: 2;
+
+		overflow: hidden;
 	}
 
 	.bok-logo {
@@ -203,21 +256,28 @@
 	.bok-verdi {
 		-ms-grid-row: 4;
 		-ms-grid-column: 1;
+		-ms-grid-row-align: end;
 	}
 
-	.bok-order {
+	.bok-bestill {
 		display: block;
 		-ms-grid-row: 4;
 		-ms-grid-column: 2;
 
 		margin: 0 .5rem;
 		white-space: nowrap;
+
+		-ms-grid-row-align: end;
 	}
 
-	.bok-gave {
+	.bok-image {
 		-ms-grid-row: 1;
 		-ms-grid-column: 3;
 		-ms-grid-row-span: 4;
+	}
+
+	.bok-image > .bok-logo {
+		width: 100%;
 	}
 
 }
@@ -250,3 +310,5 @@
 	height: 30rem;
 	width: auto;
 }
+
+

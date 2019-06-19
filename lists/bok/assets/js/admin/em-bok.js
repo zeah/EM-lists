@@ -170,10 +170,10 @@
 	// cTwo.style.justifyContent = 'space-between';
 
 
-	cTwo.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	cTwo.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	cTwo.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
-	cTwo.appendChild(newinput({name: 'bokliste_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	// cTwo.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
+	// cTwo.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	// cTwo.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	// cTwo.appendChild(newinput({name: 'bokliste_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 	container.appendChild(cTwo);
 
 	let info_container = newdiv({class: 'bokliste-info-container'});
@@ -181,9 +181,9 @@
 	// info_container.appendChild(newinput({name: 'info01', title: 'Lesmertekst'}));
 	info_container.appendChild(newinput({name: 'info03', title: 'Verdi'}));
 	info_container.appendChild(newtext({name: 'info02', title: 'Info', width: '500px', height: '140px'}));
-	info_container.appendChild(newinput({name: 'gave_title', title: 'Gave title (kun landingside)'}));
-	info_container.appendChild(newtext({name: 'gave_info', title: 'Gave Info (kun landingside)'}));
-	container.appendChild(dicedropdown());
+	// info_container.appendChild(newinput({name: 'gave_title', title: 'Gave title (kun landingside)'}));
+	// info_container.appendChild(newtext({name: 'gave_info', title: 'Gave Info (kun landingside)'}));
+	// container.appendChild(dicedropdown());
 
 
 	// IMAGE
@@ -234,13 +234,13 @@
  	}
 	container.appendChild(info_container);
 
-	container.appendChild(dicedropdown());
+	// container.appendChild(dicedropdown());
 
 	cBilde = newdiv();
 	cBilde.style.display = 'flex';
 
 	cBilde.appendChild(newimage({text: 'Gavebilde liste', name: 'image'}));
-	cBilde.appendChild(newimage({text: 'Gavebilde landingside', name: 'image_ls'}));
+	// cBilde.appendChild(newimage({text: 'Gavebilde landingside', name: 'image_ls'}));
 
 	container.appendChild(cBilde);
 

@@ -16,7 +16,7 @@ final class Bok_doc {
 	}
 
 	private function wp_hooks() {
-		add_filter('emtheme_doc', array($this, 'add_doc'), 99);
+		// add_filter('emtheme_doc', array($this, 'add_doc'), 99);
 	}
 	
 	/**

@@ -6,10 +6,12 @@ defined('ABSPATH') or die('Blank Space');
 
 // constant for plugin location
 define('BOK_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('BOK', 'bok');
 
 require_once 'inc/bok-posttype.php';
 require_once 'inc/bok-shortcode.php';
-require_once 'inc/bok-doc.php';
+// require_once 'inc/bok-doc.php';
+require_once 'inc/bok-links.php';
 
 
 final class EM_bok {
@@ -26,7 +28,8 @@ final class EM_bok {
 		
 		Bok_posttype::get_instance();
 		Bok_shortcode::get_instance();
-		Bok_doc::get_instance();
+		// Bok_doc::get_instance();
+		Bok_links::get_instance();
 	}
 
 }

@@ -11,6 +11,7 @@ define('EMLAN', 'emlanlist');
 require_once 'inc/lan-posttype.php';
 require_once 'inc/lan-shortcode.php';
 require_once 'inc/lan-doc.php';
+require_once 'inc/lan-links.php';
 
 
 /* initiates plugin */
@@ -28,5 +29,6 @@ final class EM_lan {
 		Lan_posttype::get_instance();
 		Lan_shortcode::get_instance();
 		Lan_doc::get_instance();
+		Lan_links::get_instance();
 	}
 }

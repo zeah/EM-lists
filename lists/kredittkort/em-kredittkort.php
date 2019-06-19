@@ -11,6 +11,7 @@ define('KREDITTKORT', 'kredittkort');
 
 require_once 'inc/kredittkort-posttype.php';
 require_once 'inc/kredittkort-shortcode.php';
+require_once 'inc/kredittkort-links.php';
 
 final class EM_kredittkort {
 	/* singleton */
@@ -26,6 +27,7 @@ final class EM_kredittkort {
 		
 		Kredittkort_posttype::get_instance();
 		Kredittkort_shortcode::get_instance();
+		Kredittkort_links::get_instance();
 	}
 
 }
