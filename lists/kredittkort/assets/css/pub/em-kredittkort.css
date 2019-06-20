@@ -470,118 +470,119 @@ p:empty {
 }
 
 /*INTERNET EXPLORER*/
-.kredittkort-title {
-	-ms-grid-row: 1;
-	-ms-grid-column: 1;
-	-ms-grid-column-span: 9;
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	.kredittkort-title {
+		-ms-grid-row: 1;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 9;
+	}
+
+	.kredittkort-thumbnail {
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 2;
+		-ms-grid-column: 1;
+	}
+
+	.kredittkort-sep-6 {
+		-ms-grid-row: 5;
+		-ms-grid-column: 1;
+		-ms-grid-column-span: 9;
+	}
+
+	.kredittkort-lesmer {
+		-ms-grid-row: 6;
+		-ms-grid-column: 1;
+		-ms-grid-row-align: center;
+	}
+
+	.kredittkort-sep-1 {
+		-ms-grid-column: 2;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 3;
+	}
+
+	.kredittkort-sep-2 {
+		-ms-grid-column: 4;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 3;
+	}
+
+	.kredittkort-sep-3 {
+		-ms-grid-column: 8;
+		-ms-grid-row: 2;
+		-ms-grid-row-span: 3;
+	}
+
+	.kredittkort-sep-4 {
+		-ms-grid-column: 2;
+		-ms-grid-row: 6;
+	}
+
+	.kredittkort-sep-5 {
+		-ms-grid-column: 6;
+		-ms-grid-row: 6;
+	}
+
+
+	.kredittkort-info-0 {
+		-ms-grid-row: 2;
+		-ms-grid-column: 3;
+	}
+
+	.kredittkort-info-1 {
+		-ms-grid-row: 3;
+		-ms-grid-column: 3;
+	}
+
+	.kredittkort-info-2 {
+		-ms-grid-row: 4;
+		-ms-grid-column: 3;
+	}
+
+	.kredittkort-blurb {
+		-ms-grid-row: 6;
+		-ms-grid-column: 3;
+		-ms-grid-column-span: 3;
+	}
+
+	.kredittkort-aldersgrense,
+	.kredittkort-alderow,
+	.kredittkort-makskreditt,
+	.kredittkort-rentefrikreditt {
+		text-align: left;
+		-ms-grid-column: 5;
+		-ms-grid-column-span: 3;
+	}
+
+	.kredittkort-aldersgrense {
+		-ms-grid-row: 2;
+	}
+
+	.kredittkort-alderow {
+		-ms-grid-row: 2;
+	}
+
+	.kredittkort-makskreditt {
+		-ms-grid-row: 3;
+	}
+
+	.kredittkort-rentefrikreditt {
+		-ms-grid-row: 4;
+	}
+
+	.kredittkort-bestill {
+		-ms-grid-row: 3;
+		-ms-grid-row-span: 2;
+		-ms-grid-column: 9;
+	}
+
+	.kredittkort-effrente {
+		-ms-grid-row: 6;
+		-ms-grid-column: 7;
+		-ms-grid-column-span: 3;
+		-ms-grid-row-align: center;
+	}
 }
-
-.kredittkort-thumbnail {
-	-ms-grid-row: 2;
-	-ms-grid-row-span: 2;
-	-ms-grid-column: 1;
-}
-
-.kredittkort-sep-6 {
-	-ms-grid-row: 5;
-	-ms-grid-column: 1;
-	-ms-grid-column-span: 9;
-}
-
-.kredittkort-lesmer {
-	-ms-grid-row: 6;
-	-ms-grid-column: 1;
-	-ms-grid-row-align: center;
-}
-
-.kredittkort-sep-1 {
-	-ms-grid-column: 2;
-	-ms-grid-row: 2;
-	-ms-grid-row-span: 3;
-}
-
-.kredittkort-sep-2 {
-	-ms-grid-column: 4;
-	-ms-grid-row: 2;
-	-ms-grid-row-span: 3;
-}
-
-.kredittkort-sep-3 {
-	-ms-grid-column: 8;
-	-ms-grid-row: 2;
-	-ms-grid-row-span: 3;
-}
-
-.kredittkort-sep-4 {
-	-ms-grid-column: 2;
-	-ms-grid-row: 6;
-}
-
-.kredittkort-sep-5 {
-	-ms-grid-column: 6;
-	-ms-grid-row: 6;
-}
-
-
-.kredittkort-info-0 {
-	-ms-grid-row: 2;
-	-ms-grid-column: 3;
-}
-
-.kredittkort-info-1 {
-	-ms-grid-row: 3;
-	-ms-grid-column: 3;
-}
-
-.kredittkort-info-2 {
-	-ms-grid-row: 4;
-	-ms-grid-column: 3;
-}
-
-.kredittkort-blurb {
-	-ms-grid-row: 6;
-	-ms-grid-column: 3;
-	-ms-grid-column-span: 3;
-}
-
-.kredittkort-aldersgrense,
-.kredittkort-alderow,
-.kredittkort-makskreditt,
-.kredittkort-rentefrikreditt {
-	text-align: left;
-	-ms-grid-column: 5;
-	-ms-grid-column-span: 3;
-}
-
-.kredittkort-aldersgrense {
-	-ms-grid-row: 2;
-}
-
-.kredittkort-alderow {
-	-ms-grid-row: 2;
-}
-
-.kredittkort-makskreditt {
-	-ms-grid-row: 3;
-}
-
-.kredittkort-rentefrikreditt {
-	-ms-grid-row: 4;
-}
-
-.kredittkort-sokna {
-	-ms-grid-row: 3;
-	-ms-grid-row-span: 2;
-	-ms-grid-column: 9;
-}
-
-.kredittkort-effrente {
-	-ms-grid-row: 6;
-	-ms-grid-column: 7;
-	-ms-grid-column-span: 3;
-	-ms-grid-row-align: center;
-}
-
 /* DESKTOP SAFARI VERSION 9 - 9.1 - 10 */
 @supports not (display: grid) and not (display: -ms-grid) {
 	.kredittkort-kortliste {

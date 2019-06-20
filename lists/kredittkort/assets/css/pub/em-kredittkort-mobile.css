@@ -288,27 +288,27 @@ html {
 
 
 @media screen and (min-width: 481px) and (max-width: 1024px) {
-	.kredittkort-kortliste {
+	.kredittkort-ul {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		clear: both;
 	}
 
-	.kredittkort-container {
+	.kredittkort-list {
 		width: 48%;
-		background-color: #f2f2f2;
+		/*background-color: #f2f2f2;*/
 		margin: 0;
-		margin-bottom: 1rem;
+		padding-bottom: 1rem;
 	}
-	.kredittkort-container:nth-child(odd) {
-		background-color: #f2f2f2;
+	.kredittkort-list:nth-child(odd) {
+		/*background-color: #f2f2f2;*/
 		margin-right: 1%;
 	}
 
-	.kredittkort-container:nth-child(4n+4),
-	.kredittkort-container:nth-child(4n+1) {
-		background-color: #e6e6e6;
+	.kredittkort-list:nth-child(4n+4) .kredittkort-container,
+	.kredittkort-list:nth-child(4n+1) .kredittkort-container {
+		/*background-color: #e6e6e6;*/
 	}
 
 	.kredittkort-info {

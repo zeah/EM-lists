@@ -61,6 +61,12 @@ html {
 	padding: 0;
 }
 
+.matkasselist-list {
+	padding: 0;
+	margin: 0;
+	/*list-style: none;*/
+}
+
 /* 1.0 list item */
 .matkasselist-container {
 	padding: 1rem;
@@ -93,20 +99,10 @@ html {
 /* 1.2.1 logo container */
 
 /* 1.2.1.1 logo image in list */
-.matkasselist-logo > a > .matkasselist-image {
+.matkasselist-logo {
 	width: 15rem;
 	min-width: 10rem;
-}
-
-/* 1.2.1.2 logo image */
-.matkasselist-image {
 	display: block;
-}
-
-/* 1.2.1.3 stand alone logo container*/
-.matkasselist-logo-ls {
-	display: flex;
-	justify-content: center;
 }
 
 
@@ -121,11 +117,6 @@ html {
 	font-weight: 400;
 }
 
-
-/* 1.2.2.1 lånebeløp */
-.matkasselist-navn:after {
-	content: 'Navn';
-}
 
 /* 1.2.2.2 dager */
 .matkasselist-dager:after {
@@ -144,45 +135,36 @@ html {
 
 /* 1.2.3 order button */
 .matkasselist-order {
-	/*width: 20rem;*/
+	position: relative;
+	top: 1rem;
+	right: 1rem;
+	width: 20rem;
 }
 
 /* 1.2.3.1 button link */
 .matkasselist-link {
 	padding: 1rem 2rem;
-	border-radius: 5px;
-	font-size: 2rem;
-	text-decoration: none;
-	color: white;
-	white-space: nowrap;
-}
-.matkasselist-order-link {
-	position: relative;
-	top: 1rem;
-	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
+
 	border: solid 1px #60AE40;
+	border-radius: 5px;
+
+	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
 
 	font-family: Arial, sans-serif;
 	font-size: 2.2rem;
 	font-weight: 700;
+	color: white;
+	text-decoration: none;
+
+	white-space: nowrap;
+	cursor: pointer;
 }
 
-.matkasselist-order-link::after {
-	content: 'Bestill Nå';
+.matkasselist-bestilltext {
+	font-family: arial;
+	padding-top: .5rem;
 }
 
-/* after link element */
-.matkasselist-order-solo:after,
-.matkasselist-order:after {
-	content: 'Annonselenke';
-
-	display: block;
-	position: relative;
-	top: 2rem;
-	
-	text-align: center;
-	font-size: 1.4rem;
-}
 
 /* 1.2.3.2 thumb svg */
 .matkasselist-svg {
@@ -215,6 +197,10 @@ html {
 	padding: 0 1rem;
 	position: relative;
 	bottom: 3px;
+}
+
+.matkasselist-info-atte {
+	text-align: left;
 }
 
 

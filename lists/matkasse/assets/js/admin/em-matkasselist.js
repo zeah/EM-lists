@@ -149,10 +149,11 @@
 	container.appendChild(newinput({name: 'readmore', title: 'Read More Link'}));
 
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
-	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
-	container.appendChild(newinput({name: 'matkasselist_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	container.appendChild(newinput({name: 'bestill_text', title: 'Tekst under bestillknapp'}));
+	// container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
+	// container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	// container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	// container.appendChild(newinput({name: 'matkasselist_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 	// container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
 
 	let info_container = newdiv({class: 'matkasselist-info-container'});

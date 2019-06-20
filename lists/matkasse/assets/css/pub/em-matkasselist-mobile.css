@@ -56,15 +56,20 @@ html {
 	opacity: 1 !important;
 	list-style: none;
 	padding: 0;
+
 }
 
 /* 1.0 list item */
 .matkasselist-container {
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	background-color: hsl(0, 0%, 96%);
 	margin-bottom: 3rem;
 	font-size: 1.6rem;
+
+	max-width: 100%;
+	width: 40rem;
 }
 
 
@@ -78,18 +83,16 @@ html {
 /* 1.2 top row */
 
 /* 1.2.1 logo container */
+/* 1.2.1.1 logo image */
 .matkasselist-logo {
 	width: 100%;
-	display: flex;
+	/*display: flex;
 	justify-content: center;
-	margin: 2rem 0;
+	margin: 2rem 0;*/
+
+	margin-bottom: 2rem;
 }
 
-/* 1.2.1.1 logo image */
-/* list only */
-.matkasselist-logo > a > .matkasselist-image {
-	width: 20rem;
-}
 
 /* logo image */
 .matkasselist-image {
@@ -135,6 +138,7 @@ html {
 /* 1.2.3 order (button) */
 .matkasselist-order {
 	margin: 2rem auto;
+	text-align: center;
 }
 
 /* link element */
@@ -145,8 +149,6 @@ html {
 	text-decoration: none;
 	color: white;
 	white-space: nowrap;
-}
-.matkasselist-order-link {
 	background-image: linear-gradient(rgb(136, 221, 72) 0%, rgb(95, 177, 57) 100%);
 	border: solid 1px #60AE40;
 
@@ -155,18 +157,8 @@ html {
 	font-weight: 700;
 }
 
-.matkasselist-order-link::after {
-	content: 'Bestill Nå';
-}
-
-/* after link element */
-.matkasselist-order-solo:after,
-.matkasselist-order:after {
-	display: block;
-	content: 'Annonselenke';
-	position: relative;
-	top: 1.5rem;
-	text-align: center;
+.matkasselist-bestilltext {
+	margin-top: 1rem;
 }
 
 /* 1.2.3.1 stand alone button */
@@ -178,6 +170,7 @@ html {
 	right: 0;
 	text-align: center;
 }
+
 .matkasselist-order-solo:after {
 	background-color: #fff;
 }
@@ -227,8 +220,7 @@ html {
 
 /* 1.4.1 eff interest example */
 .matkasselist-info-atte {
-	font-style: italic;
-	font-size: 1.2rem;
+	line-height: 1.5;
 	padding: 0 1rem;
 	text-align: center;
 }
@@ -240,7 +232,7 @@ html {
 
 
 /* 2.0 double mobile columns */
-@media screen and (min-width: 610px) and (max-width: 1024px) {
+/*@media screen and (min-width: 810px) and (max-width: 1024px) {*/
 	/* 2.1 list container */
 	.matkasselist-ul {
 		display: flex;
@@ -250,8 +242,8 @@ html {
 	}
 
 	/* 2.1.1 list item*/
-	.matkasselist-container {
-		width: 48%;
+	.matkasselist-list {
+		width: 45%;
 		margin: 1rem auto;		
 	}
-}
+/*}*/

@@ -14,15 +14,16 @@ require_once 'inc/em-lists-settings.php';
 require_once 'inc/em-lists-shortcode.php';
 require_once 'inc/em-lists-tax.php';
 require_once 'inc/em-lists-cookie.php';
-require_once 'inc/em-lists-tracking.php';
+// require_once 'inc/em-lists-tracking.php';
 require_once 'inc/em-lists-edit.php';
 require_once 'inc/em-lists-parts.php';
 
 require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/bok/em-bok.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
-require_once 'lists/lan-dk/em-lanlist-dk.php';
 require_once 'lists/kredittkort/em-kredittkort.php';
+
+require_once 'lists/lan-dk/em-lanlist-dk.php';
 require_once 'lists/matkasse/em-matkasse.php';
 // require_once 'lists/kredittkort-se/em-kredittkort.php';
 // require_once 'lists/casino/em-casino.php';

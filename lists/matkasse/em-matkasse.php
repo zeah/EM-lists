@@ -6,6 +6,7 @@ defined('ABSPATH') or die('Blank Space');
 
 // constant for plugin location
 define('MATKASSELIST_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('MAT', 'matkasselist');
 
 require_once 'inc/matkasse-posttype.php';
 require_once 'inc/matkasse-shortcode.php';

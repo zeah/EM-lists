@@ -36,10 +36,13 @@ final class EM_list_parts {
 		preg_match('/(gclid|msclkid)=(.*?)(?:&|$)/', $_SERVER['QUERY_STRING'], $match);
 
 		// default values - paramter with default value will not be added
-		$clid = 'organic';
-		$source = '[source]';
+		$clid = '';
+		$source = 'direct';
 
-		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) $source = 'organic';
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			if (strpos($_SERVER['HTTP_REFERER'], 'bing') || strpos($_SERVER['HTTP_REFERER'], 'google'))
+			$source = 'organic';
+		}
 
 		// if cpc found in query string
 		if (isset($match[2])) {
@@ -56,9 +59,6 @@ final class EM_list_parts {
 			$clid = $_COOKIE['em_clid'];
 			if (isset($_COOKIE['em_source'])) $source = $_COOKIE['em_source'];
 		}
-
-		// if adtraction set epi 
-		// if hasoffer set 
 
 
 		// replacing stuff in the url (query string)
@@ -270,6 +270,9 @@ final class EM_list_parts {
 	}
 
 	public static function add_ga() {
+
+		if (is_user_logged_in()) return;
+
 		global $post;
 		printf('<script>
 			var eles = document.querySelectorAll(".emlist-link");

@@ -23,18 +23,30 @@ final class EM_list_settings {
 		add_action('admin_menu', array($this, 'add_menu'));
 		add_action('admin_init', array($this, 'register_settings'));
 
-		add_action('admin_enqueue_scripts', array($this, 'add_sands'));
+		// add_action('admin_enqueue_scripts', array($this, 'add_sands'));
+		add_action('admin_enqueue_scripts', [$this, 'add_sands']);
+
 
 
 		// add_action('update_option_em_lists', [$this, 'fixpf'], 10, 2);
 	}
 
+	public function add_sands($hook) {
+		if ($hook != 'plugins_page_em-lists-page') return;
+
+        wp_enqueue_style('emaxowl-se-admin', EM_LISTS_PLUGIN_URL.'assets/css/admin/emlist-admin.css', [], '1.0.0');
+        wp_enqueue_script('emaxowl-se-admin', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-settings.js', ['jquery'], '1.0.1', true);
+	}
 
 	/**
 	 * adding submenu page
 	 */
 	public function add_menu() {
-		add_submenu_page('options-general.php', 'EM Lists', 'Lists', 'manage_options', 'em-lists-page', array($this, 'page_callback'));
+		add_submenu_page(	
+							'plugins.php', 'EM Lists', 'Lists', 'manage_options', 
+							'em-lists-page', [$this, 'page_callback']
+						);
+		// add_submenu_page('options-general.php', 'EM Lists', 'Lists', 'manage_options', 'em-lists-page', [$this, 'page_callback']);
 	}
 
 	/* echoing page */
@@ -48,9 +60,9 @@ final class EM_list_settings {
 
 	/* register settings */
 	public function register_settings() {
-		register_setting('em-lists-settings', 'em_lists', ['sanitize_callback' => array('EM_lists', 'sanitize')]);
+		register_setting('em-lists-settings', 'em_lists', ['sanitize_callback' => ['EM_lists', 'sanitize']]);
 
-		add_settings_section('em-lists-section', 'EM Lists', array($this, 'list_section'), 'em-lists-page');
+		add_settings_section('em-lists-section', 'EM Lists', [$this, 'list_section'], 'em-lists-page');
 
 		add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkort');
 		
@@ -66,31 +78,36 @@ final class EM_list_settings {
 
 		add_settings_field('em-lists-matkasse', 'Matkasse', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'matkasselist');
 
-		add_settings_section('em-lists-redir', 'Redirection', array($this, 'list_redir_section'), 'em-lists-page');
-		add_settings_field('em-lists-rdpf', 'Url post-fix', array($this, 'redir_pf'), 'em-lists-page', 'em-lists-redir');
+		// add_settings_section('em-lists-redir', 'Redirection', array($this, 'list_redir_section'), 'em-lists-page');
+		// add_settings_field('em-lists-rdpf', 'Url post-fix', array($this, 'redir_pf'), 'em-lists-page', 'em-lists-redir');
 
 	}
 
 	public function list_section() {
+		echo '<h2>Activate list plugins:</h2>';
 		// echo 'EM Lists';
 	}
 
 	public function list($t) {
 		$data = get_option('em_lists');
-		echo '<input type="checkbox" name="em_lists['.$t.']"'.(isset($data[$t]) ? ' checked' : '').'>';
+
+		printf(
+			'<input type="checkbox" name="em_lists[%1$s]"%2$s>',
+			$t,
+			isset($data[$t]) ? ' checked' : ''
+		);
+
+		// echo '<div class=""><input type="checkbox" name="em_lists['.$t.']"'.(isset($data[$t]) ? ' checked' : '').'></div>';
 	}
 
-	public function list_redir_section() {
-		echo 'Redirection';
-	}
+	// public function list_redir_section() {
+	// 	echo 'Redirection';
+	// }
 
-	public function redir_pf() {
-		$data = get_option('em_lists');
-		echo '<input type="text" name="em_lists[redir_pf]" value="'.($data['redir_pf'] ? esc_attr($data['redir_pf']) : '').'">';
-	}
+	// public function redir_pf() {
+	// 	$data = get_option('em_lists');
+	// 	echo '<input type="text" name="em_lists[redir_pf]" value="'.($data['redir_pf'] ? esc_attr($data['redir_pf']) : '').'">';
+	// }
 
-	/* adding css and js*/
-	public function add_sands() {
-	}
 
 }
