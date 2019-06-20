@@ -65,7 +65,7 @@ final class Bok_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style(BOK.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', [], '1.0.2');
+        wp_enqueue_style(BOK.'-style', BOK_PLUGIN_URL.'assets/css/pub/em-bok.css', [], '1.0.3');
 	}
 
 
