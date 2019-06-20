@@ -265,7 +265,7 @@ final class EM_list_parts {
 				'name' => $type,
 				'meta' => $meta,
 				'button_text' => $button_text
-			]),
+			])
 		);
 	}
 
