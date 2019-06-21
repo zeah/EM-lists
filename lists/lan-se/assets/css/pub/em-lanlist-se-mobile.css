@@ -178,6 +178,19 @@
 	width: 90%;
 }
 
+.emlanlistse-ls-container > .emlanlistse-logo {
+	padding-bottom: 1rem;
+}
+
+.emlanlistse-ls-container .emlanlistse-link {
+	width: auto;
+}
+
+.emlanlistse-ls-container > .emlanlistse-bestill {
+	width: auto;
+	/*padding-top: 1rem;*/
+}
+
 .emlanlistse-bestilltext {
 	/*margin-top: 1rem;
 	text-align: center;*/
@@ -201,6 +214,8 @@
 	text-decoration: none;
 
 	white-space: nowrap;
+
+	cursor: pointer;
 }
 
 .emlanlistse-disabled {

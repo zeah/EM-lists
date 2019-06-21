@@ -63,8 +63,10 @@ html {
 	display: flex;
 	flex-direction: column;
 	background-color: hsl(0, 0%, 96%);
-	margin-bottom: 3rem;
 	font-size: 1.6rem;
+
+	max-width: 40rem;
+	margin: 0 auto 3rem;
 }
 
 
@@ -263,7 +265,7 @@ html {
 }
 
 /* 2.0 double mobile columns */
-@media screen and (min-width: 610px) and (max-width: 1024px) {
+@media screen and (min-width: 710px) and (max-width: 1024px) {
 	/* 2.1 list container */
 	.emlanlist-ul {
 		display: flex;

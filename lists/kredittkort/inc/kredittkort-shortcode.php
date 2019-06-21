@@ -145,8 +145,8 @@ final class Kredittkort_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('kredittkort-style', KREDITTKORT_PLUGIN_URL.'assets/css/pub/em-kredittkort.css', array(), '1.0.1', '(min-width: 841px)');
-        wp_enqueue_style('kredittkort-mobile', KREDITTKORT_PLUGIN_URL.'assets/css/pub/em-kredittkort-mobile.css', array(), '1.0.1', '(max-width: 840px)');
+        wp_enqueue_style(KREDITTKORT.'-style', KREDITTKORT_PLUGIN_URL.'assets/css/pub/em-kredittkort.css', array(), '1.0.1', '(min-width: 1025px)');
+        wp_enqueue_style(KREDITTKORT.'-mobile', KREDITTKORT_PLUGIN_URL.'assets/css/pub/em-kredittkort-mobile.css', array(), '1.0.1', '(max-width: 1024px)');
 	}
 
 

@@ -406,9 +406,6 @@ p:empty {
 	cursor: initial;
 }
 
-.kredittkort-disabled:after {
-	content: '' !important;
-}
 
 /*.kredittkort-sokna-bestill {
 	position: relative;
