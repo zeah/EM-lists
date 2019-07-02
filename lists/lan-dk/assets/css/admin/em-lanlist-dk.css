@@ -47,3 +47,20 @@
 #myTable2 td {
 	padding: 3px 10px;
 }
+
+
+/* overview links */
+.emlanlistdk-overview-links {
+	font-size: 16px;
+	margin: 20px;
+}
+.emlanlistdk-overview-links td {
+	padding: 10px 20px;
+}
+
+.emlanlistdk-overview-links tr:nth-child(even) {
+	background-color: hsl(120, 60%, 100%);
+}
+
+.emlanlistdk-overview-links tr:hover {
+	background-color: hsl(120, 60%, 90%);

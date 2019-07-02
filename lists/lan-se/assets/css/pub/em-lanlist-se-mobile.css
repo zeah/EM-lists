@@ -30,7 +30,8 @@
 }
 
 .emlanlistse-container {
-	width: 100%;
+	max-width: 100%;
+	width: 40rem;
 }
 
 @media only screen and (min-width: 600px) {

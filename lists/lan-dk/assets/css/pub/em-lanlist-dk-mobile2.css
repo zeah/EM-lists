@@ -1,0 +1,203 @@
+
+.emlanlistdk-ul {
+	padding: 0;
+	margin: 0;
+	clear: both;
+
+	/*display: flex;*/
+}
+
+.emlanlistdk-container {
+	list-style: none;
+
+	display: flex;
+
+	flex-direction: column;
+
+	align-items: center;
+
+	font-size: 1.6rem;
+
+	margin-bottom: 2rem;
+
+}
+
+
+.emlanlistdk-container:nth-child(odd) {
+	background-color: #eee;
+}
+
+@media only screen and (min-width: 600px) {
+
+	.emlanlistdk-ul {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.emlanlistdk-container {
+		width: 50%;
+		margin-bottom: 0;
+		padding-top: 1rem;
+	}
+	.emlanlistdk-container:nth-child(odd) {
+		background-color: inherit;
+	}
+
+	.emlanlistdk-container:nth-child(4n) {
+		background-color: #eee;
+	}
+
+	.emlanlistdk-container:nth-child(4n+1) {
+		background-color: #eee;
+	}
+
+	
+} 
+
+.emlanlistdk-title-container {
+	margin: 0.5rem 0;
+}
+
+.emlanlistdk-title {
+	font-size: 2rem;
+	text-decoration: none;
+	color: #000;
+}
+
+.emlanlistdk-title-container,
+.emlanlistdk-terning,
+.emlanlistdk-bestill-container,
+.emlanlistdk-logo-container {
+	/*align-self: center;*/
+}
+
+.emlanlistdk-title,
+.emlanlistdk-info-fem,
+.emlanlistdk-info-en {
+	font-weight: 700;
+}
+
+
+.emlanlistdk-logo-container {
+	/*display: flex;
+	justify-content: center;*/
+	max-width: 90%;
+}
+
+.emlanlistdk-logo {
+	width: 25rem;
+	height: auto;
+
+}
+
+.emlanlistdk-info-fem:before,
+.emlanlistdk-info-seks:before,
+.emlanlistdk-info-syv:before,
+.emlanlistdk-info-atte:before {
+	content: '\2022	';
+	color: gold;
+	text-shadow: 0 0 1px black;
+	font-size: 2rem;
+	margin-right: 0.5rem;
+
+	/*margin-bottom: 1.5rem;*/
+}
+
+.emlanlistdk-info-container,
+.emlanlistdk-list-container {
+	width: 25rem;
+	max-width: 90%;
+	/*margin: 1.5rem 0;*/
+	/*margin: 0 6rem;*/
+}
+
+.emlanlistdk-info-container {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+.emlanlistdk-list-container {
+	margin-bottom: 3rem;
+}
+
+.emlanlistdk-info-fem,
+.emlanlistdk-info-seks,
+.emlanlistdk-info-syv,
+.emlanlistdk-info-atte {
+	margin-bottom: 1rem;
+}
+
+.emlanlistdk-end-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.emlanlistdk-terning {
+	width: 50px;
+	height: 50px;
+
+	background-color: #e22;
+}
+
+/* dice dimensions */
+.emlanlistdk-rect-svg {
+	height: 50px;
+	width: 50px;
+}
+
+/* dice eye color */
+.emlanlistdk-circle-svg {
+	fill: #ffffff;
+}
+
+.emlanlistdk-bestill-container {
+	margin: 2rem 0;
+}
+
+.emlanlistdk-bestill {
+	text-align: center;
+	/*display: flex;
+	justify-content: center;*/
+	margin-bottom: 1rem;
+}
+
+.emlanlistdk-bestilltext {
+	/*margin-top: 1rem;
+	text-align: center;*/
+}
+
+.emlanlistdk-link {
+	padding: 1rem 2rem;
+
+	background-image: linear-gradient(hsl(120, 70%, 60%) 0%, hsl(120, 70%, 50%) 100%);
+	border: solid 2px hsl(120, 50%, 70%);
+	border-radius: 5px;
+
+	font-size: 2.2rem;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 0 2px #000;
+	font-family: arial;
+	text-decoration: none;
+
+	white-space: nowrap;
+}
+
+.emlanlistdk-bestill-mobile {
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+}
+
+.emlanlistdk-svg {
+	filter: drop-shadow(1px 1px 1px #333);
+}
+
+.emlanlistdk-thumb {
+	fill: #fff;
+}
+
+.emlanlistdk-logo-ls {
+	text-align: center;
+}

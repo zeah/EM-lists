@@ -1,4 +1,4 @@
-/**
+*
  * 	ul
  *  |	li 		
  *  |	|	toprow
@@ -232,7 +232,7 @@ html {
 
 
 /* 2.0 double mobile columns */
-/*@media screen and (min-width: 810px) and (max-width: 1024px) {*/
+@media screen and (min-width: 710px) and (max-width: 1071px) {
 	/* 2.1 list container */
 	.matkasselist-ul {
 		display: flex;
@@ -246,4 +246,4 @@ html {
 		width: 45%;
 		margin: 1rem auto;		
 	}
-/*}*/
+/*}

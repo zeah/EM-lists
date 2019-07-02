@@ -60,6 +60,7 @@ final class EM_list_parts {
 			if (isset($_COOKIE['em_source'])) $source = $_COOKIE['em_source'];
 		}
 
+		if (!$clid) $clid = $source;
 
 		// replacing stuff in the url (query string)
 		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/'			];
@@ -158,7 +159,7 @@ final class EM_list_parts {
 
 	public static function logo($o = []) {
 		if (!isset($o['image']) || !$o['image']) return '';
-
+		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
 		if (!isset($o['meta']['bestill']) || !$o['meta']['bestill'])
 			return sprintf(
 				'<img class="%slogo list-logo%s"%s src="%s">',

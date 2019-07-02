@@ -1,8 +1,8 @@
 /*
 
 	1.0 container
-		1.1 <ul> .emlanlistse-ul
-		1.2 <li> .emlanlistse-container
+		1.1 <ul> .emlanlistdk-ul
+		1.2 <li> .emlanlistdk-container
 	2.0 elements (in the container)
 		2.1 bold elements
 		2.2 title
@@ -30,7 +30,7 @@
 /* 1.0 container */
 
 /* 1.1 list */
-.emlanlistse-ul {
+.emlanlistdk-ul {
 	margin: 0;
 	padding: 0;
 	clear: both;
@@ -38,57 +38,59 @@
 
 
 /* 1.2 list item */
-.emlanlistse-container {
-	display: grid;
+.emlanlistdk-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.emlanlistdk-container {
+	/*display: grid;
 
 	grid-template-columns: minmax(10rem, 20rem) minmax(20rem, 1fr) minmax(20rem, 1fr) minmax(auto, 20rem);
 	grid-template-rows: minmax(2.5rem, auto) auto;
 
 	grid-template-areas: 
 	"title infoC infoL endc endc"
-	"logo infoC infoL endc endc";
+	"logo infoC infoL endc endc";*/
 	/*"title infoC infoL terning bestillc"*/
 	/*"logo infoC infoL terning bestillc";*/
 	
+	padding: 2rem 1rem 1rem 1rem;
 
+	border-bottom: solid 1px #aaa;
 	font-size: 1.4rem;
 }
 
-.emlanlistse-list {
-	padding: 2rem 1rem 1rem 1rem;
-	border-bottom: solid 1px #aaa;
-
-	list-style: none;
-}
 
 /* list item background */
-.emlanlistse-list:nth-child(odd) {
+.emlanlistdk-container:nth-child(odd) {
 	background-color: #eee;
 }
 
 
 /* removes border from last item*/
-.emlanlistse-list:last-child {
+.emlanlistdk-container:last-child {
 	border-bottom: none;
 }
 
 /* 2.0 elements in container */
 
 /* 2.1 bold elements */
-.emlanlistse-title,
-.emlanlistse-info-en,
-.emlanlistse-info-fem {
+.emlanlistdk-title,
+.emlanlistdk-info-en,
+.emlanlistdk-info-fem {
 	font-weight: 700;
 }
 
 /* 2.2 title */
-.emlanlistse-title-container {
+.emlanlistdk-title-container {
 	grid-area: title;
 	/*white-space: nowrap;*/
 	z-index: 10;
 	/*background-color: inherit;*/
 }
-.emlanlistse-title {
+.emlanlistdk-title {
 	font-size: 1.6rem;
 	color: #000;
 	/*background-color: inherit;*/
@@ -96,75 +98,50 @@
 
 
 /* 2.3 logo */
-.emlanlistse-logo-container,
-.emlanlistse-logo-container {
+.emlanlistdk-logo-container {
 	grid-area: logo;
 }
-
-.emlanlistse-logo,
-.emlanlistse-logo {
+.emlanlistdk-logo {
 	width: 18rem;
 	height: auto;
 }
 
-.emlanlistse-link:focus,
-.emlanlistse-logo:focus {
-	outline: none;
-}
-
-
-.list-logo {
-	display: block;
-}
-
-.emlanlistse-logo-button,
-.emlanlistse-logo-button {
-	display: inline;
-	width: 18rem;
-
-	background-repeat: no-repeat;
-	background-size: 18rem auto;
-
-	/*background-color: transparent;*/
-	border: none;
-
-	cursor: pointer;
+.emlanlistdk-logo-ls {
+	text-align: center;
 }
 
 
 /* 2.4 info container */
-.emlanlistse-info-container,
-.emlanlistse-info-container {
+.emlanlistdk-info-container {
 	grid-area: infoC;
 }
 
 
 /* 2.4.1 info element (and list info elements) */
-.emlanlistse-info,
-.emlanlistse-info {
+.emlanlistdk-info {
 	margin: 0 0 1rem 2rem;
 	/*margin: 0 0 1rem 6rem;*/
 }
 
 
 /* 2.5 list container */
-.emlanlistse-list-container {
+.emlanlistdk-list-container {
 	grid-area: infoL;
 }
 
 
 /* 2.5.1 list info 
    info elements styled as list-item */
-.emlanlistse-info-fem,
-.emlanlistse-info-seks,
-.emlanlistse-info-syv,
-.emlanlistse-info-atte {
+.emlanlistdk-info-fem,
+.emlanlistdk-info-seks,
+.emlanlistdk-info-syv,
+.emlanlistdk-info-atte {
 	display: list-item;
 	list-style: disc;
 } 
 
 /* dice and bestill */
-.emlanlistse-end-container {
+.emlanlistdk-end-container {
 	grid-area: endc;
 
 	margin-top: 2.5rem;
@@ -176,7 +153,7 @@
 }
 
 /* 2.6 dice */
-.emlanlistse-terning {
+.emlanlistdk-terning {
 	/*grid-area: terning;*/
 
 	/*justify-self: center;*/
@@ -192,7 +169,7 @@
 
 
 /* 2.6.1 dice svg */
-.emlanlistse-rect-svg {
+.emlanlistdk-rect-svg {
 	height: 50px;
 	width: 50px;
 	/*fill: #0f0;*/
@@ -200,32 +177,30 @@
 
 
 /* 2.6.2 dice eye svg */
-.emlanlistse-circle-svg {
+.emlanlistdk-circle-svg {
 	fill: #ffffff;
 }
 
 
 /* 2.7 bestill button */
-.emlanlistse-bestill-container {
+.emlanlistdk-bestill-container {
 	/*grid-area: bestillc;*/
 	/*align-self: center;*/
 	/*margin-top: 1.6rem;*/
 }
-.emlanlistse-bestill {
-	text-align: center;
-	/*display: flex;*/
-	/*justify-content: center;*/
-	/*align-items: center;*/
+.emlanlistdk-bestill {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.emlanlistse-solo-button > .emlanlistse-container {
-	display: block;
+.emlanlistdk-bestill > .emlanlistdk-link::after {
+	content: ' Ansøg her';
 }
 
 
 /* 2.7.1 bestill anchor */
-.emlanlistse-link,
-.emlanlistse-link {
+.emlanlistdk-link {
 	padding: 1rem 2rem;
 
 	background-image: linear-gradient(hsl(120, 70%, 60%) 0%, hsl(120, 70%, 50%) 100%);
@@ -240,66 +215,23 @@
 	text-decoration: none;
 
 	white-space: nowrap;
-
-	cursor: pointer;
 }
-
-.emlanlistse-link:hover {
-	background-image: linear-gradient(hsl(120, 70%, 65%) 0%, hsl(120, 70%, 55%) 100%);
-	border: solid 1px hsl(120, 50%, 65%);
-}
-
-.emlanlistse-order-container {
-	text-align: center;
-	margin: 2rem 0 1rem;
-}
-
-.emlanlistse-order-link::after {
-	content: ' Ansök här!';
-}
-
-.emlanlistse-disabled:hover,
-.emlanlistse-disabled {
-
-	background: none;
-	background-color: hsl(0, 0%, 70%) !important;
-	border: solid 1px hsl(0, 0%, 70%);
-
-	cursor: default;
-}
-
 
 
 /* 2.7.2 bestill svg (thumb icon )*/
-.emlanlistse-svg,
-.emlanlistse-svg {
+.emlanlistdk-svg {
 	filter: drop-shadow(1px 1px 1px #333);
 }
-
-.emlanlistse-thumb,
-.emlanlistse-thumb {
+.emlanlistdk-thumb {
 	fill: #fff;
 }
 
 
 /* 2.7.3 bestill text */
-.emlanlistse-bestilltext,
-.emlanlistse-bestilltext {
+.emlanlistdk-bestilltext {
 	margin-top: 0.5rem;
 	text-align: center;
 	padding-bottom: 1rem;
-}
-
-
-.emlanlistse-ls-container {
-	text-align: center;
-}
-
-.emlanlistse-ls-container > .emlanlistse-logo {
-	
-	display: block;
-	margin: 0 auto;
-	padding-bottom: 2rem;
 }
 
 /* 3.0 other browsers */
@@ -308,7 +240,7 @@
 @supports not (display: grid) {
 
 	/* turn grid into flexbox */
-	.emlanlistse-container {
+	.emlanlistdk-container {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -316,50 +248,49 @@
 	}
 
 	/* one line in flexbox */
-	.emlanlistse-title-container {
+	.emlanlistdk-title-container {
 		width: 100%;
 		margin-bottom: 10px;
 	}
 
 	/* making elements aligned */
-	.emlanlistse-info-container,
-	.emlanlistse-list-container {
+	.emlanlistdk-info-container,
+	.emlanlistdk-list-container {
 		width: 30rem;
 	}
 } 
 
 /* 3.2 internet explorer */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-	.emlanlistse-container {
+	.emlanlistdk-container {
 		display: -ms-grid;
 		-ms-grid-columns: 20rem 1fr 1fr auto;
 		-ms-grid-rows: 2.5rem auto;
 	}
 
-	.emlanlistse-title-container {
+	.emlanlistdk-title-container {
 		-ms-grid-row: 1;
 		-ms-grid-column: 1;
 	}
 
-	.emlanlistse-logo {
+	.emlanlistdk-logo-container {
 		-ms-grid-row: 2;
 		-ms-grid-column: 1;
-		-ms-grid-row-align: start;
 	}
 
-	.emlanlistse-info-container {
+	.emlanlistdk-info-container {
 		-ms-grid-row: 1;
 		-ms-grid-column: 2;
 		-ms-grid-row-span: 2;
 	}
 
-	.emlanlistse-list-container {
+	.emlanlistdk-list-container {
 		-ms-grid-row: 1;
 		-ms-grid-column: 3;
 		-ms-grid-row-span: 2;
 	}
 
-	.emlanlistse-end-container {
+	.emlanlistdk-end-container {
 		display: -ms-flexbox;
 
 		align-items: flex-start;

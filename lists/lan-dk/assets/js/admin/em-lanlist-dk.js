@@ -132,24 +132,24 @@
 	container.appendChild(newinput({name: 'bestill', title: 'Bestill Link'}));
 	container.appendChild(newinput({name: 'bestill_text', title: 'Bestill Text (under bestillknapp)'}));
 	container.appendChild(newinput({name: 'pixel', title: 'Tracking Pixel URL'}));
-	container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
-	container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
-	container.appendChild(newinput({name: 'emlanlistdk_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
+	// container.appendChild(newinput({name: 'ttemplate', title: 'Tracking Template'}));
+	// container.appendChild(newinput({name: 'qstring', type: 'checkbox', title: 'Add Tracking'}));
+	// container.appendChild(newinput({name: 'emlanlistdk_redirect', type: 'checkbox', title: 'Add Redirection', notData: true}));
 
 	let info_container = newdiv({class: 'emlanlistdk-info-container'});
 
-	info_container.appendChild(newinput({name: 'info01', title: 'Text 01'}));
-	info_container.appendChild(newinput({name: 'info05', title: 'Text 05'}));
-	info_container.appendChild(newinput({name: 'info02', title: 'Text 02'}));
-	info_container.appendChild(newinput({name: 'info06', title: 'Text 06'}));
-	info_container.appendChild(newinput({name: 'info03', title: 'Text 03'}));
-	info_container.appendChild(newinput({name: 'info07', title: 'Text 07'}));
-	info_container.appendChild(newinput({name: 'info04', title: 'Text 04'}));
-	info_container.appendChild(newinput({name: 'info08', title: 'Text 08'}));
+	info_container.appendChild(newinput({name: 'info01', title: 'Tekst med stjerne 1'}));
+	info_container.appendChild(newinput({name: 'info05', title: 'Lånebeløp'}));
+	info_container.appendChild(newinput({name: 'info02', title: 'Tekst med stjerne 2'}));
+	info_container.appendChild(newinput({name: 'info06', title: 'Nedbetalingstid'}));
+	info_container.appendChild(newinput({name: 'info03', title: 'Tekst med stjerne 3'}));
+	info_container.appendChild(newinput({name: 'info07', title: 'Aldersgrense'}));
+	info_container.appendChild(newinput({name: 'info04', title: 'Rente'}));
 
 	container.appendChild(info_container);
+	container.appendChild(newinput({name: 'info08', title: 'Renteeksempel'}));
 
-	container.appendChild(dicedropdown());
+	// container.appendChild(dicedropdown());
 
 
 	// adding existing category
