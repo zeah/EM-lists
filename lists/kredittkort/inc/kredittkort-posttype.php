@@ -23,7 +23,7 @@ final class Kredittkort_posttype {
 		Kredittkort_overview::get_instance();
 
 		/* creates custom post type: emkort */
-		add_action('init', array($this, 'create_cpt'));
+		add_action('init', [$this, 'create_cpt']);
 	}
 	/*
 		create custom post type: emkort 

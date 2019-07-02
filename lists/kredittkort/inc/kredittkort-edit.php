@@ -74,6 +74,10 @@ final class Kredittkort_edit {
 	 *
 	 */
 	public function admin_sands() {
+		$id = get_current_screen();
+		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
+		if ($id->id != KREDITTKORT) return;
+
 		wp_enqueue_style('em-'.KREDITTKORT.'-admin-style', KREDITTKORT_PLUGIN_URL . 'assets/css/admin/em-kredittkort.css', array(), '1.0.1');
 	}
 
