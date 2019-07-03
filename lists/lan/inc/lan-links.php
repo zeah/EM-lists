@@ -16,7 +16,7 @@ final class Lan_links {
 
 
 	public function add_page($name) {
-		wp_enqueue_style('em-lanlist-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.1');
+		wp_enqueue_style('em-lanlist-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', [], '1.0.2');
 
 		$posts = get_posts(['post_type' => EMLAN, 'posts_per_page' => -1]);
 

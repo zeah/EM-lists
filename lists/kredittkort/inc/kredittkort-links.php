@@ -16,7 +16,7 @@ final class Kredittkort_links {
 
 
 	public function add_page($name) {
-		wp_enqueue_style('em-kredittkort-admin-style', KREDITTKORT_PLUGIN_URL . 'assets/css/admin/em-kredittkort.css', array(), '1.0.1');
+		wp_enqueue_style('em-kredittkort-admin-style', KREDITTKORT_PLUGIN_URL . 'assets/css/admin/em-kredittkort.css', [], '1.0.2');
 
 		$posts = get_posts(['post_type' => KREDITTKORT, 'posts_per_page' => -1]);
 
