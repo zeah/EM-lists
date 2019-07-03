@@ -1,6 +1,14 @@
 (() => {
 
-	console.log(kredittkort_data);
+	// let test = {t: ''};
+
+	let test = 'dlfkjd|sf:jlds';
+
+	console.log(!/(\||:)/.test(test));
+
+	// if (!test.t) console.log('works');
+
+	// console.log(kredittkort_data);
 
 	let newtype = '';
 

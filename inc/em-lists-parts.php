@@ -40,8 +40,8 @@ final class EM_list_parts {
 		$source = 'direct';
 
 		if (isset($_SERVER['HTTP_REFERER'])) {
-			if (strpos($_SERVER['HTTP_REFERER'], 'bing') || strpos($_SERVER['HTTP_REFERER'], 'google'))
-			$source = 'organic';
+			if (strpos($_SERVER['HTTP_REFERER'], 'bing') || strpos($_SERVER['HTTP_REFERER'], 'google')) $source = 'organic';
+			else $source = 'referral';
 		}
 
 		// if cpc found in query string
