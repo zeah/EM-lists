@@ -128,6 +128,7 @@ final class EM_list_parts {
 		if (strpos($url, 'adtraction')) return EM_list_parts::adtraction($url);
 		if (strpos($url, 'adservice')) return EM_list_parts::adservice($url);
 		if (strpos($url, 'hotracker')) return EM_list_parts::hasoffers($url);
+		if (strpos($url, 'g2cloud')) return EM_list_parts::hasoffers($url);
 
 		return $url;
 	}

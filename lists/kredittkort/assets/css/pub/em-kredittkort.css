@@ -48,6 +48,11 @@ p:empty {
 	clear: both;
 }
 
+.kredittkort-ul {
+	margin: 0;
+	padding: 0;
+}
+
 .kredittkort-list {
 	list-style: none;
 
