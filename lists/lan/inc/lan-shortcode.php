@@ -52,59 +52,9 @@ final class Lan_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-
-		// wp_die('<xmp>'.print_r($_SERVER, true).'</xmp>');
-
-		// $temp = '/dill/test';
-
-		// preg_match('/(?:.*)\/(.*)-.*$/', $temp, $matches);
-
-		// if (!$matches) preg_match('/(?:.*\/)(.*)/', $temp, $matches);
-
-
-
-		// wp_die('<xmp>'.print_r($matches, true).'</xmp>');
-		
-
-
-		// $dl = $_SERVER['REDIRECT_URL'];
-		// $ip = $_SERVER['REMOTE_ADDR'];
-		// $t = 'event';
-		// $ec = 'List Plugin Clicks';
-		// $ea = 'clicks';
-		// $el = $matches[1];
-		
-		// // referrer; page; ip; domain; 
-		// $content = wp_remote_post('https://www.google-analytics.com/debug/collect', array(
-		// 	'method' => 'POST',
-		// 	'timeout' => 30,
-		// 	'redirection' => 5,
-		// 	'httpversion' => '1.0',
-		// 	// 'blocking' => false,
-		// 	'headers' => array(),
-		// 	'body' => [
-		// 		'v' => '1', 
-		// 		'tid' => 'UA-123456-1', 
-		// 		'cid' => '555', 
-		// 		'uip' => $ip, 
-		// 		't' => $t, 
-		// 		'ec' => $ec, 
-		// 		'ea' => $ea, 
-		// 		'el' => $el, 
-		// 		'dl' => $dl
-		// 	],
-		// 	'cookies' => array()
-		// 	)
-		// );
-
-		// wp_die('<xmp>'.print_r($content['body'], true).'</xmp>');
-		
-		// return 'hi';
-
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
 		return $this->get_html(EM_list_sc::posts(EMLAN, 'lan', $atts, $content), $atts);
-
 	}
 
 
@@ -116,7 +66,6 @@ final class Lan_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		// add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN),'post-thumbnail')),

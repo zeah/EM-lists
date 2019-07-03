@@ -69,3 +69,20 @@
 #myTable2 td {
 	padding: 3px 10px;
 }
+
+/* overview links */
+.matkasselist-overview-links {
+	font-size: 13px;
+	margin: 20px;
+}
+.matkasselist-overview-links td {
+	padding: 10px 20px;
+}
+
+.matkasselist-overview-links tr:nth-child(even) {
+	background-color: hsl(120, 60%, 100%);
+}
+
+.matkasselist-overview-links tr:hover {
+	background-color: hsl(120, 60%, 90%);
+}

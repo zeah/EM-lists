@@ -135,13 +135,13 @@ final class EM_list_parts {
 
 	private static function adtraction($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'epi=') === false) return $url.'&epi=[clid]';
+		if (strpos($url, 'epi=') === false) return $url.'&epi=source:[source]|page:[page]|clid:[clid]';
 											return $url;
 	}
 
 	private static function adservice($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|clid:[clid]';
+		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|page:[page]|clid:[clid]';
 											return $url;
 	}
 

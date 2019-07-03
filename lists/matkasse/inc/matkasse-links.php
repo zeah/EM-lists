@@ -1,7 +1,7 @@
 <?php 
 
 
-final class Bok_links {
+final class Matkasse_links {
 	private static $instance = null;
 
 	public static function get_instance() {
@@ -16,16 +16,16 @@ final class Bok_links {
 
 
 	public function add_page($name) {
-		wp_enqueue_style('em-bok-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.2');
+		wp_enqueue_style('em-lanlist-se-admin-style', MATKASSELIST_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', [], '1.0.2');
 
-		$posts = get_posts(['post_type' => BOK.'liste', 'posts_per_page' => -1]);
+		$posts = get_posts(['post_type' => MAT, 'posts_per_page' => -1]);
 
-		echo '<table class="'.BOK.'-overview-links"><tr><th></th><th>Name</th><th>Button Link</th></tr>';
+		echo '<table class="'.MAT.'-overview-links"><tr><th></th><th>Name</th><th>Button Link</th></tr>';
 
 		$site = get_site_url();
 
 		foreach ($posts as $p) {
-			$meta = get_post_meta($p->ID, BOK.'liste_data');
+			$meta = get_post_meta($p->ID, MAT.'_data');
 
 			$m = isset($meta[0]['bestill']) ? $meta[0]['bestill'] : 'no link';
 			printf('
@@ -41,6 +41,6 @@ final class Bok_links {
 	}
 
 	public function add_menu($name) {
-		add_submenu_page('edit.php?post_type='.BOK.'liste', 'Links', 'Links', 'manage_options', BOK.'-links', [$this, 'add_page']);
+		add_submenu_page('edit.php?post_type='.MAT, 'Links', 'Links', 'manage_options', MAT.'-links', [$this, 'add_page']);
 	}
 }

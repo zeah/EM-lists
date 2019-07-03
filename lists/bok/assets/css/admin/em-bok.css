@@ -49,10 +49,28 @@
 }
 
 
-.bok-overview-links td {
+/*.bok-overview-links td {
 	padding: .5rem 1rem;
 }
 
 .bok-overview-links tr:hover {
 	background-color: hsl(120, 50%, 97%);
+}*/
+
+
+/* overview links */
+.bok-overview-links {
+	font-size: 13px;
+	margin: 20px;
+}
+.bok-overview-links td {
+	padding: 10px 20px;
+}
+
+.bok-overview-links tr:nth-child(even) {
+	background-color: hsl(120, 60%, 100%);
+}
+
+.bok-overview-links tr:hover {
+	background-color: hsl(120, 60%, 90%);
 }

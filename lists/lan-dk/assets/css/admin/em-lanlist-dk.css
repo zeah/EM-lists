@@ -51,7 +51,7 @@
 
 /* overview links */
 .emlanlistdk-overview-links {
-	font-size: 16px;
+	font-size: 13px;
 	margin: 20px;
 }
 .emlanlistdk-overview-links td {
@@ -64,3 +64,4 @@
 
 .emlanlistdk-overview-links tr:hover {
 	background-color: hsl(120, 60%, 90%);
+}

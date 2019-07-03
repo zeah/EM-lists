@@ -16,7 +16,7 @@ final class Lan_dk_links {
 
 
 	public function add_page($name) {
-		wp_enqueue_style('em-lanlist-admin-style', LAN_DK_PLUGIN_URL . 'assets/css/admin/em-lanlist-dk.css', [], '1.0.1');
+		wp_enqueue_style('em-lanlist-admin-style', LAN_DK_PLUGIN_URL . 'assets/css/admin/em-lanlist-dk.css', [], '1.0.2');
 
 		$posts = get_posts(['post_type' => EMLANDK, 'posts_per_page' => -1]);
 
