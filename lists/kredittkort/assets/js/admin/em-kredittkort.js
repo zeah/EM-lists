@@ -1,28 +1,28 @@
 (() => {
 
-	let temp = 'source:google|page:a-lan|clid:sdjhf983u49832kdka';
+	// let temp = 'source:google|page:a-lan|clid:sdjhf983u49832kdka';
 
-	console.log(/(?:source:)(.*?)(?:\||$)/.exec(temp));
+	// console.log(/(?:source:)(.*?)(?:\||$)/.exec(temp));
 
-//	https://europe-west1-axo-data.cloudfunctions.net/function-1?affiliate=adservice&campaign=test&media=tast%20site&payout=1&clicktime=&status=approve&currency=SEK&info=source:bing|clid:test2
+//	https://europe-west1-axo-data.cloudfunctions.net/function-1?affiliate=adtraction&campaign=test&media=test%20site&payout=1&clicktime=&status=approve&currency=SEK&info=source:google|clid:test2
 
-	let test2 = undefined;
+	// let test2 = undefined;
 
-	if (test2) console.log('worked');
+	// if (test2) console.log('worked');
 
-	let temp2 = [];
+	// let temp2 = [];
 
-	if (temp2['test'] == 'te') console.log('heya');
+	// if (temp2['test'] == 'te') console.log('heya');
 
-	console.log(temp.split('|'));
+	// console.log(temp.split('|'));
 
-	temp = temp.split('|');
+	// temp = temp.split('|');
 
-	for (let i of temp) {
-		let t = i.split(':');
+	// for (let i of temp) {
+	// 	let t = i.split(':');
 
-		console.log(t[1]);
-	}
+	// 	console.log(t[1]);
+	// }
 		// console.log(i);
 		// console.log(i.split(':'));
 
