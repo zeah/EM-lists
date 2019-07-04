@@ -50,6 +50,7 @@ final class Matkasse_shortcode {
 	public function add_shortcode($atts, $content = null) {
 
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return $this->get_html(EM_list_sc::posts(MAT, 'mat', $atts, $content), $atts);
 
