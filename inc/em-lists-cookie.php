@@ -22,7 +22,7 @@ final class EM_list_cookie {
 
 		
 
-		if (!isset($_COOKIE['em_cid'])) setcookie('em_cid', $this->gen_uuid(), (time()+(60*60*24*712)));
+		if (!isset($_COOKIE['em_cid'])) setcookie('em_cid', $this->gen_uuid(), (time()+(60*60*24*712)), '/');
 
 
 
@@ -42,8 +42,8 @@ final class EM_list_cookie {
 		}
 
 		if ($source && $id) {
-			setcookie('em_clid', $id, time()+60*60*24*90);
-			setcookie('em_source', $source, time()+60*60*24*90);
+			setcookie('em_clid', $id, time()+60*60*24*90, '/');
+			setcookie('em_source', $source, time()+60*60*24*90, '/');
 		}
 
 		// wp_die('<xmp>'.print_r($result, true).'</xmp>');
