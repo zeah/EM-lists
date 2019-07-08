@@ -56,6 +56,7 @@ final class Lan_se_shortcode {
 	}
 
 
+
 	/**
 	 * returns only thumbnail from loan
 	 */
@@ -63,7 +64,6 @@ final class Lan_se_shortcode {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN_SE),'post-thumbnail')),
@@ -74,12 +74,25 @@ final class Lan_se_shortcode {
 	}
 
 
+
 	/**
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLAN_SE, 'Ansök Här!', $this, 'add_css');
+		return EM_list_parts::sc_button($atts, EMLAN_SE, 'Ansök Här!', [$this, 'add_css']);
 	}
+
+
+	
+	/**
+	 * button and logo with link
+	 */
+	public function add_shortcode_landingside($atts = [], $content = null) {
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		return EM_list_parts::landingside(['type' => EMLAN_SE, 'atts' => $atts, 'button_text' => 'Ansök Här!']);
+	}
+
 
 
 	/**
@@ -89,6 +102,7 @@ final class Lan_se_shortcode {
         wp_enqueue_style(EMLAN_SE.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.2', '(min-width: 921px)');
         wp_enqueue_style(EMLAN_SE.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.2', '(max-width: 920px)');
 	}
+	
 
 
 	/**
@@ -191,11 +205,6 @@ final class Lan_se_shortcode {
 		return $html;
 	}
 
-	public function add_shortcode_landingside($atts = [], $content = null) {
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => EMLAN_SE, 'atts' => $atts, 'button_text' => 'Ansök Här!']);
-	}
 
 	/**
 	 * wp filter for adding to internal serp

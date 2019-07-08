@@ -21,7 +21,7 @@ final class Bok_shortcode {
 	private static $instance = null;
 
 
-	private $name = 'bokliste';
+	// private $name = 'bokliste';
 
 	// public $pixels = [];
 

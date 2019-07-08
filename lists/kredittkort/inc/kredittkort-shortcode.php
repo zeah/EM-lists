@@ -49,81 +49,29 @@ final class Kredittkort_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
-
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		
 		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts);
-
-
-
-		// add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		// if (!is_array($atts)) $atts = [];
-
-		// $args = [
-		// 	'post_type' 		=> 'kredittkort',
-		// 	'posts_per_page' 	=> -1,
-		// 	'orderby'			=> [
-		// 								'meta_value_num' => 'ASC',
-		// 								'title' => 'ASC'
-		// 						   ],
-		// 	'meta_key'			=> 'kredittkort_sort'.($atts['kredittkort'] ? '_'.sanitize_text_field($atts['kredittkort']) : '')
-		// ];
-
-
-		// $type = false;
-		// if (isset($atts['kredittkort'])) $type = $atts['kredittkort'];
-		// if ($type)
-		// 	$args['tax_query'] = array(
-		// 			array(
-		// 				'taxonomy' => 'kredittkorttype',
-		// 				'field' => 'slug',
-		// 				'terms' => sanitize_text_field($type)
-		// 			)
-		// 		);
-
-
-		// $names = false;
-		// if (isset($atts['name'])) $names = explode(',', preg_replace('/ /', '', $atts['name']));
-		// if ($names) $args['post_name__in'] = $names;
-		
-		// $exclude = get_option('kredittkort_exclude');
-
-		// if (is_array($exclude) && !empty($exclude)) $args['post__not_in'] = $exclude;
-
-		// $posts = get_posts($args);	
-
-		// $sorted_posts = [];
-		// if ($names) {
-		// 	foreach(explode(',', preg_replace('/ /', '', $atts['name'])) as $n)
-		// 		foreach($posts as $p) 
-		// 			if ($n === $p->post_name) array_push($sorted_posts, $p);
-		
-		// 	$posts = $sorted_posts;
-		// }
-				
-
-		// $html = $this->get_html($posts, $atts);
-
-		// return $html;
 	}
 
 
 	public function add_shortcode_landingside($atts, $content = null) {
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		// add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => KREDITTKORT, 'atts' => $atts, 'button_text' => 'Bestill Kortet']);
+		if (!isset($atts['name']) || $atts['name'] == '') return;
 
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+
+		return EM_list_parts::landingside(['type' => KREDITTKORT, 'atts' => $atts, 'button_text' => 'Bestill Kortet']);
 	}
 
 	/**
-	 * returns only thumbnail from loan
+	 * returns only thumbnail from loan (without link)
 	 */
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], KREDITTKORT),'post-thumbnail')),
@@ -138,7 +86,7 @@ final class Kredittkort_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, KREDITTKORT, 'Bestill Kortet', $this, 'add_css');
+		return EM_list_parts::sc_button($atts, KREDITTKORT, 'Bestill Kortet', [$this, 'add_css']);
 	}
 
 
@@ -311,13 +259,13 @@ final class Kredittkort_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != 'kredittkort') return $data;
+		if ($post->post_type != KREDITTKORT) return $data;
 
-		$exclude = get_option('kredittkort_exclude');
+		$exclude = get_option(KREDITTKORT.'_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option('kredittkort_exclude_serp');
+		$exclude_serp = get_option(KREDITTKORT.'_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 

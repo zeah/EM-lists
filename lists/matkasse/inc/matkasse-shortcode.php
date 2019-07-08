@@ -64,9 +64,21 @@ final class Matkasse_shortcode {
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		return EM_list_sc::image('matkasselist', $atts, $content);
+		return EM_list_parts::logo([
+				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], MAT),'post-thumbnail')),
+				'title' => 'Bestill her',
+				'name' => MAT,
+				'atts' => $atts
+			]);
+
+		// if (!isset($atts['name']) || $atts['name'] == '') return;
+
+		// add_action('wp_enqueue_scripts', array($this, 'add_css'));
+
+		// return EM_list_sc::image('matkasselist', $atts, $content);
 	}
 
 
@@ -75,11 +87,13 @@ final class Matkasse_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		if (!isset($atts['name']) || $atts['name'] == '') return;
+		return EM_list_parts::sc_button($atts, MAT, 'Bestill her', [$this, 'add_css']);
 
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		// if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		return EM_list_sc::link('matkasselist', $atts, $content);
+		// add_action('wp_enqueue_scripts', array($this, 'add_css'));
+
+		// return EM_list_sc::link('matkasselist', $atts, $content);
 	}
 
 
@@ -88,8 +102,8 @@ final class Matkasse_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style('matkasselist-style', MATKASSELIST_PLUGIN_URL.'assets/css/pub/em-matkasselist.css', array(), '1.0.0', '(min-width: 1071px)');
-        wp_enqueue_style('matkasselist-mobile', MATKASSELIST_PLUGIN_URL.'assets/css/pub/em-matkasselist-mobile.css', array(), '1.0.0', '(max-width: 1070px)');
+        wp_enqueue_style(MAT.'-style', MATKASSELIST_PLUGIN_URL.'assets/css/pub/em-'.MAT.'.css', array(), '1.0.0', '(min-width: 1071px)');
+        wp_enqueue_style(MAT.'-mobile', MATKASSELIST_PLUGIN_URL.'assets/css/pub/em-'.MAT.'-mobile.css', array(), '1.0.0', '(max-width: 1070px)');
 	}
 
 	private function get_html($posts, $atts = null) {
@@ -236,13 +250,13 @@ final class Matkasse_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != 'matkasselist') return $data;
+		if ($post->post_type != MAT) return $data;
 
-		$exclude = get_option('matkasselist_exclude');
+		$exclude = get_option(MAT.'_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option('matkasselist_exclude_serp');
+		$exclude_serp = get_option(MAT.'_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 
