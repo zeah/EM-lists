@@ -242,15 +242,20 @@ final class EM_list_parts {
 		return $posts[0];
 	}
 
-	public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $inline = null, $content = null) {
+
+	/**
+	* SOLO ORDER BUTTON ONLY
+	* no logo
+	* use landingside() if you want logo too (with link) 
+	*/
+	public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null) {
+	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $content = null) {
+	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $inline = null, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
-		if ($obj) {
-			if ($sands) add_action('wp_enqueue_scripts', [$obj, $sands]);
-			// if ($inline) add_action('wp_footer', [$obj, $inline], 0);
-		}
+		if ($obj && isset($obj[0]) && isset($obj[1])) add_action('wp_enqueue_scripts', [$obj[0], $obj[1]]);
+		
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		// EM_list_parts::add_ga();
 
 		$p = self::gp($atts['name'], $type);
 

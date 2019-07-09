@@ -85,7 +85,7 @@ final class Lan_dk_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLANDK, 'Ansøg Nu', $this, 'add_css');
+		return EM_list_parts::sc_button($atts, EMLANDK, 'Ansøg Nu', [$this, 'add_css']);
 	}
 
 

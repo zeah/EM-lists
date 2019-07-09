@@ -61,7 +61,7 @@ final class Lan_shortcode {
 
 
 	/**
-	 * returns only thumbnail from loan
+	 * returns only thumbnail from loan (without link)
 	 */
 	public function add_shortcode_bilde($atts, $content = null) {
 		if (!isset($atts['name']) || $atts['name'] == '') return;
@@ -82,14 +82,21 @@ final class Lan_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLAN, 'Søk Nå', $this, 'add_css');
+		return EM_list_parts::sc_button($atts, EMLAN, 'Søk Nå', [$this, 'add_css']);
 	}
 
+
+
+	/**
+	* adds button and logo as links
+	*/
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => 'Søk Nå']);
 	}
+
+
 
 	/**
 	 * adding sands to head
