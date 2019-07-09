@@ -3,7 +3,7 @@
 /*
 Plugin Name: EM Lists
 Description: Lists
-Version: 0.0.22
+Version: 0.0.23
 GitHub Plugin URI: zeah/EM-lists
 */
 

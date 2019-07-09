@@ -169,6 +169,8 @@ final class Kredittkort_shortcode {
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
+			
+			$meta['post_name'] = $p->post_name;
 
 			$meta = $this->esc_kses($meta);
 

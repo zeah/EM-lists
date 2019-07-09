@@ -122,6 +122,8 @@ final class Lan_dk_shortcode {
 			if (isset($meta[0])) $meta = $meta[0];
 			else continue;
 
+			$meta['post_name'] = $p->post_name;
+
 			$html .= sprintf(
 				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				EMLANDK, 
