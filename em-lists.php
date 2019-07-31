@@ -22,6 +22,7 @@ require_once 'lists/lan/em-lanlist.php';
 require_once 'lists/bok/em-bok.php';
 require_once 'lists/lan-se/em-lanlist-se.php';
 require_once 'lists/kredittkort/em-kredittkort.php';
+require_once 'lists/kredittkort-se/em-kredittkort-se.php';
 
 require_once 'lists/lan-dk/em-lanlist-dk.php';
 require_once 'lists/matkasse/em-matkasse.php';
@@ -66,6 +67,7 @@ final class EM_lists {
 		if (!is_array($data)) return;
 
 		if (isset($data['emkredittkort'])) EM_kredittkort::get_instance();
+		if (isset($data['emkredittkortse'])) EM_kredittkort_se::get_instance();
 		// if (isset($data['kredittkort_se'])) EM_kredittkortlist::get_instance();
 		if (isset($data['emlanlist'])) EM_lan::get_instance();
 		if (isset($data['emlanlistse'])) EM_se_lan::get_instance();

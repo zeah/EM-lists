@@ -60,7 +60,7 @@ final class Kredittkort_edit {
 
 		foreach ($posts as $p) $po[$p->ID] = $p->post_name;
 
-		$po['name'] = 'lan';
+		$po['name'] = 'kredittkort';
 
 		$po['tax'] = KREDITTKORT.'type';
 

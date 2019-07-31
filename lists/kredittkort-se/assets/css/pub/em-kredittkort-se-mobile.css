@@ -1,0 +1,263 @@
+
+.emkredittkortse-ul {
+	padding: 0;
+	margin: 0;
+	clear: both;
+
+	/*display: flex;*/
+}
+
+.emkredittkortse-list {
+	list-style: none;
+
+	display: flex;
+
+	flex-direction: column;
+
+	align-items: center;
+
+	font-size: 1.6rem;
+
+	/*margin-bottom: 2rem;*/
+
+	/*border-bottom: dashed 10px hsl(120, 50%, 92%);*/
+
+}
+
+
+.emkredittkortse-list:nth-child(odd) > .emkredittkortse-container {
+	background-color: #eee;
+}
+
+.emkredittkortse-container {
+	max-width: 100%;
+	width: 40rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+	.emkredittkortse-ul {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.emkredittkortse-list {
+		width: 50%;
+		margin-bottom: 0;
+		padding-top: 1rem;
+	}
+	.emkredittkortse-list:nth-child(odd) .emkredittkortse-container {
+		background-color: inherit;
+	}
+
+	.emkredittkortse-list:nth-child(4n) .emkredittkortse-container {
+		background-color: #eee;
+	}
+
+	.emkredittkortse-list:nth-child(4n+1) .emkredittkortse-container {
+		background-color: #eee;
+	}
+
+	
+} 
+
+.emkredittkortse-title-container {
+	margin: 0.5rem 0;
+	text-align: center;
+}
+
+.emkredittkortse-title {
+	font-size: 2rem;
+	text-decoration: none;
+	color: #000;
+}
+
+.emkredittkortse-title-container,
+.emkredittkortse-terning,
+.emkredittkortse-bestill-container,
+.emkredittkortse-logo-container {
+	/*align-self: center;*/
+}
+
+.emkredittkortse-title,
+.emkredittkortse-info-fem,
+.emkredittkortse-info-en {
+	font-weight: 700;
+}
+
+
+.emkredittkortse-logo-container {
+	/*display: flex;
+	justify-content: center;*/
+	/*max-width: 90%;*/
+}
+
+.emkredittkortse-logo {
+	width: 25rem;
+	height: auto;
+
+	margin: 0 auto;
+	display: block;
+	border-radius: 5px;
+}
+
+.emkredittkortse-info-container,
+.emkredittkortse-list-container {
+	margin: 2rem 15%;
+}
+
+.emkredittkortse-info-fem:before,
+.emkredittkortse-info-seks:before,
+.emkredittkortse-info-syv:before,
+.emkredittkortse-info-atte:before {
+	content: '\2022	';
+	color: gold;
+	text-shadow: 0 0 1px black;
+	font-size: 2rem;
+	margin-right: 0.5rem;
+
+	/*margin-bottom: 1.5rem;*/
+}
+
+.emkredittkortse-info-container,
+.emkredittkortse-list-container {
+	width: 25rem;
+	max-width: 90%;
+	/*margin: 1.5rem 0;*/
+	/*margin: 0 6rem;*/
+}
+
+.emkredittkortse-info-container {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+.emkredittkortse-list-container {
+	margin-bottom: 2rem;
+}
+
+.emkredittkortse-info-fem,
+.emkredittkortse-info-seks,
+.emkredittkortse-info-syv,
+.emkredittkortse-info-atte {
+	margin-bottom: 1rem;
+}
+
+.emkredittkortse-end-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.emkredittkortse-terning {
+	width: 50px;
+	height: 50px;
+
+	margin-bottom: 2rem;
+
+	background-color: #e22;
+}
+
+/* dice dimensions */
+.emkredittkortse-rect-svg {
+	height: 50px;
+	width: 50px;
+}
+
+/* dice eye color */
+.emkredittkortse-circle-svg {
+	fill: #ffffff;
+}
+
+.emkredittkortse-bestill-container {
+	margin: 2rem 0;
+}
+
+.emkredittkortse-bestill {
+	text-align: center;
+	/*display: flex;
+	justify-content: center;*/
+	margin-bottom: 1rem;
+	width: 90%;
+}
+
+.emkredittkortse-ls-container > .emkredittkortse-logo {
+	padding-bottom: 1rem;
+}
+
+.emkredittkortse-ls-container .emkredittkortse-link {
+	width: auto;
+}
+
+.emkredittkortse-ls-container > .emkredittkortse-bestill {
+	width: auto;
+	/*padding-top: 1rem;*/
+}
+
+.emkredittkortse-bestilltext {
+	/*margin-top: 1rem;
+	text-align: center;*/
+}
+
+.emkredittkortse-link {
+	/*display: block;*/
+	padding: 1rem 2rem;
+	width: 100%;
+
+	/*background-image: linear-gradient(hsl(120, 70%, 60%) 0%, hsl(120, 70%, 50%) 100%);*/
+	background-image: linear-gradient(hsl(120,90%,45%) 0%,hsl(120,70%,36%) 100%);;
+	border: solid 2px hsl(120, 50%, 70%);
+	border-radius: 5px;
+
+	font-size: 2.2rem;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 0 2px #000;
+	font-family: arial;
+	text-decoration: none;
+
+	white-space: nowrap;
+
+	cursor: pointer;
+}
+
+.emkredittkortse-disabled {
+
+	background: none;
+	background-color: hsl(0, 0%, 70%) !important;
+	border: solid 1px hsl(0, 0%, 70%);
+
+	cursor: default;
+}
+
+.emkredittkortse-order-container {
+	text-align: center;
+	margin: 2rem 0 1rem;
+}
+
+/*.emkredittkortse-order-link::after {
+	content: ' Ansök här!';
+}*/
+
+.emkredittkortse-bestill-mobile {
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+}
+
+.emkredittkortse-svg {
+	filter: drop-shadow(1px 1px 1px #333);
+}
+
+.emkredittkortse-thumb {
+	fill: #fff;
+}
+
+.emkredittkortse-ls-container,
+.emkredittkortse-logo-ls {
+	text-align: center;
+}
+
+.emkredittkortse-bestilltext {
+	margin: 1rem 0;
+}

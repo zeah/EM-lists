@@ -1,8 +1,8 @@
 
 
 jQuery(function($) {
-
 	var data = JSON.parse(listdata);
+	// console.log(data);
 
 	$('.page-title-action').after('<button type="button" class="create-shortcode page-title-action">Create Shortcode</button>');
 

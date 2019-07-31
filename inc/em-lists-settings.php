@@ -65,6 +65,8 @@ final class EM_list_settings {
 		add_settings_section('em-lists-section', 'EM Lists', [$this, 'list_section'], 'em-lists-page');
 
 		add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkort');
+
+		add_settings_field('em-lists-kredittkort-se', 'Kredittkort SE', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkortse');
 		
 		// add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
 		

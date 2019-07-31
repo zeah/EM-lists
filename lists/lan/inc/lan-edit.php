@@ -27,8 +27,38 @@ final class Lan_edit {
 		add_action('add_meta_boxes_'.EMLAN, [$this, 'create_meta']);
 		/* hook for page saving/updating */
 		add_action('save_post', [$this, 'save']);
+		add_action('admin_enqueue_scripts', [$this, 'add_js']);
 	}
 
+
+	public function add_js() {
+		$id = get_current_screen();
+		if ($id->id != 'edit-'.EMLAN) return;
+
+
+		$args = [
+			'post_type' 		=> EMLAN,
+			'posts_per_page' 	=> -1,
+			'orderby'			=> [
+										'meta_value_num' => 'ASC',
+										'title' => 'ASC'
+								   ]
+		];
+
+		$posts = get_posts($args);
+
+		$po = [];
+
+		foreach ($posts as $p) $po[$p->ID] = $p->post_name;
+
+		$po['name'] = 'lan';
+
+		$po['tax'] = EMLAN.'type';
+
+		wp_enqueue_script(EMLAN.'_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
+
+		wp_localize_script(EMLAN.'_column', 'listdata', json_encode($po));
+	}
 
 	/**
 	 * wp filter for adding columns on ctp list page

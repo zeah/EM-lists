@@ -3,7 +3,7 @@
 /**
  * WP Shortcodes
  */
-final class Lan_se_shortcode {
+final class Kredittkort_se_shortcode {
 	/* singleton */
 	private static $instance = null;
 
@@ -24,20 +24,20 @@ final class Lan_se_shortcode {
 	private function wp_hooks() {
 
 		// loan list
-		if (!shortcode_exists('lan')) add_shortcode('lan', array($this, 'add_shortcode'));
-		else add_shortcode(EMLAN_SE, array($this, 'add_shortcode'));
+		if (!shortcode_exists('kredittkort')) add_shortcode('kredittkort', array($this, 'add_shortcode'));
+		else add_shortcode(KREDITTKORT_SE, array($this, 'add_shortcode'));
 
 		// loan thumbnail
-		if (!shortcode_exists('lan-bilde')) add_shortcode('lan-bilde', array($this, 'add_shortcode_bilde'));
-		else add_shortcode(EMLAN_SE.'-bilde', array($this, 'add_shortcode_bilde'));
+		if (!shortcode_exists('kredittkort-bilde')) add_shortcode('kredittkort-bilde', array($this, 'add_shortcode_bilde'));
+		else add_shortcode(KREDITTKORT_SE.'-bilde', array($this, 'add_shortcode_bilde'));
 
 		// loan button
-		if (!shortcode_exists('lan-bestill')) add_shortcode('lan-bestill', array($this, 'add_shortcode_bestill'));
-		else add_shortcode(EMLAN_SE.'-bestill', array($this, 'add_shortcode_bestill'));
+		if (!shortcode_exists('kredittkort-bestill')) add_shortcode('kredittkort-bestill', array($this, 'add_shortcode_bestill'));
+		else add_shortcode(KREDITTKORT_SE.'-bestill', array($this, 'add_shortcode_bestill'));
 
 		// button and clickable logo
-		if (!shortcode_exists('lan-landingside')) add_shortcode('lan-landingside', array($this, 'add_shortcode_landingside'));
-		else add_shortcode(EMLAN_SE.'-landingside', array($this, 'add_shortcode_landingside'));
+		if (!shortcode_exists('kredittkort-landingside')) add_shortcode('kredittkort-landingside', array($this, 'add_shortcode_landingside'));
+		else add_shortcode(KREDITTKORT_SE.'-landingside', array($this, 'add_shortcode_landingside'));
 
 
 		add_filter('search_first', array($this, 'add_serp'));
@@ -52,7 +52,7 @@ final class Lan_se_shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		return $this->get_html(EM_list_sc::posts(EMLAN_SE, 'lan', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT_SE, 'kredittkort', $atts, $content), $atts);
 	}
 
 
@@ -66,9 +66,9 @@ final class Lan_se_shortcode {
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
 		return EM_list_parts::logo([
-				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN_SE),'post-thumbnail')),
+				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], KREDITTKORT_SE),'post-thumbnail')),
 				'title' => 'Ansök här!',
-				'name' => EMLAN_SE,
+				'name' => KREDITTKORT_SE,
 				'atts' => $atts
 			]);
 	}
@@ -79,7 +79,7 @@ final class Lan_se_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLAN_SE, 'Ansök Här!', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, KREDITTKORT_SE, 'Ansök Här!', [$this, 'add_css']);
 	}
 
 
@@ -90,7 +90,7 @@ final class Lan_se_shortcode {
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => EMLAN_SE, 'atts' => $atts, 'button_text' => 'Ansök Här!']);
+		return EM_list_parts::landingside(['type' => KREDITTKORT_SE, 'atts' => $atts, 'button_text' => 'Ansök Här!']);
 	}
 
 
@@ -99,8 +99,8 @@ final class Lan_se_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style(EMLAN_SE.'-style', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se.css', array(), '1.0.2', '(min-width: 921px)');
-        wp_enqueue_style(EMLAN_SE.'-mobile', LAN_SE_PLUGIN_URL.'assets/css/pub/em-lanlist-se-mobile.css', array(), '1.0.2', '(max-width: 920px)');
+        wp_enqueue_style(KREDITTKORT_SE.'-style', KREDITTKORT_SE_PLUGIN_URL.'assets/css/pub/em-kredittkort-se.css', [], '1.0.0', '(min-width: 921px)');
+        wp_enqueue_style(KREDITTKORT_SE.'-mobile', KREDITTKORT_SE_PLUGIN_URL.'assets/css/pub/em-kredittkort-se-mobile.css', [], '1.0.0', '(max-width: 920px)');
 	}
 	
 
@@ -111,11 +111,11 @@ final class Lan_se_shortcode {
 	 * @return [html]        html list of loans
 	 */
 	private function get_html($posts, $atts = null) {
-		$html = '<ul class="'.EMLAN_SE.'-ul">';
+		$html = '<ul class="'.KREDITTKORT_SE.'-ul">';
 
 
 		foreach ($posts as $p) {
-			$meta = get_post_meta($p->ID, EMLAN_SE.'_data');
+			$meta = get_post_meta($p->ID, KREDITTKORT_SE.'_data');
 
 			// skip if no meta found
 			if (isset($meta[0])) $meta = $meta[0];
@@ -127,7 +127,7 @@ final class Lan_se_shortcode {
 			// grid container
 			$html .= sprintf(
 				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
-				EMLAN_SE, 
+				KREDITTKORT_SE, 
 				preg_replace('/\?.*$/', '', $meta['bestill'])
 			);
 			
@@ -136,7 +136,7 @@ final class Lan_se_shortcode {
 			$meta = $this->esc_kses($meta);
 
 			// title
-			$html .= '<div class="'.EMLAN_SE.'-title-container"><a class="'.EMLAN_SE.'-title" href="'.$meta['readmore'].'">'.wp_kses_post($p->post_title).'</a></div>';
+			$html .= '<div class="'.KREDITTKORT_SE.'-title-container"><a class="'.KREDITTKORT_SE.'-title" href="'.$meta['readmore'].'">'.wp_kses_post($p->post_title).'</a></div>';
 
 
 			// thumbnail
@@ -144,7 +144,7 @@ final class Lan_se_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
 				'title' => 'Ansök här!',
-				'name' => EMLAN_SE
+				'name' => KREDITTKORT_SE
 
 			]);
 
@@ -174,27 +174,28 @@ final class Lan_se_shortcode {
 
 				$text .= sprintf('<div class="%s">', $i['class']);
 
-				foreach ($i['childs'] as $key => $value)
+				foreach ($i['childs'] as $key => $value) 
 					$text .= sprintf(
 						'<div class="%%1$s-info %%1$s-info-%s">%s</div>', 
 						$value, 
 						str_replace('%', '%%', $meta['info'.$key])
 					);
+				
 
 				$text .= '</div>';
 			}
 
-			$html .= sprintf($text, EMLAN_SE);
+			$html .= sprintf($text, KREDITTKORT_SE);
 
 			$html .= sprintf(
 				'<div class="%s-end-container">%s%s</div>',
 
-				EMLAN_SE,
+				KREDITTKORT_SE,
 
-				EM_list_parts::dice(EMLAN_SE, $meta['terning']),
+				EM_list_parts::dice(KREDITTKORT_SE, $meta['terning']),
 
 				EM_list_parts::button([
-							'name' => EMLAN_SE,
+							'name' => KREDITTKORT_SE,
 							'meta' => $meta,
 							'button_text' => 'Ansök här!'
 						])
@@ -220,13 +221,13 @@ final class Lan_se_shortcode {
 	public function add_serp($data) {
 		global $post;
 
-		if ($post->post_type != EMLAN_SE) return $data;
+		if ($post->post_type != KREDITTKORT_SE) return $data;
 
-		$exclude = get_option(EMLAN_SE.'_exclude');
+		$exclude = get_option(KREDITTKORT_SE.'_exclude');
 		if (!is_array($exclude)) $exclude = [];
 		if (in_array($post->ID, $exclude)) return $data;
 
-		$exclude_serp = get_option(EMLAN_SE.'_exclude_serp');
+		$exclude_serp = get_option(KREDITTKORT_SE.'_exclude_serp');
 		if (!is_array($exclude_serp)) $exclude_serp = [];
 		if (in_array($post->ID, $exclude_serp)) return $data;
 
