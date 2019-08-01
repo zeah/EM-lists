@@ -72,8 +72,6 @@ final class Kredittkort_se_edit {
 	 * @return [array]           [array going through wp filter]
 	 */
 	public function column_head($defaults) {
-
-
 		return EM_lists::custom_head($defaults, KREDITTKORT_SE.'_sort');
 	}
 

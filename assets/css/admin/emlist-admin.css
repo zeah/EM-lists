@@ -1,0 +1,14 @@
+.menu-icon-emlanlist .wp-menu-image:before,
+.menu-icon-kredittkort .wp-menu-image:before {
+	color: hsl(240, 80%, 80%) !important;
+}
+
+.menu-icon-emlanlistse .wp-menu-image:before,
+.menu-icon-emkredittkortse .wp-menu-image:before {
+	color: hsl(60, 80%, 80%) !important;
+}
+
+.menu-icon-emlanlistdk .wp-menu-image:before,
+.menu-icon-emkredittkortdk .wp-menu-image:before {
+	color: hsl(0, 80%, 80%) !important;
+}

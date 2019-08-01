@@ -13,11 +13,11 @@ final class Kredittkort_se_overview {
 	}
 
 	private function __construct() {
-		add_action('admin_menu', array($this, 'add_menu'));
+		add_action('admin_menu', [$this, 'add_menu']);
 	}
 
 	public function add_menu() {
-		add_submenu_page('edit.php?post_type='.KREDITTKORT_SE, 'Overview', 'Overview', 'manage_options', KREDITTKORT_SE.'-overview', array($this, 'add_page'));
+		add_submenu_page('edit.php?post_type='.KREDITTKORT_SE, 'Overview', 'Overview', 'manage_options', KREDITTKORT_SE.'-overview', [$this, 'add_page']);
 	}
 
 	public function add_page() {

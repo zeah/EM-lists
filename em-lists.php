@@ -76,6 +76,12 @@ final class EM_lists {
 		if (isset($data['matkasselist'])) EM_matkasse::get_instance();
 		// if (isset($data['casino'])) EM_casino::get_instance();
 
+
+		add_action('admin_enqueue_scripts', [$this, 'sands']);
+	}
+
+	public function sands() {
+        wp_enqueue_style('list-admin-style', EM_LISTS_PLUGIN_URL.'assets/css/admin/emlist-admin.css', [], '1.0.0');
 	}
 
 	public static function sanitize($data) {

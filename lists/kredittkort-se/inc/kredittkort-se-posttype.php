@@ -30,6 +30,6 @@ final class Kredittkort_se_posttype {
 	*/
 	public function create_cpt() {
 
-		EM_lists::create_cpt(KREDITTKORT_SE, 'Kredittkort', 'Kredittkort SE', 'dashicons-money');
+		EM_lists::create_cpt(KREDITTKORT_SE, 'Kredittkort', 'Kredittkort SE', 'dashicons-id');
 	}
 }
