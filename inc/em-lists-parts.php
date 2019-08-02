@@ -96,7 +96,7 @@ final class EM_list_parts {
 
 		// returns order button and order text
 		return sprintf(
-			'<div class="%2$sbestill">%5$s<button data-name="%7$s" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
+			'<div class="%2$sbestill">%5$s<button data-name="%7$s" role="button" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
 
 			$url,
 
