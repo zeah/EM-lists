@@ -7,6 +7,7 @@ final class Lan_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $button_text = 'Søk Nå';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -15,9 +16,16 @@ final class Lan_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = EMLAN.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Søk Nå';
 
 		$this->wp_hooks();
+
+
 	}
+
+
 
 
 	/**
@@ -70,7 +78,7 @@ final class Lan_shortcode {
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLAN),'post-thumbnail')),
-				'title' => 'Søk Nå',
+				'title' => $this->button_text,
 				'name' => EMLAN,
 				'atts' => $atts
 			]);
@@ -82,7 +90,7 @@ final class Lan_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLAN, 'Søk Nå', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, EMLAN, $this->button_text, [$this, 'add_css']);
 	}
 
 
@@ -93,7 +101,7 @@ final class Lan_shortcode {
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => 'Søk Nå']);
+		return EM_list_parts::landingside(['type' => EMLAN, 'atts' => $atts, 'button_text' => $this->button_text ]);
 	}
 
 
@@ -124,6 +132,8 @@ final class Lan_shortcode {
 		);
 
 
+		// $this->button_text = 'hi';
+
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, EMLAN.'_data');
@@ -145,7 +155,7 @@ final class Lan_shortcode {
 			$logo = EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
-				'title' => 'Søk Nå',
+				'title' => $this->button_text,
 				'name' => EMLAN
 
 			]);
@@ -172,7 +182,7 @@ final class Lan_shortcode {
 				EM_list_parts::button([
 							'name' => EMLAN,
 							'meta' => $meta,
-							'button_text' => 'Søk Nå'
+							'button_text' => $this->button_text
 						])
 			);
 

@@ -18,6 +18,8 @@ final class EM_list_parts {
 	public static function button($o = []) {
 		global $post;
 
+		// $d = get_option($o['name'].'_')
+		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
 		// checks meta data
 		$m = isset($o['meta']) ? $o['meta'] : '';
 
@@ -62,10 +64,18 @@ final class EM_list_parts {
 
 		if (!$clid) $clid = $source;
 
+		// if ($ab) $m['bestill'] .= '&ab=[ab]';
+		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
+		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
+
+
+
 		// replacing stuff in the url (query string)
-		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/'			];
-		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME']	];
+		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/',				'/\[ab\]/'			];
+		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME'],	$o['ab']			];
 		parse_str(preg_replace($find, $replace, $m['bestill']), $out);
+
+		// if ($o['ab']) $out['ab'] = $o['ab'];
 
 		// wp_die('<xmp>'.print_r($out, true).'</xmp>');
 
@@ -96,7 +106,7 @@ final class EM_list_parts {
 
 		// returns order button and order text
 		return sprintf(
-			'<div class="%2$sbestill">%5$s<button data-name="%7$s" role="button" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
+			'<div class="%2$sbestill">%5$s<button data-name="%7$s" data-category="%11$s" role="button" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
 
 			$url,
 
@@ -118,7 +128,9 @@ final class EM_list_parts {
 
 			(isset($m['pixel']) && $m['pixel']) // 
 				? sprintf('<img width=0 height=0 src="%s" style="position: absolute">', esc_url($m['pixel']))
-				: ''
+				: '',
+
+			(isset($o['ab']) && $o['ab']) ? 'List Plugin '.$o['ab'] : 'List Plugin'
 
 		);
 	}
@@ -135,13 +147,13 @@ final class EM_list_parts {
 
 	private static function adtraction($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'epi=') === false) return $url.'&epi=source:[source]|page:[page]|clid:[clid]';
+		if (strpos($url, 'epi=') === false) return $url.'&epi=source:[source]|page:[page]|clid:[clid]|ab:[ab]';
 											return $url;
 	}
 
 	private static function adservice($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|page:[page]|clid:[clid]';
+		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|page:[page]|clid:[clid]|ab:[ab]';
 											return $url;
 	}
 
@@ -153,6 +165,7 @@ final class EM_list_parts {
 		if (strpos($url, 'source=') === false) $url .= '&source=[site]';
 		if (strpos($url, 'aff_sub=') === false) $url .= '&aff_sub=[source]';
 		if (strpos($url, 'aff_sub2=') === false) $url .= '&aff_sub2=[page]';
+		if (strpos($url, 'aff_sub3=') === false) $url .= '&aff_sub3=[ab]';
 
 		return $url;
 	}
@@ -291,7 +304,7 @@ final class EM_list_parts {
 					try {
 						if ("ga" in window) {
 						    tracker = ga.getAll()[0];
-						    if (tracker) tracker.send("event", "List Plugin", "%s", this.getAttribute("data-name"), 0);
+						    if (tracker) tracker.send("event", this.getAttribute("data-category"), "%s", this.getAttribute("data-name"), 0);
 						}
 					}
 				
@@ -371,6 +384,31 @@ final class EM_list_parts {
 		);
 
 	} 
+
+
+	public static function ab($name, $obj, $atts, $content = null) {
+		$opt = get_option('em_lists');
+
+		if (!method_exists($obj, 'add_shortcode1')) return $obj->add_shortcode2($atts, $content);
+		if (!method_exists($obj, 'add_shortcode2')) return $obj->add_shortcode1($atts, $content);
+
+
+		if (isset($opt[$name.'_ab']) && $opt[$name.'_ab']) {
+			$res = rand(0, 1);
+
+			if (!is_user_logged_in()) {
+				if (isset($_COOKIE['ab_'.$name]) && $_COOKIE['ab_'.$name]) $res = intval($_COOKIE['ab_'.$name]);
+				setcookie('ab_'.$name, $res, time() + (86400 * 30), "/");
+			}
+
+			switch ($res) {
+				case 0: return $obj->add_shortcode1($atts, $content);
+				default: return $obj->add_shortcode2($atts, $content);
+			}
+		}
+
+		return $obj->add_shortcode1($atts, $content);	
+	}
 
 
 }

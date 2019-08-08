@@ -51,7 +51,7 @@ final class EM_list_settings {
 
 	/* echoing page */
 	public function page_callback() {
-		echo '<form action="options.php" method="POST">';
+		echo '<form action="options.php" class="emlistform" method="POST">';
 		settings_fields('em-lists-settings');
 		do_settings_sections('em-lists-page');
 		submit_button('save');
@@ -65,20 +65,34 @@ final class EM_list_settings {
 		add_settings_section('em-lists-section', 'EM Lists', [$this, 'list_section'], 'em-lists-page');
 
 		add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkort');
+		add_settings_field('em-lists-kredittkort-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emkredittkort_text');
+		add_settings_field('em-lists-kredittkort-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emkredittkort_ab');
 
 		add_settings_field('em-lists-kredittkort-se', 'Kredittkort SE', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkortse');
+		add_settings_field('em-lists-kredittkort-se-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emkredittkortse_text');
+		add_settings_field('em-lists-kredittkort-se-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emkredittkortse_ab');
 		
 		// add_settings_field('em-lists-kredittkort-se', 'Kredittkort Sverige', array($this, 'kredittkort_se'), 'em-lists-page', 'em-lists-section');
 		
 		add_settings_field('em-lists-lan', 'Lån', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'emlanlist');
+		add_settings_field('em-lists-lan-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlist_text');
+		add_settings_field('em-lists-lan-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlist_ab');
 
 		add_settings_field('em-lists-lan-se', 'Lån Sverige', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'emlanlistse');
+		add_settings_field('em-lists-lan-se-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlistse_text');
+		add_settings_field('em-lists-lan-se-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlistse_ab');
 
 		add_settings_field('em-lists-lan-dk', 'Lån Danmark', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'emlanlistdk');
+		add_settings_field('em-lists-lan-dk-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlistdk_text');
+		add_settings_field('em-lists-lan-dk-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'emlanlistdk_ab');
 
 		add_settings_field('em-lists-bok', 'Bokklubb', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'bokliste');
+		add_settings_field('em-lists-bok-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'boklist_text');
+		add_settings_field('em-lists-bok-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'boklist_ab');
 
 		add_settings_field('em-lists-matkasse', 'Matkasse', [$this, 'list'], 'em-lists-page', 'em-lists-section', 'matkasselist');
+		add_settings_field('em-lists-matkasse-text', 'Knapptekst', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'matkasselist_text');
+		add_settings_field('em-lists-matkasse-ab', 'Aktiver A/B testing', [$this, 'list_text'], 'em-lists-page', 'em-lists-section', 'matkasselist_ab');
 
 		// add_settings_section('em-lists-redir', 'Redirection', array($this, 'list_redir_section'), 'em-lists-page');
 		// add_settings_field('em-lists-rdpf', 'Url post-fix', array($this, 'redir_pf'), 'em-lists-page', 'em-lists-redir');
@@ -92,7 +106,6 @@ final class EM_list_settings {
 
 	public function list($t) {
 		$data = get_option('em_lists');
-
 		printf(
 			'<input type="checkbox" name="em_lists[%1$s]"%2$s>',
 			$t,
@@ -100,6 +113,16 @@ final class EM_list_settings {
 		);
 
 		// echo '<div class=""><input type="checkbox" name="em_lists['.$t.']"'.(isset($data[$t]) ? ' checked' : '').'></div>';
+	}
+
+
+	public function list_text($t) {
+		$data = get_option('em_lists');
+		printf(
+			'<input type="text" name="em_lists[%1$s]"" value="%2$s">',
+			$t,
+			isset($data[$t]) ? $data[$t] : ''
+		);
 	}
 
 	// public function list_redir_section() {

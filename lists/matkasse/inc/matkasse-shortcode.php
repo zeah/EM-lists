@@ -7,6 +7,8 @@ final class Matkasse_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $button_text = 'Bestill her';
+
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
 
@@ -14,7 +16,9 @@ final class Matkasse_shortcode {
 	}
 
 	private function __construct() {
-
+		$data = get_option('em_lists');
+		$e = MAT.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Bestill her';
 
 		$this->wp_hooks();
 	}
@@ -44,16 +48,48 @@ final class Matkasse_shortcode {
 
 
 
+	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(EMLAN_SE, $this, $atts, $content);
+		
+		// $opt = get_option('em_lists');
+
+		// if (isset($opt[MAT.'_ab']) && $opt[MAT.'_ab']) {
+		// 	$res = rand(0, 1);
+		// 	if (isset($_COOKIE['ab']) && $_COOKIE['ab']) $res = intval($_COOKIE['ab']);
+		// 	setcookie('ab', $res, time() + (86400 * 30), "/");
+
+		// 	switch ($res) {
+		// 		case 0: return $this->add_shortcode1($atts, $content);
+		// 		default: return $this->add_shortcode2($atts, $content);
+		// 	}
+
+		// }
+
+		// return $this->add_shortcode1($atts, $content);
+	}
+
+
+
 	/**
 	 * returns a list of loans
 	 */
-	public function add_shortcode($atts, $content = null) {
-
+	public function add_shortcode2($atts, $content = null) {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		return $this->get_html(EM_list_sc::posts(MAT, 'mat', $atts, $content), $atts);
+		$ab = get_option('em_lists');
 
+		$e = MAT.'_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+
+		return $this->get_html(EM_list_sc::posts(MAT, 'mat', $atts, $content), $atts, $ab);
+	}
+
+	public function add_shortcode1($atts, $content = null) {
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		return $this->get_html(EM_list_sc::posts(MAT, 'mat', $atts, $content), $atts, false);
 	}
 
 
@@ -69,7 +105,7 @@ final class Matkasse_shortcode {
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], MAT),'post-thumbnail')),
-				'title' => 'Bestill her',
+				'title' => $this->button_text,
 				'name' => MAT,
 				'atts' => $atts
 			]);
@@ -87,7 +123,7 @@ final class Matkasse_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, MAT, 'Bestill her', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, MAT, $this->button_text, [$this, 'add_css']);
 
 		// if (!isset($atts['name']) || $atts['name'] == '') return;
 
@@ -135,7 +171,7 @@ final class Matkasse_shortcode {
 			$logo = EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
-				'title' => 'Bestill nå',
+				'title' => $this->button_text,
 				'name' => MAT
 
 			]);
@@ -162,7 +198,7 @@ final class Matkasse_shortcode {
 				EM_list_parts::button([
 							'name' => MAT,
 							'meta' => $meta,
-							'button_text' => 'Bestill'
+							'button_text' => $this->button_text
 						])
 			);
 

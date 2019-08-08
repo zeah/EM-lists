@@ -7,6 +7,8 @@ final class Kredittkort_se_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $button_text = 'Ansök här!';
+
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
 
@@ -14,6 +16,10 @@ final class Kredittkort_se_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = KREDITTKORT_SE.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Ansök här!';
+
 		$this->wp_hooks();
 	}
 
@@ -67,7 +73,7 @@ final class Kredittkort_se_shortcode {
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], KREDITTKORT_SE),'post-thumbnail')),
-				'title' => 'Ansök här!',
+				'title' => $this->button_text,
 				'name' => KREDITTKORT_SE,
 				'atts' => $atts
 			]);
@@ -79,7 +85,7 @@ final class Kredittkort_se_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, KREDITTKORT_SE, 'Ansök Här!', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, KREDITTKORT_SE, $this->button_text, [$this, 'add_css']);
 	}
 
 
@@ -90,7 +96,7 @@ final class Kredittkort_se_shortcode {
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => KREDITTKORT_SE, 'atts' => $atts, 'button_text' => 'Ansök Här!']);
+		return EM_list_parts::landingside(['type' => KREDITTKORT_SE, 'atts' => $atts, 'button_text' => $this->button_text]);
 	}
 
 
@@ -112,7 +118,6 @@ final class Kredittkort_se_shortcode {
 	 */
 	private function get_html($posts, $atts = null) {
 		$html = '<ul class="'.KREDITTKORT_SE.'-ul">';
-
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, KREDITTKORT_SE.'_data');
@@ -143,7 +148,7 @@ final class Kredittkort_se_shortcode {
 			$html .= EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
-				'title' => 'Ansök här!',
+				'title' => $this->button_text,
 				'name' => KREDITTKORT_SE
 
 			]);
@@ -197,7 +202,7 @@ final class Kredittkort_se_shortcode {
 				EM_list_parts::button([
 							'name' => KREDITTKORT_SE,
 							'meta' => $meta,
-							'button_text' => 'Ansök här!'
+							'button_text' => $this->button_text
 						])
 			);
 

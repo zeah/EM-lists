@@ -20,6 +20,7 @@ final class Bok_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $button_text = 'Bestill nå';
 
 	// private $name = 'bokliste';
 
@@ -32,6 +33,10 @@ final class Bok_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = BOK.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Bestill nå';
+
 		$this->wp_hooks();
 	}
 
@@ -105,7 +110,7 @@ final class Bok_shortcode {
 			$image = EM_list_parts::logo([
 				'image' => $meta['image'],
 				'meta' => $meta,
-				'title' => 'Bestill nå',
+				'title' => $this->button_text,
 				'name' => BOK
 			]);
 

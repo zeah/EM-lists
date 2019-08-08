@@ -7,11 +7,7 @@ final class Lan_dk_shortcode {
 	/* singleton */
 	private static $instance = null;
 
-	// private $name = 'EMLANDKlistdk';
-
-	// private $pf = '-get';
-
-	// public $pixels = [];
+	private $button_text = 'Ansøg Nu';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -20,6 +16,10 @@ final class Lan_dk_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = EMLANDK.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Ansøg Nu';
+
 		$this->wp_hooks();
 	}
 
@@ -69,7 +69,7 @@ final class Lan_dk_shortcode {
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], EMLANDK),'post-thumbnail')),
-				'title' => 'Ansøg Nu',
+				'title' => $this->button_text,
 				'name' => EMLANDK,
 				'atts' => $atts
 			]);
@@ -78,14 +78,14 @@ final class Lan_dk_shortcode {
 	public function add_shortcode_landingside($atts = [], $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
-		return EM_list_parts::landingside(['type' => EMLANDK, 'atts' => $atts, 'button_text' => 'Ansøg Nu']);
+		return EM_list_parts::landingside(['type' => EMLANDK, 'atts' => $atts, 'button_text' => $this->button_text]);
 	}
 
 	/**
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, EMLANDK, 'Ansøg Nu', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, EMLANDK, $this->button_text, [$this, 'add_css']);
 	}
 
 
@@ -161,7 +161,7 @@ final class Lan_dk_shortcode {
 				EM_list_parts::button([
 							'name' => EMLANDK,
 							'meta' => $meta,
-							'button_text' => 'Ansøg Nu'
+							'button_text' => $this->button_text
 						])
 			);
 
