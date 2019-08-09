@@ -53,10 +53,27 @@ final class Kredittkort_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(KREDITTKORT, $this, $atts, $content);
+	}
+
+
+	public function add_shortcode2($atts, $content = null) {
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		$ab = get_option('em_lists');
+		$e = KREDITTKORT.'_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT, 'lan', $atts, $content), $atts, $ab);
+	}
+
+
+	public function add_shortcode1($atts, $content = null) {
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		
-		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts, false);
 	}
 
 
@@ -111,7 +128,7 @@ final class Kredittkort_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts) {
+	private function get_html($posts, $atts, $ab = false) {
 
 		$html = sprintf('<div class="%1$s-kortliste"><ul class="%1$s-ul">', KREDITTKORT);
 
@@ -137,6 +154,7 @@ final class Kredittkort_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $logo_meta,
 				'title' => $this->button_text,
+				'ab' => $ab,
 				'name' => KREDITTKORT
 			]);
 
@@ -235,6 +253,7 @@ final class Kredittkort_shortcode {
 				EM_list_parts::button([
 									'name' => KREDITTKORT,
 									'meta' => $meta,
+									'ab' => $ab,
 									'disable_thumb' => true,
 									'button_text' => $this->button_text
 								]),

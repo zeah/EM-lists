@@ -49,16 +49,31 @@ final class Kredittkort_se_shortcode {
 		add_filter('search_first', array($this, 'add_serp'));
 	}
 
+	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(KREDITTKORT_SE, $this, $atts, $content);
+	}
+
+
+	public function add_shortcode2($atts, $content = null) {
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		$ab = get_option('em_lists');
+		$e = KREDITTKORT_SE.'_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT_SE, 'lan', $atts, $content), $atts, $ab);
+	}
 
 
 	/**
 	 * returns a list of loans
 	 */
-	public function add_shortcode($atts, $content = null) {
+	public function add_shortcode1($atts, $content = null) {
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		return $this->get_html(EM_list_sc::posts(KREDITTKORT_SE, 'kredittkort', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT_SE, 'kredittkort', $atts, $content), $atts, false);
 	}
 
 
@@ -116,7 +131,7 @@ final class Kredittkort_se_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts = null) {
+	private function get_html($posts, $atts = null, $ab = false) {
 		$html = '<ul class="'.KREDITTKORT_SE.'-ul">';
 
 		foreach ($posts as $p) {
@@ -149,6 +164,7 @@ final class Kredittkort_se_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
 				'title' => $this->button_text,
+				'ab' => $ab,
 				'name' => KREDITTKORT_SE
 
 			]);
@@ -202,6 +218,7 @@ final class Kredittkort_se_shortcode {
 				EM_list_parts::button([
 							'name' => KREDITTKORT_SE,
 							'meta' => $meta,
+							'ab' => $ab,
 							'button_text' => $this->button_text
 						])
 			);

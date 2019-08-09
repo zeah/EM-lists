@@ -54,16 +54,29 @@ final class Lan_shortcode {
 
 	}
 
-
+	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(EMLAN, $this, $atts, $content);
+	}
 
 	/**
 	 * returns a list of loans
 	 */
-	public function add_shortcode($atts, $content = null) {
+	public function add_shortcode2($atts, $content = null) {
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		$ab = get_option('em_lists');
+		$e = EMLAN.'_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+
+		return $this->get_html(EM_list_sc::posts(EMLAN, 'lan', $atts, $content), $atts, $ab);
+	}
+
+	public function add_shortcode1($atts, $content = null) {
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
-		return $this->get_html(EM_list_sc::posts(EMLAN, 'lan', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(EMLAN, 'lan', $atts, $content), $atts, false);
 	}
 
 
@@ -121,7 +134,7 @@ final class Lan_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts = null) {
+	private function get_html($posts, $atts = null, $ab = false) {
 		// wp_die('<xmp>'.print_r($posts, true).'</xmp>');
 		if (!$atts) $atts = [];
 		$html = sprintf('<ul class="%s-ul">', EMLAN);
@@ -156,7 +169,8 @@ final class Lan_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
 				'title' => $this->button_text,
-				'name' => EMLAN
+				'name' => EMLAN,
+				'ab' => $ab
 
 			]);
 
@@ -182,6 +196,7 @@ final class Lan_shortcode {
 				EM_list_parts::button([
 							'name' => EMLAN,
 							'meta' => $meta,
+							'ab' => $ab,
 							'button_text' => $this->button_text
 						])
 			);

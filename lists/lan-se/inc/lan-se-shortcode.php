@@ -51,29 +51,7 @@ final class Lan_se_shortcode {
 
 
 	public function add_shortcode($atts, $content = null) {
-
-
 		return EM_list_parts::ab(EMLAN_SE, $this, $atts, $content);
-
-
-		// $opt = get_option('em_lists');
-
-
-		// if (isset($opt[EMLAN_SE.'_ab']) && $opt[EMLAN_SE.'_ab']) {
-		// 	$res = rand(0, 1);
-
-		// 	if (!user_is_logged_in()) {
-		// 		if (isset($_COOKIE['ab']) && $_COOKIE['ab']) $res = intval($_COOKIE['ab']);
-		// 		setcookie('ab', $res, time() + (86400 * 30), "/");
-		// 	}
-
-		// 	switch ($res) {
-		// 		case 0: return $this->add_shortcode1($atts, $content);
-		// 		default: return $this->add_shortcode2($atts, $content);
-		// 	}
-		// }
-
-		// return $this->add_shortcode1($atts, $content);
 	}
 
 
@@ -191,6 +169,7 @@ final class Lan_se_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $meta,
 				'title' => $this->button_text,
+				'ab' => $ab,
 				'name' => EMLAN_SE
 
 			]);

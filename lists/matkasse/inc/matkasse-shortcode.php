@@ -49,23 +49,7 @@ final class Matkasse_shortcode {
 
 
 	public function add_shortcode($atts, $content = null) {
-		return EM_list_parts::ab(EMLAN_SE, $this, $atts, $content);
-		
-		// $opt = get_option('em_lists');
-
-		// if (isset($opt[MAT.'_ab']) && $opt[MAT.'_ab']) {
-		// 	$res = rand(0, 1);
-		// 	if (isset($_COOKIE['ab']) && $_COOKIE['ab']) $res = intval($_COOKIE['ab']);
-		// 	setcookie('ab', $res, time() + (86400 * 30), "/");
-
-		// 	switch ($res) {
-		// 		case 0: return $this->add_shortcode1($atts, $content);
-		// 		default: return $this->add_shortcode2($atts, $content);
-		// 	}
-
-		// }
-
-		// return $this->add_shortcode1($atts, $content);
+		return EM_list_parts::ab(MAT, $this, $atts, $content);
 	}
 
 
@@ -142,7 +126,7 @@ final class Matkasse_shortcode {
         wp_enqueue_style(MAT.'-mobile', MATKASSELIST_PLUGIN_URL.'assets/css/pub/em-'.MAT.'-mobile.css', array(), '1.0.0', '(max-width: 1070px)');
 	}
 
-	private function get_html($posts, $atts = null) {
+	private function get_html($posts, $atts = null, $ab = false) {
 		$html = sprintf('<ul class="%s-ul">', MAT);
 		$star = sprintf(
 			'<svg class="%1$s-star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path class="%1$s-star-path" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
@@ -168,13 +152,14 @@ final class Matkasse_shortcode {
 
 			$meta = $this->esc_kses($meta);
 
-			$logo = EM_list_parts::logo([
-				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
-				'meta' => $meta,
-				'title' => $this->button_text,
-				'name' => MAT
+			// $logo = EM_list_parts::logo([
+			// 	'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
+			// 	'meta' => $meta,
+			// 	'title' => $this->button_text,
+			// 	'ab' => $ab,
+			// 	'name' => MAT
 
-			]);
+			// ]);
 
 			// $top
 			$top = '';
@@ -198,6 +183,7 @@ final class Matkasse_shortcode {
 				EM_list_parts::button([
 							'name' => MAT,
 							'meta' => $meta,
+							'ab' => $ab,
 							'button_text' => $this->button_text
 						])
 			);
@@ -212,6 +198,7 @@ final class Matkasse_shortcode {
 					'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 					'meta' => $meta,
 					'title' => 'Søk Nå',
+					'ab' => $ab,
 					'name' => MAT
 				]),
 
