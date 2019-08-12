@@ -20,6 +20,11 @@ final class EM_list_edit {
 
 	}
 
+	public static function sands() {
+		wp_enqueue_script(EM_LISTS_PLUGIN_URL.'_edit_js', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-edit.js', ['jquery'], false, true);
+	}
+
+
 	public static function create_meta_box($post, $name) {
 		if (!$name) return;
 
@@ -27,7 +32,8 @@ final class EM_list_edit {
 
 		$meta = get_post_meta($post->ID, $name.'_data');
 		$sort = get_post_meta($post->ID, $name.'_sort');
-		$redirect = get_post_meta($post->ID, $name.'_redirect');
+		// $redirect = get_post_meta($post->ID, $name.'_redirect');
+		
 		if (!is_array($redirect)) $redirect = [];
 
 		$tax = wp_get_post_terms($post->ID, $name.'type');
@@ -39,20 +45,19 @@ final class EM_list_edit {
 
 		$json = [
 			// 'meta' => isset($meta[0]) ? $meta[0] : '',
+			'name' => $name,
 			'meta' => isset($meta[0]) ? EM_Lists::sanitize($meta[0]) : '',
 			$name.'_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
 			$name.'_redirect' => isset($redirect[0]) ? $redirect[0] : '',
 			'tax' => $taxes
 		];
+
 		$ameta = get_post_meta($post->ID);
-		// wp_die('<xmp>'.print_r($post, true).'</xmp>');
-		// wp_die('<xmp>'.print_r($ameta, true).'</xmp>');
 		foreach($ameta as $key => $value)
 			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
-		// wp_die('<xmp>'.print_r($json, true).'</xmp>');
 		
-		wp_localize_script($name.'-admin', $name.'_data', json_decode(json_encode($json), true));
-		echo '<div style="background-color: #fafafa;" class="'.$name.'-meta-container"></div>';
+		wp_localize_script(EM_LISTS_PLUGIN_URL.'_edit_js', 'data', json_decode(json_encode($json), true));
+		echo '<div style="background-color: #fafafa;" class="meta-container"></div>';
 	}
 
 

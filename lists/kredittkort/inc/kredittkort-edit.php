@@ -64,6 +64,10 @@ final class Kredittkort_edit {
 
 		$po['tax'] = KREDITTKORT.'type';
 
+		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
+		
+
+
 		wp_enqueue_script(KREDITTKORT.'_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
 
 		wp_localize_script(KREDITTKORT.'_column', 'listdata', json_encode($po));
@@ -78,6 +82,7 @@ final class Kredittkort_edit {
 		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
 		if ($id->id != KREDITTKORT) return;
 
+		EM_list_edit::sands();
 		wp_enqueue_style('em-'.KREDITTKORT.'-admin-style', KREDITTKORT_PLUGIN_URL . 'assets/css/admin/em-kredittkort.css', array(), '1.0.1');
 	}
 
@@ -234,7 +239,7 @@ final class Kredittkort_edit {
 		
 		/* adding admin css and js */
 		// wp_enqueue_style('em-kredittkort-admin-style', KREDITTKORT_PLUGIN_URL . 'assets/css/admin/em-kredittkort.css', array(), '1.0.1');
-		wp_enqueue_script(KREDITTKORT.'-admin', KREDITTKORT_PLUGIN_URL . 'assets/js/admin/em-kredittkort.js', array(), '1.0.1', true);
+		// wp_enqueue_script(KREDITTKORT.'-admin', KREDITTKORT_PLUGIN_URL . 'assets/js/admin/em-kredittkort.js', array(), '1.0.1', true);
 	}
 
 
