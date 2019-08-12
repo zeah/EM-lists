@@ -20,6 +20,7 @@ final class Bok_shortcode {
 	/* singleton */
 	private static $instance = null;
 
+	private $button_text = 'Bestill nå';
 
 	// private $name = 'bokliste';
 
@@ -32,6 +33,10 @@ final class Bok_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = BOK.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Bestill nå';
+
 		$this->wp_hooks();
 	}
 
@@ -53,10 +58,30 @@ final class Bok_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(BOK, $this, $atts, $content);
+	}
+
+
+	public function add_shortcode2($atts, $content = null) {
+
+
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		$ab = get_option('em_lists');
+		$e = BOK.'list_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+		// return $ab;
+		// return $ab;
+		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts, $ab);
+	}
+
+
+	public function add_shortcode1($atts, $content = null) {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
 
-		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts, false);
 	}
 
 
@@ -74,11 +99,12 @@ final class Bok_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts = null) {
+	private function get_html($posts, $atts = null, $ab = false) {
+		// return $ab;
 		$html = '<ul class="bok-ul">';
 
 		foreach ($posts as $p) {
-			
+
 			$meta = get_post_meta($p->ID, BOK.'liste_data');
 
 			// skip if no meta found
@@ -99,13 +125,15 @@ final class Bok_shortcode {
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $logo_meta,
 				'title' => 'Les mer',
+				'ab' => $ab,
 				'name' => BOK
 			]);
 
 			$image = EM_list_parts::logo([
 				'image' => $meta['image'],
 				'meta' => $meta,
-				'title' => 'Bestill nå',
+				'title' => $this->button_text,
+				'ab' => $ab,
 				'name' => BOK
 			]);
 
@@ -142,6 +170,7 @@ final class Bok_shortcode {
 				EM_list_parts::button([
 							'name' => BOK,
 							'meta' => $meta,
+							'ab' => $ab,
 							'button_text' => 'Bestill'
 						])
 			);

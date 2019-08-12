@@ -18,6 +18,8 @@ final class EM_list_parts {
 	public static function button($o = []) {
 		global $post;
 
+		// $d = get_option($o['name'].'_')
+		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
 		// checks meta data
 		$m = isset($o['meta']) ? $o['meta'] : '';
 
@@ -62,10 +64,18 @@ final class EM_list_parts {
 
 		if (!$clid) $clid = $source;
 
+		// if ($ab) $m['bestill'] .= '&ab=[ab]';
+		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
+		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
+
+
+
 		// replacing stuff in the url (query string)
-		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/'			];
-		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME']	];
+		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/',				'/\[ab\]/'			];
+		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME'],	$o['ab']			];
 		parse_str(preg_replace($find, $replace, $m['bestill']), $out);
+
+		// if ($o['ab']) $out['ab'] = $o['ab'];
 
 		// wp_die('<xmp>'.print_r($out, true).'</xmp>');
 
@@ -98,7 +108,7 @@ final class EM_list_parts {
 
 		// return '<div><a</div>';
 		return sprintf(
-			'<div class="%2$sbestill">%5$s<button data-name="%7$s" role="button" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
+			'<div class="%2$sbestill">%5$s<button data-name="%7$s" data-action="%11$s" role="button" class="%2$slink emlist-link%9$s" type="submit"%8$s>%3$s%4$s</button>%6$s%10$s</div>',
 
 			$url,
 
@@ -108,7 +118,7 @@ final class EM_list_parts {
 
 			do_shortcode($o['button_text']),
 
-			$inputs,
+			$inputs, // 5
 
 			isset($m['bestill_text']) ? sprintf('<div class="%sbestilltext">%s</div>', $o['name'], $m['bestill_text']) : '', // 
 
@@ -118,9 +128,11 @@ final class EM_list_parts {
 
 			$disabled ? ' '.$o['name'].'disabled' : '', // 
 
-			(isset($m['pixel']) && $m['pixel']) // 
+			(isset($m['pixel']) && $m['pixel']) // 10
 				? sprintf('<img width=0 height=0 src="%s" style="position: absolute">', esc_url($m['pixel']))
-				: ''
+				: '',
+
+			(isset($o['ab']) && $o['ab']) ? ' '.$o['ab'] : ''
 
 		);
 	}
@@ -137,13 +149,13 @@ final class EM_list_parts {
 
 	private static function adtraction($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'epi=') === false) return $url.'&epi=source:[source]|page:[page]|clid:[clid]';
+		if (strpos($url, 'epi=') === false) return $url.'&epi=source:[source]|page:[page]|clid:[clid]|ab:[ab]';
 											return $url;
 	}
 
 	private static function adservice($url) {
 		if (strpos($url, '?') === false) $url .= '?';
-		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|page:[page]|clid:[clid]';
+		if (strpos($url, 'sub=') === false) return $url.'&sub=source:[source]|page:[page]|clid:[clid]|ab:[ab]';
 											return $url;
 	}
 
@@ -155,12 +167,16 @@ final class EM_list_parts {
 		if (strpos($url, 'source=') === false) $url .= '&source=[site]';
 		if (strpos($url, 'aff_sub=') === false) $url .= '&aff_sub=[source]';
 		if (strpos($url, 'aff_sub2=') === false) $url .= '&aff_sub2=[page]';
+		if (strpos($url, 'aff_sub3=') === false) $url .= '&aff_sub3=[ab]';
 
 		return $url;
 	}
 
 
 	public static function logo($o = []) {
+
+		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
+
 		if (!isset($o['image']) || !$o['image']) return '';
 		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
 		if (!isset($o['meta']['bestill']) || !$o['meta']['bestill'])
@@ -173,10 +189,12 @@ final class EM_list_parts {
 			);
 
 		return sprintf(
-			'<input title="%s" class="%slogo emlist-link%s" type="image" src="%s" data-name="%s">', 
+			'<input title="%s" class="%slogo emlist-link%s" data-name="%s" data-action=" logo%s" type="image" src="%s" data-name="%s">', 
 			isset($o['title']) ? $o['title'] : 'Apply now', 
-			isset($o['name']) ? $o['name'].'-' : '', 
+			isset($o['name']) ? $o['name'].'-' : '',
 			isset($o['class']) ? ' '.$o['class'] : '',
+			isset($o['meta']['post_name']) ? $o['meta']['post_name'] : '',
+			isset($o['ab']) ? ' '.$o['ab'] : '', 
 			$o['image'],
 			isset($o['meta']['post_name']) ? $o['meta']['post_name'] : 'na'
 		);
@@ -253,6 +271,10 @@ final class EM_list_parts {
 	public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null) {
 	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $content = null) {
 	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $inline = null, $content = null) {
+
+		global $post;
+		// wp_die('<xmp>'.print_r($post->post_name, true).'</xmp>');
+
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		if ($obj && isset($obj[0]) && isset($obj[1])) add_action('wp_enqueue_scripts', [$obj[0], $obj[1]]);
@@ -268,6 +290,7 @@ final class EM_list_parts {
 		if (!is_array($meta) || !isset($meta[0])) return '';
 
 		$meta = $meta[0];
+		$meta['post_name'] = $p->post_name;
 
 		return sprintf(
 			'<div class="%1$s-solo-button"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">%3$s</form></div>',
@@ -276,6 +299,7 @@ final class EM_list_parts {
 			self::button([
 				'name' => $type,
 				'meta' => $meta,
+				'ab' => '',
 				'button_text' => $button_text
 			])
 		);
@@ -286,14 +310,23 @@ final class EM_list_parts {
 		if (is_user_logged_in()) return;
 
 		global $post;
+
+
+		// data-action is page name + logo + ab (if version b)
+		// data-name is loan/card/etc name
+
 		printf('<script>
 			var eles = document.querySelectorAll(".emlist-link");
+			// console.log(eles);
 			for (var i = 0; i < eles.length; i++) 
+				// console.log(eles[i]);
+				// console.log("%1$s"+eles[i].getAttribute("data-action"));
+				
 				eles[i].addEventListener("click", function(e) {
 					try {
 						if ("ga" in window) {
 						    tracker = ga.getAll()[0];
-						    if (tracker) tracker.send("event", "List Plugin", "%s", this.getAttribute("data-name"), 0);
+						    if (tracker) tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
 						}
 					}
 				
@@ -373,6 +406,34 @@ final class EM_list_parts {
 		);
 
 	} 
+
+
+	public static function ab($name, $obj, $atts, $content = null) {
+		$opt = get_option('em_lists');
+
+		if (!method_exists($obj, 'add_shortcode1')) return $obj->add_shortcode2($atts, $content);
+		if (!method_exists($obj, 'add_shortcode2')) return $obj->add_shortcode1($atts, $content);
+
+		if ($name == 'bok') $name = 'boklist';
+
+		if (isset($opt[$name.'_ab']) && $opt[$name.'_ab']) {
+			$res = rand(0, 1);
+
+			// always show random page to logged in user
+			if (!is_user_logged_in()) {
+				if (isset($_COOKIE['ab_'.$name]) && $_COOKIE['ab_'.$name]) $res = intval($_COOKIE['ab_'.$name]);
+				setcookie('ab_'.$name, $res, time() + (86400 * 30), "/");
+			}
+
+			switch ($res) {
+				case 0: return $obj->add_shortcode1($atts, $content);
+				default: return $obj->add_shortcode2($atts, $content);
+			}
+		}
+
+		// ab-testing is disabled
+		return $obj->add_shortcode1($atts, $content);	
+	}
 
 
 }

@@ -20,6 +20,9 @@ final class EM_list_sc {
 
 	/* getting the posts */
 	public static function posts($name, $sc, $atts, $content = null) {
+
+		// wp_die('<xmp>'.print_r($name, true).'</xmp>');
+
 		if (!is_array($atts)) $atts = [];
 		$type = false;
 		if (isset($atts[$sc])) $type = $atts[$sc];

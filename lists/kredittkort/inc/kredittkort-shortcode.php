@@ -7,7 +7,7 @@ final class Kredittkort_shortcode {
 	/* singleton */
 	private static $instance = null;
 
-	public $pixels = [];
+	private $button_text = 'Bestill Kortet';
 
 	public static function get_instance() {
 		if (self::$instance === null) self::$instance = new self();
@@ -16,6 +16,10 @@ final class Kredittkort_shortcode {
 	}
 
 	private function __construct() {
+		$data = get_option('em_lists');
+		$e = KREDITTKORT.'_text';
+		$this->button_text = (isset($data[$e]) && $data[$e]) ? $data[$e] : 'Bestill Kortet';
+
 		$this->wp_hooks();
 	}
 
@@ -49,10 +53,27 @@ final class Kredittkort_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode($atts, $content = null) {
+		return EM_list_parts::ab(KREDITTKORT, $this, $atts, $content);
+	}
+
+
+	public function add_shortcode2($atts, $content = null) {
+		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+
+		$ab = get_option('em_lists');
+		$e = KREDITTKORT.'_ab';
+		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
+
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT, 'lan', $atts, $content), $atts, $ab);
+	}
+
+
+	public function add_shortcode1($atts, $content = null) {
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		
-		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts);
+		return $this->get_html(EM_list_sc::posts(KREDITTKORT, KREDITTKORT, $atts, $content), $atts, false);
 	}
 
 
@@ -62,7 +83,7 @@ final class Kredittkort_shortcode {
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
-		return EM_list_parts::landingside(['type' => KREDITTKORT, 'atts' => $atts, 'button_text' => 'Bestill Kortet']);
+		return EM_list_parts::landingside(['type' => KREDITTKORT, 'atts' => $atts, 'button_text' => $this->button_text]);
 	}
 
 	/**
@@ -75,7 +96,7 @@ final class Kredittkort_shortcode {
 
 		return EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url(EM_list_parts::gp($atts['name'], KREDITTKORT),'post-thumbnail')),
-				'title' => 'Bestill Kortet',
+				'title' => $this->button_text,
 				'name' => KREDITTKORT,
 				'atts' => $atts
 			]);
@@ -86,7 +107,7 @@ final class Kredittkort_shortcode {
 	 * returns bestill button only from loan
 	 */
 	public function add_shortcode_bestill($atts, $content = null) {
-		return EM_list_parts::sc_button($atts, KREDITTKORT, 'Bestill Kortet', [$this, 'add_css']);
+		return EM_list_parts::sc_button($atts, KREDITTKORT, $this->button_text, [$this, 'add_css']);
 	}
 
 
@@ -107,7 +128,7 @@ final class Kredittkort_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts) {
+	private function get_html($posts, $atts, $ab = false) {
 
 		$html = sprintf('<div class="%1$s-kortliste"><ul class="%1$s-ul">', KREDITTKORT);
 
@@ -132,7 +153,8 @@ final class Kredittkort_shortcode {
 			$logo = EM_list_parts::logo([
 				'image' => wp_kses_post(get_the_post_thumbnail_url($p,'post-thumbnail')),
 				'meta' => $logo_meta,
-				'title' => 'Bestill kortet',
+				'title' => $this->button_text,
+				'ab' => $ab,
 				'name' => KREDITTKORT
 			]);
 
@@ -231,8 +253,9 @@ final class Kredittkort_shortcode {
 				EM_list_parts::button([
 									'name' => KREDITTKORT,
 									'meta' => $meta,
+									'ab' => $ab,
 									'disable_thumb' => true,
-									'button_text' => 'Bestill Kortet'
+									'button_text' => $this->button_text
 								]),
 
 

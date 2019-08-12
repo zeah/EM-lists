@@ -12,3 +12,32 @@
 .menu-icon-emkredittkortdk .wp-menu-image:before {
 	color: hsl(0, 80%, 80%) !important;
 }
+
+/*.emlistform tbody tr:nth-child(3n),*/
+.emlistform tbody tr:nth-child(3n) td {
+/*.emlistform tbody tr:nth-child(3n) th {*/
+	padding-bottom: 50px !important;
+	/*border-bottom: solid 3px black;*/
+}
+
+/*.emlistform tbody tr:nth-child(3n) td {*/
+	/*padding-bottom: 1.5rem !important;*/
+	/*margin-bottom: 1.5rem !important;*/
+	/*background-color: red;*/
+/*}*/
+
+/*.emlistform tbody tr:nth-child(4n) th,
+.emlistform tbody tr:nth-child(4n) td {
+	padding-top: 1.5rem !important;
+}*/
+
+.emlistform td,
+.emlistform th {
+	padding: .2rem;
+}
+
+.emlistform input[type=text] {
+	position: relative;
+	right: 2px;
+	bottom: 5px;
+}
