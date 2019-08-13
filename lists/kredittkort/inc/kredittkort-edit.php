@@ -246,124 +246,46 @@ final class Kredittkort_edit {
 	/*
 		creates content in metabox
 	*/
-
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'info01' ],
+				'info02' => [ 'title' => 'info02' ],
+				'info03' => [ 'title' => 'info03' ],
+				'info04' => [ 'title' => 'info04' ],
+				'info05' => [ 'title' => 'info05' ],
+				'info06' => [ 'title' => 'info06' ],
+				'info07' => [ 'title' => 'info07' ],
+				'info08' => [ 'title' => 'info08' ],
+				'pixel' => [ 'title' => 'pixel url' ],
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [KREDITTKORT.'_sort']
+		];
+
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
 
-	// public function create_meta_box($post) {
-	// 	wp_nonce_field('em'.basename(__FILE__), KREDITTKORT.'_nonce');
-
-	// 	$meta = get_post_meta($post->ID, 'kredittkort_data');
-	// 	$sort = get_post_meta($post->ID, 'kredittkort_sort');
-
-	// 	$tax = wp_get_post_terms($post->ID, 'kredittkorttype');
-
-	// 	$taxes = [];
-	// 	if (is_array($tax))
-	// 		foreach($tax as $t)
-	// 			array_push($taxes, $t->slug);
-
-	// 	$json = [
-	// 		'meta' => isset($meta[0]) ? $this->sanitize($meta[0]) : '',
-	// 		'kredittkort_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
-	// 		'tax'  => $taxes
-	// 	];
-
-	// 	$ameta = get_post_meta($post->ID);
-	// 	foreach($ameta as $key => $value)
-	// 		if (strpos($key, 'kredittkort_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
-
-
-	// 	wp_localize_script('em-kredittkort-admin', 'kredittkort_meta', json_decode(json_encode($json), true));
-	// 	echo '<div class="kredittkort-meta-container"></div>';
-	// }
  
 
  	/**
  	 * [exclude_meta_box description]
  	 */
-
  	public function exclude_meta_box() {
 		global $post;
 		EM_list_edit::create_exclude_box($post, KREDITTKORT);
 	}
-	// public function exclude_meta_box() {
-	// 	global $post;
-
-	// 	$exclude = get_option('kredittkort_exclude');
-	// 	if (!is_array($exclude)) $exclude = [];
-
-	// 	$exclude_serp = get_option('kredittkort_exclude_serp');
-	// 	if (!is_array($exclude_serp)) $exclude_serp = [];
-
-	// 	echo '<p><input name="kredittkort_exclude" id="kredittkort_exc" type="checkbox"'.(array_search($post->ID, $exclude) !== false ? ' checked' : '').'><label for="kredittkort_exc">Kortet vil ikke vises på front-end når boksen er markert.</label></p>
-	// 	      <p><input name="kredittkort_exclude_serp" id="kredittkort_exc_serp" type="checkbox"'.(array_search($post->ID, $exclude_serp) !== false ? ' checked' : '').'><label for="kredittkort_exc_serp">Ikke hvis i interal SERP.</label></p>';
-	// }
-
 
 
 	/**
 	 * wp action when saving
 	 */
-
 	public function save($post_id) {
 		EM_list_edit::save($post_id, KREDITTKORT);
 	}
-
-	/**
-	 * [updating wp option]
-	 * @param  [type] $data  [var to be saved to]
-	 * @param  [type] $value [data to be saved]
-	 */
-	// private function u_option($data, $value) {
-	// 	$option = get_option($data);
-	// 	if (!is_array($option)) $option = []; // to avoid php error
-		
-	// 	$value = intval($value);
-
-	// 	if (isset($_POST[$data])) {
-
-	// 		// if not already added
-	// 		if (array_search($value, $option) === false) {
-
-	// 			// if to add to collection
-	// 			if (is_array($option)) {
-	// 				array_push($option, $value);
-	// 				update_option($data, $option);
-	// 			}
-				
-	// 			// if to create collection (of one)
-	// 			else update_option($data, [$value]);
-	// 		}
-	// 	}
-	// 	// when removing
-	// 	else {
-	// 		// $option = get_option($data);
-
-	// 		if (array_search($value, $option) !== false) {
-	// 			unset($option[array_search($value, $option)]);
-	// 			update_option($data, $option);
-	// 		}
-	// 	}
-	// }
-
-	/*
-		recursive sanitizer
-	*/
-	// private function sanitize($data) {
-	// 	if (!is_array($data)) return wp_kses_post($data);
-
-	// 	$d = [];
-	// 	foreach($data as $key => $value) {
-	// 		switch ($key) {
-	// 			case 'bestill':
-	// 			case 'pixel':
-	// 			case 'readmore': $d[$key] = sanitize_text_field($value); break;
-	// 			default: $d[$key] = $this->sanitize($value); break;
-	// 		}
-	// 	}
-
-	// 	return $d;
-	// }
 }

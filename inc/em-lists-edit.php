@@ -25,12 +25,13 @@ final class EM_list_edit {
 	}
 
 
-	public static function create_meta_box($post, $name) {
+	public static function create_meta_box($post, $name, $template = null) {
 		if (!$name) return;
 
 		wp_nonce_field('em'.basename(__FILE__), $name.'_nonce');
 
 		$meta = get_post_meta($post->ID, $name.'_data');
+		// $struc = get_post_meta($post->ID, $name.'_struc');
 		$sort = get_post_meta($post->ID, $name.'_sort');
 		// $redirect = get_post_meta($post->ID, $name.'_redirect');
 		
@@ -46,7 +47,9 @@ final class EM_list_edit {
 		$json = [
 			// 'meta' => isset($meta[0]) ? $meta[0] : '',
 			'name' => $name,
+			'template' => $template,
 			'meta' => isset($meta[0]) ? EM_Lists::sanitize($meta[0]) : '',
+			// 'struc' => isset($struc[0]) ? EM_Lists::sanitize($struc[0]) : '',
 			$name.'_sort' => isset($sort[0]) ? floatval($sort[0]) : '',
 			$name.'_redirect' => isset($redirect[0]) ? $redirect[0] : '',
 			'tax' => $taxes
@@ -56,8 +59,9 @@ final class EM_list_edit {
 		foreach($ameta as $key => $value)
 			if (strpos($key, $name.'_sort_') !== false && isset($value[0])) $json[$key] = esc_html($value[0]);
 		
+
 		wp_localize_script(EM_LISTS_PLUGIN_URL.'_edit_js', 'data', json_decode(json_encode($json), true));
-		echo '<div style="background-color: #fafafa;" class="meta-container"></div>';
+		echo '<div class="meta-container"></div>';
 	}
 
 
@@ -101,8 +105,9 @@ final class EM_list_edit {
 
 		// data is sent, then sanitized and saved
 		if (isset($_POST[$post_type.'_data'])) update_post_meta($post_id, $post_type.'_data', EM_lists::sanitize($_POST[$post_type.'_data']));
+		// if (isset($_POST[$post_type.'_struc'])) update_post_meta($post_id, $post_type.'_struc', EM_lists::sanitize($_POST[$post_type.'_struc']));
 		if (isset($_POST[$post_type.'_sort'])) update_post_meta($post_id, $post_type.'_sort', floatval($_POST[$post_type.'_sort']));
-		update_post_meta($post_id, $post_type.'_redirect', isset($_POST[$post_type.'_redirect']) ? true : false);
+		// update_post_meta($post_id, $post_type.'_redirect', isset($_POST[$post_type.'_redirect']) ? true : false);
 
 		// saving emlanlist_sort_***
 		foreach($_POST as $key => $po) {
