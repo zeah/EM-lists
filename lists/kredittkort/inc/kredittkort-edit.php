@@ -18,8 +18,13 @@ final class Kredittkort_edit {
 
 	private function __construct() {
 
+		// sands for edit/new page
 		add_action('admin_enqueue_scripts', array($this, 'admin_sands'));
 
+		// sands for column page (js for creating shortcode)
+		add_action('admin_enqueue_scripts', [$this, 'add_js']);
+
+		// adding and making new column sortable
 		add_action('manage_'.KREDITTKORT.'_posts_columns', [$this, 'column_head']);
 		add_filter('manage_'.KREDITTKORT.'_posts_custom_column', [$this, 'custom_column']);
 		add_filter('manage_edit-'.KREDITTKORT.'_sortable_columns', [$this, 'sort_column']);
@@ -31,9 +36,6 @@ final class Kredittkort_edit {
 
 
 		// add_filter('emtheme_doc', array($this, 'add_doc'), 99);
-		add_action('admin_enqueue_scripts', [$this, 'add_js']);
-
-
 	}
 
 
@@ -64,9 +66,6 @@ final class Kredittkort_edit {
 
 		$po['tax'] = KREDITTKORT.'type';
 
-		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
-		
-
 
 		wp_enqueue_script(KREDITTKORT.'_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
 
@@ -79,7 +78,6 @@ final class Kredittkort_edit {
 	 */
 	public function admin_sands() {
 		$id = get_current_screen();
-		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
 		if ($id->id != KREDITTKORT) return;
 
 		EM_list_edit::sands();

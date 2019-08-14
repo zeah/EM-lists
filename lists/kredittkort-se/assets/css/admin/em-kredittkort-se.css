@@ -1,4 +1,56 @@
-.emkredittkortse-sort-container {
+.menu-icon-kredittkort .dashicons-before:before {
+	color: hsl(120, 50%, 50%) !important;
+}
+
+.meta-container {
+}
+
+.meta-sort {
+	display: flex;
+}
+
+.meta-title {
+	margin-bottom: 0;
+}
+
+.meta-input {
+	width: 400px;
+	/*max-width: 300px;*/
+}
+
+.meta-nav {
+	margin-bottom: 10px;
+}
+
+.meta-sort {
+	position: relative;
+	padding: 5px;
+	padding-top: 15px;
+
+	background-color: #eee;
+
+}
+
+.meta-sort::before {
+	content: 'Sortering';
+	position: absolute;
+	top: 0;
+	left: 5px;
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.meta-sort input {
+	width: 40px;
+}
+
+.meta-sort > .meta-div {
+	margin-right: 20px;
+}
+
+
+
+/*.emkredittkortse-sort-container {
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -51,7 +103,7 @@
 .emkredittkortse-meta-container > .emkredittkortse-input-container:last-child {
 	padding-top: 40px;
 }
-
+*/
 
 /* overview window */
 #myTable2 {

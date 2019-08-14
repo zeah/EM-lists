@@ -17,6 +17,8 @@ final class Kredittkort_se_edit {
 
 	private function __construct() {
 
+		add_action('admin_enqueue_scripts', array($this, 'admin_sands'));
+
 
 		add_action('manage_'.KREDITTKORT_SE.'_posts_columns', [$this, 'column_head']);
 		add_filter('manage_'.KREDITTKORT_SE.'_posts_custom_column', [$this, 'custom_column']);
@@ -64,6 +66,13 @@ final class Kredittkort_se_edit {
 		wp_localize_script(KREDITTKORT_SE.'_column', 'listdata', json_encode($po));
 	}
 
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != KREDITTKORT_SE) return;
+
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.KREDITTKORT_SE.'-admin-style', KREDITTKORT_SE_PLUGIN_URL . 'assets/css/admin/em-kredittkort-se.css', array(), '1.0.1');
+	}
 
 	/**
 	 * wp filter for adding columns on ctp list page
@@ -126,8 +135,8 @@ final class Kredittkort_se_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(KREDITTKORT_SE.'-admin-style', KREDITTKORT_SE_PLUGIN_URL . 'assets/css/admin/em-kredittkort-se.css', [], '1.0.0');
-		wp_enqueue_script(KREDITTKORT_SE.'-admin', KREDITTKORT_SE_PLUGIN_URL . 'assets/js/admin/em-kredittkort-se.js', [], '1.0.0', true);
+		// wp_enqueue_style(KREDITTKORT_SE.'-admin-style', KREDITTKORT_SE_PLUGIN_URL . 'assets/css/admin/em-kredittkort-se.css', [], '1.0.0');
+		// wp_enqueue_script(KREDITTKORT_SE.'-admin', KREDITTKORT_SE_PLUGIN_URL . 'assets/js/admin/em-kredittkort-se.js', [], '1.0.0', true);
 	}
 
 
@@ -135,7 +144,27 @@ final class Kredittkort_se_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'info01' ],
+				'info02' => [ 'title' => 'info02' ],
+				'info03' => [ 'title' => 'info03' ],
+				'info04' => [ 'title' => 'info04' ],
+				'info05' => [ 'title' => 'info05' ],
+				'info06' => [ 'title' => 'info06' ],
+				'info07' => [ 'title' => 'info07' ],
+				'info08' => [ 'title' => 'info08' ],
+				'pixel' => [ 'title' => 'pixel url' ],
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [KREDITTKORT.'_sort']
+		];		
+		// EM_list_edit::create_meta_box($post, $post->post_type);
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 

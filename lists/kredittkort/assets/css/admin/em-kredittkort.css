@@ -2,7 +2,71 @@
 	color: hsl(120, 50%, 50%) !important;
 }
 
-.meta-container {
+.meta-inner {
+	display: grid;
+
+	grid-template-rows: auto auto auto auto auto auto auto auto;
+	grid-template-columns: auto auto auto;
+
+	grid-column-gap: 50px;
+
+	grid-template-areas: 
+	"sort sort sort"
+	"bestill bestill ."
+	"readmore readmore ."
+	"info01 info02 ."
+	"info03 info04 ."
+	"info05 info06 ."
+	"info07 info08 ."
+	"pixel pixel .";
+}
+
+.meta-sort {
+	grid-area: sort;
+}
+
+.bestill-div {
+	grid-area: bestill;
+}
+
+.readmore-div {
+	grid-area: readmore;
+}
+
+.info01-div {
+	grid-area: info01;
+}
+
+.info02-div {
+	grid-area: info02;
+}
+
+.info03-div {
+	grid-area: info03;
+}
+
+.info04-div {
+	grid-area: info04;
+}
+
+.info05-div {
+	grid-area: info05;
+}
+
+.info06-div {
+	grid-area: info06;
+}
+
+.info07-div {
+	grid-area: info07;
+}
+
+.info08-div {
+	grid-area: info08;
+}
+
+.pixel-div {
+	grid-area: pixel;
 }
 
 .meta-sort {
@@ -14,8 +78,16 @@
 }
 
 .meta-input {
-	width: 400px;
-	/*max-width: 300px;*/
+	width: 100%;
+	background-color: hsl(0, 0%, 95%) !important;
+}
+
+.meta-input:focus {
+	background-color: hsl(0, 0%, 99%) !important;
+}
+
+.meta-sort .meta-input {
+	background-color: white !important;
 }
 
 .meta-nav {

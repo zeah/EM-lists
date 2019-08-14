@@ -117,69 +117,69 @@ final class EM_list_edit {
 	}
 
 	// public static function update_redirect($post_type, $p = null, $postfix = null) {
-	public static function update_redirect($post_type) {
-		global $post;
-		$pn = $post->post_name;
-		// wp_die('<xmp>'.print_r($pn, true).'</xmp>');
-		$url = $_POST[$post_type.'_data'];
-		// wp_die('<xmp>'.print_r($url, true).'</xmp>');
-		// if (!isset($url['bestill']) || !$url['bestill']) return;
+	// public static function update_redirect($post_type) {
+	// 	global $post;
+	// 	$pn = $post->post_name;
+	// 	// wp_die('<xmp>'.print_r($pn, true).'</xmp>');
+	// 	$url = $_POST[$post_type.'_data'];
+	// 	// wp_die('<xmp>'.print_r($url, true).'</xmp>');
+	// 	// if (!isset($url['bestill']) || !$url['bestill']) return;
 
-		$opt = get_option($post_type.'_redirect');
+	// 	$opt = get_option($post_type.'_redirect');
 
-		if (isset($_POST[$post_type.'_redirect'])) {
-			if (isset($url['bestill']) && $url['bestill']) $opt[$pn] = $url['bestill'];
-		}
-		elseif (isset($opt[$pn])) unset($opt[$pn]);
+	// 	if (isset($_POST[$post_type.'_redirect'])) {
+	// 		if (isset($url['bestill']) && $url['bestill']) $opt[$pn] = $url['bestill'];
+	// 	}
+	// 	elseif (isset($opt[$pn])) unset($opt[$pn]);
 
-		update_option($post_type.'_redirect', $opt);
+	// 	update_option($post_type.'_redirect', $opt);
 
-		// if (!isset($_POST[$post_type.'_redirect']) || !$_POST[$post_type.'_redirect'])
+	// 	// if (!isset($_POST[$post_type.'_redirect']) || !$_POST[$post_type.'_redirect'])
 
-		// if (!isset($url['_redirect']) || !$url['_redirect']) return;
+	// 	// if (!isset($url['_redirect']) || !$url['_redirect']) return;
 
 
 
-		// if ()
-		// $url = $_POST[$post_type.'_data'];
+	// 	// if ()
+	// 	// $url = $_POST[$post_type.'_data'];
 
-		// if (!is_array($url)) return;
-		// if (!isset($url['bestill'])) return;
+	// 	// if (!is_array($url)) return;
+	// 	// if (!isset($url['bestill'])) return;
 
-		// if ($postfix) $pf = $postfix;
+	// 	// if ($postfix) $pf = $postfix;
 		
-		// else {
-		// 	$pf = get_option('em_lists');
-		// 	if (isset($pf['redir_pf']) && $pf['redir_pf']) $pf = $pf['redir_pf'];
-		// 	else $pf = 'get';
-		// }
+	// 	// else {
+	// 	// 	$pf = get_option('em_lists');
+	// 	// 	if (isset($pf['redir_pf']) && $pf['redir_pf']) $pf = $pf['redir_pf'];
+	// 	// 	else $pf = 'get';
+	// 	// }
 
-		// $pf = '-'.ltrim($pf, '-');
-
-
-		// if ($p) $post_name = $p;
-		// else {
-		// 	global $post;
-		// 	$post_name = $post->post_name;
-		// }
+	// 	// $pf = '-'.ltrim($pf, '-');
 
 
-		// $red = $post_type.'_redirect';
-		// $opt = get_option($red);
+	// 	// if ($p) $post_name = $p;
+	// 	// else {
+	// 	// 	global $post;
+	// 	// 	$post_name = $post->post_name;
+	// 	// }
 
-		// $url = $_POST[$post_type.'_data'];
 
-		// if (isset($url['bestill']) && $url['bestill']) {
-		// 	$data = ['url' => $url['bestill'], 'pf' => $pf];
-		// 	$opt[$post_name] = $data;
-		// }
-		// else unset($opt[$post_name]);
+	// 	// $red = $post_type.'_redirect';
+	// 	// $opt = get_option($red);
 
-		// // foreach ($opt as $key => $value)
-		// 	// if (strpos($key, $post_name.'-')) unset()
-		// // if (isset($_POST[$red]) && is_array($url) && isset($url['bestill'])) $opt[$post_name.'-fa'] = $url['bestill'];
-		// // else unset($opt[$post_name.'-fa']);
-		// update_option($red, $opt);
-		// wp_die('<xmp>'.print_r($opt, true).'</xmp>');
-	}
+	// 	// $url = $_POST[$post_type.'_data'];
+
+	// 	// if (isset($url['bestill']) && $url['bestill']) {
+	// 	// 	$data = ['url' => $url['bestill'], 'pf' => $pf];
+	// 	// 	$opt[$post_name] = $data;
+	// 	// }
+	// 	// else unset($opt[$post_name]);
+
+	// 	// // foreach ($opt as $key => $value)
+	// 	// 	// if (strpos($key, $post_name.'-')) unset()
+	// 	// // if (isset($_POST[$red]) && is_array($url) && isset($url['bestill'])) $opt[$post_name.'-fa'] = $url['bestill'];
+	// 	// // else unset($opt[$post_name.'-fa']);
+	// 	// update_option($red, $opt);
+	// 	// wp_die('<xmp>'.print_r($opt, true).'</xmp>');
+	// }
 }

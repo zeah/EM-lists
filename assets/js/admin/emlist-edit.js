@@ -2,7 +2,8 @@
 
 $(function() {
 
-	if (!data.struc) data.struc = {};
+	console.log(JSON.stringify(data, null, 4));
+
 	if (!data.meta) data.meta = {};
 
 	let $c = $('.meta-container');
@@ -67,24 +68,23 @@ $(function() {
 
 	meta.append(sort);
 
-	for (let d in data) 
-		if (/^.+_sort.*$/.exec(d)) 
-			sort.appendChild(input({
-				title: fix(d.replace('_sort', '')).replace('-', ' '),
-				name: d,
-				value: data[d] || 0,
-				sort: true
-			}));
+	// adding sort 
+	sort.appendChild(input({
+		title: 'main',
+		name: data.name+'_sort',
+		sort: true,
+		value: data[data.name+'_sort'] || 0
+	}));
+	for (let t in data.tax)
+		sort.appendChild(input({
+			title: data.tax[t],
+			name: data.name+'_sort_'+data.tax[t],
+			sort: true,
+			value: data[data.name+'_sort_'+data.tax[t]] || 0
+		}));
 
-	if ($(sort).children().length == 0) 	
-		for (let d in data.template.sort)
-			sort.appendChild(input({
-				title: data.template.sort[d].replace('_sort', ''),
-				name: data.template.sort[d],
-				value: 0,
-				sort: true
-			}));
 
+	// adding meta 
 	for (let d in data.template.meta)
 		meta.append(input({
 			title: data.template.meta[d].title,
@@ -93,11 +93,12 @@ $(function() {
 		}));
 
 
+	// adding structured data
 	for (let d in data.template.struc)
 		struc.append(input({
 			title: data.template.struc[d].title,
 			name: d,
-			value: data.struc[d] || ''
+			value: data.meta[d] || ''
 		}));
 
 
@@ -106,17 +107,7 @@ $(function() {
 
 	$(button).click(() => {
 		$([meta, struc]).toggle(300);
-		// $(struc).toggle(300);
-
 		$(button).text((i, text) => text === 'Show structured data' ? 'Show meta data' : 'Show structured data');
-
-		// console.log(this);
-		// console.log($(this).text());
-		// $(this).text('hji');
-
-		// $(this).text(function(i, text) {
-	        // return text === "PUSH ME" ? "DON'T PUSH ME" : "PUSH ME";
-	    // });	
 	});
 
 	$('#'+data.name+'type-add-submit').click(function(e) {
@@ -124,19 +115,22 @@ $(function() {
 		sort.appendChild(input({
 			title: fix(val),
 			name: data.name+'_sort_'+fix(val),
-			value: data[name+'_sort_'+fix(val)] || 0
+			sort: true,
+			value: data[data.name+'_sort_'+fix(val)] || 0
 		}));
 	});
 
 
 	$('#'+data.name+'typechecklist').on('change', function(e) {
 		let text = fix($(e.target).parent().text().trim());
-		if (!e.target.checked) $("input[name='kredittkort_sort_"+text+"']").parent().remove();
+		console.log(text);
+		if (!e.target.checked) $("input[name='"+data.name+"_sort_"+text+"']").parent().remove();
 		else {
 			sort.appendChild(input({
 				title: text,
 				name: data.name+'_sort_'+text,
-				value: data[name+'_sort_'+text] || 0
+				sort: true,
+				value: data[data.name+'_sort_'+text] || 0
 			}));
 		}
 	});
