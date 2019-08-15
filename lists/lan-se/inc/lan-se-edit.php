@@ -16,20 +16,21 @@ final class Lan_se_edit {
 
 
 	private function __construct() {
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
 
 
-		add_action('manage_'.EMLAN_SE.'_posts_columns', array($this, 'column_head'));
-		add_filter('manage_'.EMLAN_SE.'_posts_custom_column', array($this, 'custom_column'));
-		add_filter('manage_edit-'.EMLAN_SE.'_sortable_columns', array($this, 'sort_column'));
-		add_action('pre_get_posts', array($this, 'set_sort'));
+		add_action('manage_'.EMLAN_SE.'_posts_columns', [$this, 'column_head']);
+		add_filter('manage_'.EMLAN_SE.'_posts_custom_column', [$this, 'custom_column']);
+		add_filter('manage_edit-'.EMLAN_SE.'_sortable_columns', [$this, 'sort_column']);
+		add_action('pre_get_posts', [$this, 'set_sort']);
 		
 		/* metabox, javascript */
-		add_action('add_meta_boxes_'.EMLAN_SE, array($this, 'create_meta'));
+		add_action('add_meta_boxes_'.EMLAN_SE, [$this, 'create_meta']);
 		/* hook for page saving/updating */
-		add_action('save_post', array($this, 'save'));
+		add_action('save_post', [$this, 'save']);
 
 
-		add_filter('emtheme_doc', array($this, 'add_doc'), 99);
+		// add_filter('emtheme_doc', [$this, 'add_doc'], 99);
 
 		add_action('admin_enqueue_scripts', [$this, 'add_js']);
 
@@ -64,6 +65,13 @@ final class Lan_se_edit {
 		wp_localize_script(EMLAN_SE.'_column', 'listdata', json_encode($po));
 	}
 
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != EMLAN_SE) return;
+
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', [], '1.0.0');
+	}
 
 	/**
 	 * wp filter for adding columns on ctp list page
@@ -128,8 +136,8 @@ final class Lan_se_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.2');
-		wp_enqueue_script(EMLAN_SE.'-admin', LAN_SE_PLUGIN_URL . 'assets/js/admin/em-lanlist-se.js', array(), '1.0.2', true);
+		// wp_enqueue_style(EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', array(), '1.0.2');
+		// wp_enqueue_script(EMLAN_SE.'-admin', LAN_SE_PLUGIN_URL . 'assets/js/admin/em-lanlist-se.js', array(), '1.0.2', true);
 	}
 
 
@@ -137,7 +145,27 @@ final class Lan_se_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'Listpart #1' ],
+				'info02' => [ 'title' => 'Listpart #2' ],
+				'info03' => [ 'title' => 'Listpart #3' ],
+				'info04' => [ 'title' => 'Listpart #4' ],
+				'info05' => [ 'title' => 'Infopart #1 (nedbetalingstids)' ],
+				'info06' => [ 'title' => 'Infopart #2 (oppstartsavgift)' ],
+				'info07' => [ 'title' => 'Infopart #3 (årsavgift)' ],
+				'info08' => [ 'title' => 'Infopart #4 (renter)' ],
+				'pixel' => [ 'title' => 'pixel url' ],
+				'terning' => ['title' => 'Terning', 'dropdown' => true]
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [EMLAN_SE.'_sort']
+		];	
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 

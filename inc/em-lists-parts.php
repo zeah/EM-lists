@@ -64,6 +64,8 @@ final class EM_list_parts {
 
 		if (!$clid) $clid = $source;
 
+		if (!isset($o['ab'])) $o['ab'] = '';
+
 		// if ($ab) $m['bestill'] .= '&ab=[ab]';
 		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
 		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');

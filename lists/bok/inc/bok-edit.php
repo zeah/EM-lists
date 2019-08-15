@@ -26,10 +26,11 @@ final class Bok_edit {
 		add_action('pre_get_posts', [$this, 'set_sort']);
 		
 		/* metabox, javascript */
-		add_action('add_meta_boxes_'.BOK, [$this, 'create_meta']);
+		add_action('add_meta_boxes_'.BOK.'liste', [$this, 'create_meta']);
 		/* hook for page saving/updating */
 		add_action('save_post', [$this, 'save']);
 
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
 
 		// add_filter('emtheme_doc', [$this, 'add_doc'], 99);
 		add_action('admin_enqueue_scripts', [$this, 'add_js']);
@@ -64,6 +65,14 @@ final class Bok_edit {
 		wp_enqueue_script(BOK.'_column', EM_LISTS_PLUGIN_URL.'assets/js/admin/emlist-column.js', ['jquery'], false, true);
 
 		wp_localize_script(BOK.'_column', 'listdata', json_encode($po));
+	}
+
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != BOK.'liste') return;
+		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.0');
 	}
 
 	/**
@@ -112,12 +121,14 @@ final class Bok_edit {
 	    wp_enqueue_script('media-upload');
 	    wp_enqueue_script('thickbox');
 
+
+	    // wp_die('<xmp>'.print_r('hi', true).'</xmp>');
 		/* lan info meta */
 		add_meta_box(
 			BOK.'_meta', // name
 			'Bok Info', // title 
 			array($this,'create_meta_box'), // callback
-			BOK // page
+			BOK.'liste' // page
 		);
 
 		/* to show or not on front-end */
@@ -125,13 +136,13 @@ final class Bok_edit {
 			BOK.'_exclude',
 			'Aldri vis',
 			array($this, 'exclude_meta_box'),
-			BOK,
+			BOK.'liste',
 			'side'
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', array(), '1.0.0');
-		wp_enqueue_script(BOK.'-admin', BOK_PLUGIN_URL . 'assets/js/admin/em-bok.js', array(), '1.0.0', true);
+		// wp_enqueue_style(BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', array(), '1.0.0');
+		// wp_enqueue_script(BOK.'-admin', BOK_PLUGIN_URL . 'assets/js/admin/em-bok.js', array(), '1.0.0', true);
 	}
 
 
@@ -139,7 +150,28 @@ final class Bok_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'ctitle' => [ 'title' => 'Custom title' ],
+				'info02' => [ 'title' => 'Tekst' ],
+				'info03' => [ 'title' => 'Verdi' ],
+				'image' => [ 'title' => 'image', 'image' => true ],
+				// 'info05' => [ 'title' => 'info05' ],
+				// 'info06' => [ 'title' => 'info06' ],
+				// 'info07' => [ 'title' => 'info07' ],
+				// 'info08' => [ 'title' => 'info08' ],
+				'pixel' => [ 'title' => 'pixel url' ],
+				// 'terning' => ['title' => 'terning', 'dropdown' => true]
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [BOK.'_sort']
+		];
+
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 
@@ -157,7 +189,7 @@ final class Bok_edit {
 	 * wp action when saving
 	 */
 	public function save($post_id) {
-		EM_list_edit::save($post_id, BOK);
+		EM_list_edit::save($post_id, BOK.'liste');
 	}
 
 }

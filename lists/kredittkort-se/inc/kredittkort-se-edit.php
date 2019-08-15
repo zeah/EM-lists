@@ -17,8 +17,7 @@ final class Kredittkort_se_edit {
 
 	private function __construct() {
 
-		add_action('admin_enqueue_scripts', array($this, 'admin_sands'));
-
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
 
 		add_action('manage_'.KREDITTKORT_SE.'_posts_columns', [$this, 'column_head']);
 		add_filter('manage_'.KREDITTKORT_SE.'_posts_custom_column', [$this, 'custom_column']);
@@ -31,7 +30,7 @@ final class Kredittkort_se_edit {
 		add_action('save_post', [$this, 'save']);
 
 
-		add_filter('emtheme_doc', [$this, 'add_doc'], 99);
+		// add_filter('emtheme_doc', [$this, 'add_doc'], 99);
 
 		add_action('admin_enqueue_scripts', [$this, 'add_js']);
 
@@ -71,7 +70,7 @@ final class Kredittkort_se_edit {
 		if ($id->id != KREDITTKORT_SE) return;
 
 		EM_list_edit::sands();
-		wp_enqueue_style('em-'.KREDITTKORT_SE.'-admin-style', KREDITTKORT_SE_PLUGIN_URL . 'assets/css/admin/em-kredittkort-se.css', array(), '1.0.1');
+		wp_enqueue_style('em-'.KREDITTKORT_SE.'-admin-style', KREDITTKORT_SE_PLUGIN_URL . 'assets/css/admin/em-kredittkort-se.css', [], '1.0.1');
 	}
 
 	/**
@@ -148,20 +147,21 @@ final class Kredittkort_se_edit {
 			'meta' => [
 				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
 				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
-				'info01' => [ 'title' => 'info01' ],
-				'info02' => [ 'title' => 'info02' ],
-				'info03' => [ 'title' => 'info03' ],
-				'info04' => [ 'title' => 'info04' ],
-				'info05' => [ 'title' => 'info05' ],
-				'info06' => [ 'title' => 'info06' ],
-				'info07' => [ 'title' => 'info07' ],
-				'info08' => [ 'title' => 'info08' ],
+				'info01' => [ 'title' => 'Listpart #1' ],
+				'info02' => [ 'title' => 'Listpart #2' ],
+				'info03' => [ 'title' => 'Listpart #3' ],
+				'info04' => [ 'title' => 'Listpart #4' ],
+				'info05' => [ 'title' => 'Infopart #1 (maks kreditt)' ],
+				'info06' => [ 'title' => 'Infopart #2 (rentefri kreditt)' ],
+				'info07' => [ 'title' => 'Infopart #3 (åravgift)' ],
+				'info08' => [ 'title' => 'Infopart #4 (aldersgrense)' ],
 				'pixel' => [ 'title' => 'pixel url' ],
+				'terning' => ['title' => 'Terning', 'dropdown' => true]
 			],
 			'struc' => [
 				'bank' => ['title' => 'bank name']
 			],
-			'sort' => [KREDITTKORT.'_sort']
+			'sort' => [KREDITTKORT_SE.'_sort']
 		];		
 		// EM_list_edit::create_meta_box($post, $post->post_type);
 		EM_list_edit::create_meta_box($post, $post->post_type, $template);

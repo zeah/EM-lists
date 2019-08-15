@@ -19,6 +19,8 @@ final class Lan_dk_edit {
 
 	private function __construct() {
 
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
+
 
 		add_action('manage_'.EMLANDK.'_posts_columns', array($this, 'column_head'));
 		add_filter('manage_'.EMLANDK.'_posts_custom_column', array($this, 'custom_column'));
@@ -68,6 +70,16 @@ final class Lan_dk_edit {
 
 		wp_localize_script(EMLANDK.'_column', 'listdata', json_encode($po));
 	}
+
+
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != EMLANDK) return;
+
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.EMLANDK.'-admin-style', LAN_DK_PLUGIN_URL . 'assets/css/admin/em-lanlist-dk.css', [], '1.0.0');
+	}
+
 
 	/**
 	 * wp filter for adding columns on ctp list page
@@ -130,8 +142,8 @@ final class Lan_dk_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(EMLANDK.'-admin-style', LAN_DK_PLUGIN_URL . 'assets/css/admin/em-lanlist-dk.css', array(), '1.0.0');
-		wp_enqueue_script(EMLANDK.'-admin', LAN_DK_PLUGIN_URL . 'assets/js/admin/em-lanlist-dk.js', array(), '1.0.0', true);
+		// wp_enqueue_style(EMLANDK.'-admin-style', LAN_DK_PLUGIN_URL . 'assets/css/admin/em-lanlist-dk.css', array(), '1.0.0');
+		// wp_enqueue_script(EMLANDK.'-admin', LAN_DK_PLUGIN_URL . 'assets/js/admin/em-lanlist-dk.js', array(), '1.0.0', true);
 	}
 
 
@@ -139,7 +151,28 @@ final class Lan_dk_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'Listpart #1' ],
+				'info02' => [ 'title' => 'Listpart #2' ],
+				'info03' => [ 'title' => 'Listpart #3' ],
+				'info04' => [ 'title' => 'Infopart #4 (rente)' ],
+				'info05' => [ 'title' => 'Infopart #1 (lånebeløp)' ],
+				'info06' => [ 'title' => 'Infopart #2 (nedbetalingstids)' ],
+				'info07' => [ 'title' => 'Infopart #3 (aldersgrense)' ],
+				'info08' => [ 'title' => 'Blurb (eff rente eksempel)' ],
+				'pixel' => [ 'title' => 'pixel url' ]
+				// 'terning' => ['title' => 'terning', 'dropdown' => true]
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [EMLANDK.'_sort']
+		];
+
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 

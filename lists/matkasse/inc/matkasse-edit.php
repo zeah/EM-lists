@@ -27,6 +27,9 @@ final class Matkasse_edit {
 		add_action('add_meta_boxes_'.MAT, array($this, 'create_meta'));
 		/* hook for page saving/updating */
 		add_action('save_post', array($this, 'save'));
+
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
+
 		add_action('admin_enqueue_scripts', [$this, 'add_js']);
 	}
 
@@ -63,6 +66,13 @@ final class Matkasse_edit {
 		wp_localize_script(MAT.'_column', 'listdata', json_encode($po));
 	}
 
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != MAT) return;
+
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.MAT.'-admin-style', MATKASSELIST_PLUGIN_URL . 'assets/css/admin/em-matkasselist.css', [], '1.0.0');
+	}
 
 
 	/**
@@ -129,8 +139,8 @@ final class Matkasse_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(MAT.'-admin-style', MATKASSELIST_PLUGIN_URL . 'assets/css/admin/em-matkasselist.css', array(), '1.0.0');
-		wp_enqueue_script(MAT.'-admin', MATKASSELIST_PLUGIN_URL . 'assets/js/admin/em-matkasselist.js', array(), '1.0.0', true);
+		// wp_enqueue_style(MAT.'-admin-style', MATKASSELIST_PLUGIN_URL . 'assets/css/admin/em-matkasselist.css', array(), '1.0.0');
+		// wp_enqueue_script(MAT.'-admin', MATKASSELIST_PLUGIN_URL . 'assets/js/admin/em-matkasselist.js', array(), '1.0.0', true);
 	}
 
 
@@ -138,7 +148,28 @@ final class Matkasse_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'Listpart #1' ],
+				'info02' => [ 'title' => 'Listpart #2' ],
+				'info03' => [ 'title' => 'Listpart #3' ],
+				'info04' => [ 'title' => 'Infopart #4 (pris)' ],
+				'info05' => [ 'title' => 'Infopart #1 (tittel)' ],
+				'info06' => [ 'title' => 'Infopart #2 (antall dager)' ],
+				'info07' => [ 'title' => 'Infopart #3 (antall personer)' ],
+				'info08' => [ 'title' => 'Blurb' ],
+				'pixel' => [ 'title' => 'pixel url' ],
+				// 'terning' => ['title' => 'terning', 'dropdown' => true]
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [MAT.'_sort']
+		];		
+
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 

@@ -27,7 +27,18 @@ final class Lan_edit {
 		add_action('add_meta_boxes_'.EMLAN, [$this, 'create_meta']);
 		/* hook for page saving/updating */
 		add_action('save_post', [$this, 'save']);
+		
+		add_action('admin_enqueue_scripts', [$this, 'admin_sands']);
+
 		add_action('admin_enqueue_scripts', [$this, 'add_js']);
+	}
+
+	public function admin_sands() {
+		$id = get_current_screen();
+		if ($id->id != EMLAN) return;
+
+		EM_list_edit::sands();
+		wp_enqueue_style('em-'.EMLAN.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', [], '1.0.0');
 	}
 
 
@@ -124,8 +135,8 @@ final class Lan_edit {
 		);
 		
 		/* adding admin css and js */
-		wp_enqueue_style(EMLAN.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.3');
-		wp_enqueue_script(EMLAN.'-admin', LANLIST_PLUGIN_URL . 'assets/js/admin/em-lanlist.js', array(), '1.0.4', true);
+		// wp_enqueue_style(EMLAN.'-admin-style', LANLIST_PLUGIN_URL . 'assets/css/admin/em-lanlist.css', array(), '1.0.3');
+		// wp_enqueue_script(EMLAN.'-admin', LANLIST_PLUGIN_URL . 'assets/js/admin/em-lanlist.js', array(), '1.0.4', true);
 	}
 
 
@@ -133,7 +144,35 @@ final class Lan_edit {
 		creates content in metabox
 	*/
 	public function create_meta_box($post) {
-		EM_list_edit::create_meta_box($post, $post->post_type);
+
+		$template = [
+			'meta' => [
+				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
+				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'info01' => [ 'title' => 'Listpart #1' ],
+				'info02' => [ 'title' => 'Listpart #2' ],
+				'info03' => [ 'title' => 'Listpart #3' ],
+				'info04' => [ 'title' => 'Infopart #4 (renter)' ],
+				'info05' => [ 'title' => 'Infopart #1 (lånebeløp)' ],
+				'info06' => [ 'title' => 'Infopart #2 (nedbetalingstid)' ],
+				'info07' => [ 'title' => 'Infopart #3 (aldersgrense)' ],
+				'info08' => [ 'title' => 'Eff. rente eksempel' ],
+				// 'info01' => [ 'title' => 'info01' ],
+				// 'info02' => [ 'title' => 'info02' ],
+				// 'info03' => [ 'title' => 'info03' ],
+				// 'info04' => [ 'title' => 'info04' ],
+				// 'info05' => [ 'title' => 'info05' ],
+				// 'info06' => [ 'title' => 'info06' ],
+				// 'info07' => [ 'title' => 'info07' ],
+				// 'info08' => [ 'title' => 'info08' ],
+				'pixel' => [ 'title' => 'pixel url' ]
+			],
+			'struc' => [
+				'bank' => ['title' => 'bank name']
+			],
+			'sort' => [EMLAN.'_sort']
+		];
+		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 

@@ -35,7 +35,7 @@ final class EM_list_edit {
 		$sort = get_post_meta($post->ID, $name.'_sort');
 		// $redirect = get_post_meta($post->ID, $name.'_redirect');
 		
-		if (!is_array($redirect)) $redirect = [];
+		// if (!is_array($redirect)) $redirect = [];
 
 		$tax = wp_get_post_terms($post->ID, $name.'type');
 

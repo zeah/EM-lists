@@ -1,50 +1,120 @@
-.emlanlist-sort-container {
+.meta-inner {
+	display: grid;
+
+	grid-template-rows: auto auto auto auto auto auto auto auto;
+	grid-template-columns: auto auto auto;
+
+	grid-column-gap: 50px;
+
+	grid-template-areas: 
+	"sort sort sort"
+	"bestill bestill ."
+	"readmore readmore ."
+	"info01 info05 ."
+	"info02 info06 ."
+	"info03 info07 ."
+	"info08 info04 ."
+	"pixel pixel .";
+}
+
+.meta-sort {
+	grid-area: sort;
+}
+
+.bestill-div {
+	grid-area: bestill;
+}
+
+.readmore-div {
+	grid-area: readmore;
+}
+
+.info01-div {
+	grid-area: info01;
+}
+
+.info02-div {
+	grid-area: info02;
+}
+
+.info03-div {
+	grid-area: info03;
+}
+
+.info04-div {
+	grid-area: info04;
+}
+
+.info05-div {
+	grid-area: info05;
+}
+
+.info06-div {
+	grid-area: info06;
+}
+
+.info07-div {
+	grid-area: info07;
+}
+
+.info08-div {
+	grid-area: info08;
+}
+
+.pixel-div {
+	grid-area: pixel;
+}
+
+.meta-sort {
 	display: flex;
-	flex-wrap: wrap;
 }
 
-.emlanlist-meta-container input {
-	width: 300px;
-	margin: 0 10px 10px 0;
+.meta-title {
+	margin-bottom: 0;
 }
 
-.emlanlist-sort-container input {
-	/*width: 150px;*/
+.meta-input {
+	width: 100%;
+	background-color: hsl(0, 0%, 95%) !important;
 }
 
-.emlanlist-info-container {
-	display: flex;
-	flex-wrap: wrap;
-	width: 650px;
-	justify-content: flex-start;
-	/*display: inline-grid;*/
-	/*grid-template-columns: 1fr 1fr;*/
+.meta-input:focus {
+	background-color: hsl(0, 0%, 99%) !important;
 }
 
-.emlanlist-info-container .emlanlist-input-container {
-	/*width: 40%;*/
+.meta-sort .meta-input {
+	background-color: white !important;
 }
 
-.emlanlist-info-container .emlanlist-input-container:nth-child(3),
-.emlanlist-info-container .emlanlist-input-container:nth-child(7) {
-	margin-bottom: 25px;
+.meta-nav {
+	margin-bottom: 10px;
 }
 
-.emlanlist-info-container .emlanlist-input-container:nth-child(3)::after {
-	content: '';
-	width: 300px;
-	display: inline-block;
-	/*height: 4rem;*/
+.meta-sort {
+	position: relative;
+	padding: 5px;
+	padding-top: 15px;
+
+	background-color: #eee;
+
 }
 
-.emlanlist-input-title {
-	font-size: 16px;
+.meta-sort::before {
+	content: 'Sortering';
+	position: absolute;
+	top: 0;
+	left: 5px;
+	font-size: 20px;
+	font-weight: 700;
 }
 
-.emlanlist-input-container input[type=checkbox]{
-	width: auto;
+.meta-sort input {
+	width: 40px;
 }
 
+.meta-sort > .meta-div {
+	margin-right: 20px;
+}
 /* overview window */
 
 #myTable2 {
