@@ -437,6 +437,11 @@ final class EM_list_parts {
 		return $obj->add_shortcode1($atts, $content);	
 	}
 
+
+	public static function struc($o = []) {
+		
+	} 
+
 	public static function struc_ccard($o = []) {
 
 		$out = [

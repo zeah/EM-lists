@@ -272,8 +272,7 @@ final class Lan_shortcode {
 			$o['same_as'] = 'https://vg.no';
 
 			$o['brand_name'] = $p->post_title;
-
-			$o['url'] = 'https://vg.no';
+			$o['brand_url'] = 'https://vg.no';
 
 			$o['amount_min_value'] = 10000;
 			$o['amount_min_value'] = 500000;
@@ -287,26 +286,16 @@ final class Lan_shortcode {
 
 
 			$json['itemListElement'][] = EM_list_parts::struc_ccard($o);
-			
+
+
+			// $json['itemListElement'][] = EM_list_parts::struc($meta);
 		}
 
 		$html .= '</ul>';
 
-		// $json = [
-		// 	'@context' => 'http://schema.org',
-		// 	'@type' => 'itemList',
-		// 	'itemListElement' => EM_list_parts::struc_ccard(null)
-		// ];
-
-		$json = json_encode($json);
-		// $json = json_encode(EM_list_parts::struc_ccard(null));
-
-
-		// wp_die('<xmp>'.print_r($json, true).'</xmp>');
-
 		$html .= sprintf(
 				'<script type="application/ld+json">%s</script>',
-				$json
+				json_encode($json)
 			);
 
 		return $html;
