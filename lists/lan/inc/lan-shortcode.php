@@ -145,6 +145,13 @@ final class Lan_shortcode {
 		);
 
 
+
+		$json = [
+			'@context' => 'http://schema.org',
+			'@type' => 'itemList',
+			'itemListElement' => []
+		];
+
 		// $this->button_text = 'hi';
 
 
@@ -158,9 +165,10 @@ final class Lan_shortcode {
 			$meta['post_name'] = $p->post_name;
 
 			$html .= sprintf(
-				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
+				'<li id="%1$s-%3$s" class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				EMLAN, 
-				preg_replace('/\?.*$/', '', $meta['bestill'])
+				preg_replace('/\?.*$/', '', $meta['bestill']),
+				$meta['post_name']
 			);
 
 			$meta = $this->esc_kses($meta);
@@ -259,10 +267,48 @@ final class Lan_shortcode {
 
 			$html .= '</form></li>';
 
+			$o['list_url'] = 'https://nrk.no/#'.rand(5, 100);
+
+			$o['same_as'] = 'https://vg.no';
+
+			$o['brand_name'] = $p->post_title;
+
+			$o['url'] = 'https://vg.no';
+
+			$o['amount_min_value'] = 10000;
+			$o['amount_min_value'] = 500000;
+			$o['amount_currency'] = 'NOK';
+
+			$o['loanterm_min_value'] = 1;
+			$o['loanterm_max_value'] = 15;
+
+			$o['interestrate_min_value'] = 2;
+			$o['interestrate_max_value'] = 20;
+
+
+			$json['itemListElement'][] = EM_list_parts::struc_ccard($o);
 			
 		}
 
 		$html .= '</ul>';
+
+		// $json = [
+		// 	'@context' => 'http://schema.org',
+		// 	'@type' => 'itemList',
+		// 	'itemListElement' => EM_list_parts::struc_ccard(null)
+		// ];
+
+		$json = json_encode($json);
+		// $json = json_encode(EM_list_parts::struc_ccard(null));
+
+
+		// wp_die('<xmp>'.print_r($json, true).'</xmp>');
+
+		$html .= sprintf(
+				'<script type="application/ld+json">%s</script>',
+				$json
+			);
+
 		return $html;
 	}
 

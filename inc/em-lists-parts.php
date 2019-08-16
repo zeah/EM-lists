@@ -437,5 +437,53 @@ final class EM_list_parts {
 		return $obj->add_shortcode1($atts, $content);	
 	}
 
+	public static function struc_ccard($o = []) {
+
+		$out = [
+			// 'itemListElement' => [
+				'@type' => 'ListItem',
+				'position' => 0,
+
+				'item' => [
+					'@type' => 'CreditCard',
+					'url' => $o['list_url'],
+					'sameAs' => $o['same_as'],
+
+					'brand' => [
+						'@type' => 'Organization',
+						'name' => $o['brand_name'],
+						'url' => $o['brand_url']
+					],
+
+					'amount' => [
+						'@type' => 'MonetaryAmount',
+						'minValue' => $o['amount_min_value'],
+						'maxValue' => $o['amount_max_value'],
+						'currency' => $o['amount_currency'],
+					],
+
+					'loanTerm' => [
+						'@type' => 'QuantitativeValue',
+						'minValue' => $o['loanterm_min_value'],
+						'maxValue' => $o['loanterm_max_value'],
+						'unitCode' => 'ANN'
+					],
+
+					'interestRate' => [
+						'@type' => 'QuantitativeValue',
+						'minValue' => $o['interestrate_min_value'],
+						'maxValue' => $o['interestrate_max_value'],
+						'unitCode' => 'P1'
+					]
+				// ]
+			]
+// 
+		];
+
+
+		return $out;
+
+	}
+
 
 }
