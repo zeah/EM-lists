@@ -38,12 +38,16 @@ final class Bok_edit {
 	}
 
 
+	/**
+	 * js for the column screen
+	 * shortcode creator feature
+	 */
 	public function add_js() {
 		$id = get_current_screen();
-		if ($id->id != 'edit-'.BOK) return;
+		if ($id->id != 'edit-'.BOK.'liste') return;
 
 		$args = [
-			'post_type' 		=> BOK,
+			'post_type' 		=> BOK.'liste',
 			'posts_per_page' 	=> -1,
 			'orderby'			=> [
 										'meta_value_num' => 'ASC',
@@ -67,6 +71,7 @@ final class Bok_edit {
 	}
 
 
+
 	/**
 	 * [admin_sands description]
 	 * @return [type] [description]
@@ -77,6 +82,7 @@ final class Bok_edit {
 		EM_list_edit::sands();
 		wp_enqueue_style('em-'.BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.0');
 	}
+
 
 
 	/**
@@ -90,6 +96,7 @@ final class Bok_edit {
 	}
 
 
+
 	/**
 	 * filter for populating columns on ctp list page
 	 * 
@@ -98,8 +105,9 @@ final class Bok_edit {
 	 */
 	public function custom_column($column_name) {
 		global $post;
-		EM_lists::custom_column($post->ID, BOK, $column_name);
+		EM_lists::custom_column($post->ID, BOK.'liste', $column_name);
 	}
+
 
 
 	/**
@@ -109,8 +117,9 @@ final class Bok_edit {
 	 * @return [array]           [array going through wp filter]
 	 */
 	public function sort_column($columns) {
-		return EM_lists::sort_column($columns, BOK.'_sort');
+		return EM_lists::sort_column($columns, BOK.'liste'.'_sort');
 	}
+
 
 
 	/**
@@ -118,8 +127,9 @@ final class Bok_edit {
 	 * @param [type] $query [description]
 	 */
 	public function set_sort($query) {
-		Em_lists::set_sort($query, BOK);
+		Em_lists::set_sort($query, BOK.'liste');
 	}
+
 
 
 	/*
@@ -156,6 +166,7 @@ final class Bok_edit {
 	}
 
 
+
 	/*
 		creates content in metabox
 	*/
@@ -173,19 +184,20 @@ final class Bok_edit {
 			'struc' => [
 				// 'bank' => ['title' => 'bank name']
 			],
-			'sort' => [BOK.'_sort']
+			'sort' => [BOK.'liste_sort']
 		];
 
 		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 
+
  	/**
  	 * [exclude_meta_box description]
  	 */
 	public function exclude_meta_box() {
 		global $post;
-		EM_list_edit::create_exclude_box($post, BOK);
+		EM_list_edit::create_exclude_box($post, BOK.'liste');
 	}
 
 
