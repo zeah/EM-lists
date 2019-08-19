@@ -134,6 +134,13 @@ final class Kredittkort_se_shortcode {
 	private function get_html($posts, $atts = null, $ab = false) {
 		$html = '<ul class="'.KREDITTKORT_SE.'-ul">';
 
+		$json = [
+			'@context' => 'http://schema.org',
+			'@type' => 'itemList',
+			'itemListElement' => []
+		];
+		$pos = 0;
+
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, KREDITTKORT_SE.'_data');
 
@@ -146,9 +153,10 @@ final class Kredittkort_se_shortcode {
 
 			// grid container
 			$html .= sprintf(
-				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
+				'<li id="%1$s-%3$s" class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				KREDITTKORT_SE, 
-				preg_replace('/\?.*$/', '', $meta['bestill'])
+				preg_replace('/\?.*$/', '', $meta['bestill']),
+				$meta['post_name']
 			);
 			
 
@@ -225,9 +233,22 @@ final class Kredittkort_se_shortcode {
 
 
 			$html .= '</form></li>';
+
+
+			global $wp;
+			$meta['list_url'] = home_url($wp->request).'/#'.KREDITTKORT_SE.'-'.$meta['post_name'];
+			$meta['struc_pos'] = $pos;
+			$json['itemListElement'][] = EM_list_parts::struc_card($meta);
+			
+			$pos++;
 		}
 
 		$html .= '</ul>';
+
+		$html .= sprintf(
+			'<script type="application/ld+json">%s</script>',
+			json_encode($json, JSON_PRETTY_PRINT)
+		);
 
 		return $html;
 	}

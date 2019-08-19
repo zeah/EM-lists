@@ -16,7 +16,7 @@ final class Bok_links {
 
 
 	public function add_page($name) {
-		wp_enqueue_style('em-bok-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.2');
+		wp_enqueue_style('em-'.BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.2');
 
 		$posts = get_posts(['post_type' => BOK.'liste', 'posts_per_page' => -1]);
 

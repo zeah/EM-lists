@@ -37,7 +37,7 @@ final class EM_list_tax {
 			'menu_name'             => __( $sing, 'text-domain' ),
 		);
 	
-		$args = array(
+		$args = [
 			'labels'            => $labels,
 			'public'            => true,
 			'show_in_nav_menus' => false,
@@ -48,8 +48,8 @@ final class EM_list_tax {
 			// 'query_var'         => false,
 			'rewrite'           => false,
 			// 'query_var'         => false,
-			'capabilities'      => array(),
-		);
+			'capabilities'      => [],
+		];
 	
 		register_taxonomy($tax_name, $post_name, $args );
 	}

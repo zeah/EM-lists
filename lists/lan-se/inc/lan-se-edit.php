@@ -161,7 +161,16 @@ final class Lan_se_edit {
 				'terning' => ['title' => 'Terning', 'dropdown' => true]
 			],
 			'struc' => [
-				'bank' => ['title' => 'bank name']
+				'brand_name' => ['title' => 'brand name (bank)'],
+				'brand_url' => ['title' => 'url to brand (bank)'],
+				'same_as' => ['title' => 'url to page which is same as (ex. url to landingpage of specific credit card on the brand site)'],
+				'amount_max_value' => ['title' => 'max credit limit'],
+				'amount_min_value' => ['title' => 'min credit limit'],
+				'amount_currency' => ['title' => 'currency of credit card'],
+				'interestrate_min_value' => ['title' => 'lowest interest rate'],
+				'interestrate_max_value' => ['title' => 'highest interest rate'],
+				'loanterm_min_value' => ['title' => 'min duration of loan'],
+				'loanterm_max_value' => ['title' => 'max duration of loan']
 			],
 			'sort' => [EMLAN_SE.'_sort']
 		];	
