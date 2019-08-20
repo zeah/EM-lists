@@ -139,7 +139,7 @@ final class Kredittkort_se_shortcode {
 			'@type' => 'itemList',
 			'itemListElement' => []
 		];
-		$pos = 0;
+		$pos = 1;
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, KREDITTKORT_SE.'_data');
@@ -250,7 +250,7 @@ final class Kredittkort_se_shortcode {
 			json_encode($json, JSON_PRETTY_PRINT)
 		);
 
-		return $html;
+		return EM_list_parts::bb($html);
 	}
 
 

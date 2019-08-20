@@ -129,6 +129,12 @@ final class Lan_dk_shortcode {
 			EMLANDK
 		);
 
+		$json = [
+			'@context' => 'http://schema.org',
+			'@type' => 'itemList',
+			'itemListElement' => []
+		];
+		$pos = 1;
 
 
 		foreach ($posts as $p) {
@@ -141,9 +147,10 @@ final class Lan_dk_shortcode {
 			$meta['post_name'] = $p->post_name;
 
 			$html .= sprintf(
-				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
+				'<li id="%1$s-%3$s" class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				EMLANDK, 
-				preg_replace('/\?.*$/', '', $meta['bestill'])
+				preg_replace('/\?.*$/', '', $meta['bestill']),
+				$meta['post_name']
 			);
 
 			$meta = $this->esc_kses($meta);
@@ -241,17 +248,30 @@ final class Lan_dk_shortcode {
 
 			$html .= '</form></li>';
 
+			global $wp;
+			$meta['list_url'] = home_url($wp->request).'/#'.EMLANDK.'-'.$meta['post_name'];
+			$meta['struc_pos'] = $pos;
+			$json['itemListElement'][] = EM_list_parts::struc_loan($meta);
+			
+			$pos++;
 			
 		}
 
 		$html .= '</ul>';
 
-		$find = ['/\[b\]/', '/\[\/b\]/'];
-		$replace = ['<b>', '</b>'];
+		$html .= sprintf(
+				'<script type="application/ld+json">%s</script>',
+				json_encode($json, JSON_PRETTY_PRINT)
+			);
 
-		$html = preg_replace($find, $replace, $html);		
 
-		return $html;		
+		return EM_list_parts::bb($html);
+
+		// $find = ['/\[b\]/', '/\[\/b\]/'];
+		// $replace = ['<b>', '</b>'];
+		// $html = preg_replace($find, $replace, $html);		
+
+		// return $html;		
 	}
 
 

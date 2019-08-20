@@ -194,7 +194,7 @@ final class Bok_shortcode {
 
 		$html .= '</ul>';
 
-		return $html;
+		return EM_list_parts::bb($html);
 	}
 
 
