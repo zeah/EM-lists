@@ -34,23 +34,23 @@ final class Lan_shortcode {
 	private function wp_hooks() {
 
 		// loan list
-		if (!shortcode_exists('lan')) add_shortcode('lan', array($this, 'add_shortcode'));
-		else add_shortcode(EMLAN, array($this, 'add_shortcode'));
+		if (!shortcode_exists('lan')) add_shortcode('lan', [$this, 'add_shortcode']);
+		else add_shortcode(EMLAN, [$this, 'add_shortcode']);
 
 		// loan thumbnail
-		if (!shortcode_exists('lan-bilde')) add_shortcode('lan-bilde', array($this, 'add_shortcode_bilde'));
-		else add_shortcode(EMLAN.'-bilde', array($this, 'add_shortcode_bilde'));
+		if (!shortcode_exists('lan-bilde')) add_shortcode('lan-bilde', [$this, 'add_shortcode_bilde']);
+		else add_shortcode(EMLAN.'-bilde', [$this, 'add_shortcode_bilde']);
 
 		// loan button
-		if (!shortcode_exists('lan-bestill')) add_shortcode('lan-bestill', array($this, 'add_shortcode_bestill'));
-		else add_shortcode(EMLAN.'-bestill', array($this, 'add_shortcode_bestill'));
+		if (!shortcode_exists('lan-bestill')) add_shortcode('lan-bestill', [$this, 'add_shortcode_bestill']);
+		else add_shortcode(EMLAN.'-bestill', [$this, 'add_shortcode_bestill']);
 
 		// button and clickable logo
-		if (!shortcode_exists('lan-landingside')) add_shortcode('lan-landingside', array($this, 'add_shortcode_landingside'));
-		else add_shortcode(EMLAN_SE.'-landingside', array($this, 'add_shortcode_landingside'));
+		if (!shortcode_exists('lan-landingside')) add_shortcode('lan-landingside', [$this, 'add_shortcode_landingside']);
+		else add_shortcode(EMLAN_SE.'-landingside', [$this, 'add_shortcode_landingside']);
 
 
-		add_filter('search_first', array($this, 'add_serp'));
+		add_filter('search_first', [$this, 'add_serp']);
 
 	}
 
@@ -62,7 +62,7 @@ final class Lan_shortcode {
 	 * returns a list of loans
 	 */
 	public function add_shortcode2($atts, $content = null) {
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		$ab = get_option('em_lists');
@@ -123,8 +123,8 @@ final class Lan_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
-        wp_enqueue_style(EMLAN.'-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', array(), '1.0.3', '(min-width: 951px)');
-        wp_enqueue_style(EMLAN.'-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', array(), '1.0.3', '(max-width: 950px)');
+        wp_enqueue_style(EMLAN.'-style', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist.css', [], '1.0.3', '(min-width: 951px)');
+        wp_enqueue_style(EMLAN.'-mobile', LANLIST_PLUGIN_URL.'assets/css/pub/em-lanlist-mobile.css', [], '1.0.3', '(max-width: 950px)');
 	}
 
 
@@ -144,16 +144,12 @@ final class Lan_shortcode {
 			EMLAN
 		);
 
-
-
 		$json = [
 			'@context' => 'http://schema.org',
 			'@type' => 'itemList',
 			'itemListElement' => []
 		];
-
-		// $this->button_text = 'hi';
-
+		$pos = 1;
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, EMLAN.'_data');
@@ -264,41 +260,27 @@ final class Lan_shortcode {
 					: ''
 			);
 
-
 			$html .= '</form></li>';
 
-			$o['list_url'] = 'https://nrk.no/#'.rand(5, 100);
-
-			$o['same_as'] = 'https://vg.no';
-
-			$o['brand_name'] = $p->post_title;
-			$o['brand_url'] = 'https://vg.no';
-
-			$o['amount_min_value'] = 10000;
-			$o['amount_min_value'] = 500000;
-			$o['amount_currency'] = 'NOK';
-
-			$o['loanterm_min_value'] = 1;
-			$o['loanterm_max_value'] = 15;
-
-			$o['interestrate_min_value'] = 2;
-			$o['interestrate_max_value'] = 20;
-
-
-			$json['itemListElement'][] = EM_list_parts::struc_ccard($o);
-
-
-			// $json['itemListElement'][] = EM_list_parts::struc($meta);
+			global $wp;
+			$meta['list_url'] = home_url($wp->request).'/#'.EMLAN.'-'.$meta['post_name'];
+			$meta['struc_pos'] = $pos;
+			$json['itemListElement'][] = EM_list_parts::struc_loan($meta);
+			
+			$pos++;
 		}
 
 		$html .= '</ul>';
 
 		$html .= sprintf(
 				'<script type="application/ld+json">%s</script>',
-				json_encode($json)
+				json_encode($json, JSON_PRETTY_PRINT)
 			);
 
-		return $html;
+
+		return EM_list_parts::bb($html);
+
+		// return $html;
 	}
 
 
@@ -326,7 +308,7 @@ final class Lan_shortcode {
 		$html['html'] = $this->get_html([$post]);
 
 		array_push($data, $html);
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 
 		return $data;
 	}

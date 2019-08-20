@@ -18,8 +18,6 @@ final class EM_list_parts {
 	public static function button($o = []) {
 		global $post;
 
-		// $d = get_option($o['name'].'_')
-		// wp_die('<xmp>'.print_r($o, true).'</xmp>');
 		// checks meta data
 		$m = isset($o['meta']) ? $o['meta'] : '';
 
@@ -66,20 +64,11 @@ final class EM_list_parts {
 
 		if (!isset($o['ab'])) $o['ab'] = '';
 
-		// if ($ab) $m['bestill'] .= '&ab=[ab]';
-		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
-		// wp_die('<xmp>'.print_r($m['bestill'], true).'</xmp>');
-
-
-
 		// replacing stuff in the url (query string)
 		$find = [		'/^.*?(\?|$)/', '/&amp;/', 	'/\[clid\]/', 	'/\[source\]/', '/\[page\]/', 		'/\[site\]/',				'/\[ab\]/'			];
 		$replace = [	'', 			'&', 		$clid, 			$source,		$post->post_name,	$_SERVER['SERVER_NAME'],	$o['ab']			];
 		parse_str(preg_replace($find, $replace, $m['bestill']), $out);
 
-		// if ($o['ab']) $out['ab'] = $o['ab'];
-
-		// wp_die('<xmp>'.print_r($out, true).'</xmp>');
 
 		// turn query string into hidden html inputs
 		$inputs = '';
@@ -88,7 +77,7 @@ final class EM_list_parts {
 			$inputs .= sprintf('<input type="hidden" name="%s" value="%s">',
 								$value, $key);
 		}
-		// wp_die('<xmp>'.print_r($inputs, true).'</xmp>');
+
 		// fixes name for class name
 		if (!isset($o['name'])) $o['name'] = '';
 		else $o['name'] .= '-';
@@ -409,7 +398,14 @@ final class EM_list_parts {
 
 	} 
 
-
+	/**
+	 * [ab description]
+	 * @param  [type] $name    [description]
+	 * @param  [type] $obj     [description]
+	 * @param  [type] $atts    [description]
+	 * @param  [type] $content [description]
+	 * @return [type]          [description]
+	 */
 	public static function ab($name, $obj, $atts, $content = null) {
 		$opt = get_option('em_lists');
 
@@ -438,56 +434,136 @@ final class EM_list_parts {
 	}
 
 
-	public static function struc($o = []) {
-		
-	} 
+	/**
+	 * [struc_card description]
+	 * @param  array  $o [description]
+	 * @return [type]    [description]
+	 */
+	public static function struc_card($o = []) {
 
-	public static function struc_ccard($o = []) {
-
+		// array part in itemListElement in struc data
 		$out = [
-			// 'itemListElement' => [
-				'@type' => 'ListItem',
-				'position' => 0,
+			'@type' => 'ListItem',
+			'position' => $o['struc_pos'],
 
-				'item' => [
-					'@type' => 'CreditCard',
-					'url' => $o['list_url'],
-					'sameAs' => $o['same_as'],
-
-					'brand' => [
-						'@type' => 'Organization',
-						'name' => $o['brand_name'],
-						'url' => $o['brand_url']
-					],
-
-					'amount' => [
-						'@type' => 'MonetaryAmount',
-						'minValue' => $o['amount_min_value'],
-						'maxValue' => $o['amount_max_value'],
-						'currency' => $o['amount_currency'],
-					],
-
-					'loanTerm' => [
-						'@type' => 'QuantitativeValue',
-						'minValue' => $o['loanterm_min_value'],
-						'maxValue' => $o['loanterm_max_value'],
-						'unitCode' => 'ANN'
-					],
-
-					'interestRate' => [
-						'@type' => 'QuantitativeValue',
-						'minValue' => $o['interestrate_min_value'],
-						'maxValue' => $o['interestrate_max_value'],
-						'unitCode' => 'P1'
-					]
-				// ]
+			'item' => [
+				'@type' => 'CreditCard',
+				'url' => $o['list_url'],
 			]
-// 
 		];
 
+		// BRAND
+		if (self::c($o, 'brand_name') && self::c($o, 'brand_url'))
+			$out['item']['brand'] = [
+				'@type' => 'Organization',
+				'name' => $o['brand_name'],
+				'url' => $o['brand_url']
+			];
+
+		// INTEREST RATE
+		if (self::c($o, 'interestrate_max_value') || self::c($o, 'interestrate_min_value')) {
+			$out['item']['interestRate'] = [
+				'@type' => 'QuantitativeValue',
+				'unitCode' => 'P1'
+			];
+
+			if (self::c($o, 'interestrate_max_value')) $out['item']['interestRate']['maxValue'] = $o['interestrate_max_value'];
+			if (self::c($o, 'interestrate_min_value')) $out['item']['interestRate']['minValue'] = $o['interestrate_min_value'];
+		}
+
+		// CREDIT AMOUNT
+		if (self::c($o, 'amount_max_value'))
+			$out['item']['amount'] = [
+				'@type' => 'MonetaryAmount',
+				'maxValue' => $o['amount_max_value'],
+				'currency' => $o['amount_currency'],
+			];
+
+		// GRACE PERIOD
+		if (self::c($o, 'grace_period')) $out['item']['gracePeriod'] = 'P'.$o['grace_period'].'D';
+
+		// SAME AS LINK
+		if (self::c($o, 'same_as')) $out['item']['sameAs'] = $o['same_as'];
 
 		return $out;
+	}
 
+
+
+	/**
+	 * [struc_loan description]
+	 * @param  array  $o [description]
+	 * @return [type]    [description]
+	 */
+	public static function struc_loan($o = []) {
+
+		$out = [
+			'@type' => 'ListItem',
+			'position' => $o['struc_pos'],
+
+			'item' => [
+				'@type' => 'LoanOrCredit',
+				'url' => $o['list_url'],
+			]
+		];
+
+		// BRAND
+		if (self::c($o, 'brand_name') && self::c($o, 'brand_url'))
+			$out['item']['brand'] = [
+				'@type' => 'Organization',
+				'name' => $o['brand_name'],
+				'url' => $o['brand_url']
+			];
+
+		// INTEREST RATE
+		if (self::c($o, 'interestrate_max_value') || self::c($o, 'interestrate_min_value')) {
+			$out['item']['interestRate'] = [
+				'@type' => 'QuantitativeValue',
+				'unitCode' => 'P1'
+			];
+
+			if (self::c($o, 'interestrate_max_value')) $out['item']['interestRate']['maxValue'] = $o['interestrate_max_value'];
+			if (self::c($o, 'interestrate_min_value')) $out['item']['interestRate']['minValue'] = $o['interestrate_min_value'];
+		}
+
+		// LOAN TERM
+		if (self::c($o, 'loanterm_max_value') && self::c($o, 'loanterm_min_value')) {
+			$out['item']['loanTerm'] = [
+				'@type' => 'QuantitativeValue',
+				'minValue' => $o['loanterm_min_value'],
+				'maxValue' => $o['loanterm_max_value'],
+				'unitCode' => 'ANN'
+			];
+		}
+
+		// CREDIT AMOUNT
+		if (self::c($o, 'amount_max_value'))
+			$out['item']['amount'] = [
+				'@type' => 'MonetaryAmount',
+				'maxValue' => $o['amount_max_value'],
+				'minValue' => $o['amount_min_value'],
+				'currency' => $o['amount_currency'],
+			];
+
+		// SAME AS
+		if (self::c($o, 'same_as')) $out['item']['sameAs'] = $o['same_as'];
+
+		return $out;
+	}
+
+
+	/**
+	 */
+	public static function bb($html) {
+		$find = ['/\[b\]/', '/\[\/b\]/'];
+		$replace = ['<b>', '</b>'];
+		return preg_replace($find, $replace, $html);
+	}
+
+	// checking array members and whether they are true
+	private static function c($o, $name) {
+		if (isset($o[$name]) && $o[$name]) return true;
+		return false;
 	}
 
 

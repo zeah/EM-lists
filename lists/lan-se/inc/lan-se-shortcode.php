@@ -138,6 +138,12 @@ final class Lan_se_shortcode {
 		// $opt = get_option('em_lists');
 		// $e = EMLAN_SE.'_ab';
 		// $ab = (isset($opt[$e]) && $opt[$e]) ? $opt[$e] : false;
+		$json = [
+			'@context' => 'http://schema.org',
+			'@type' => 'itemList',
+			'itemListElement' => []
+		];
+		$pos = 0;
 
 		foreach ($posts as $p) {
 			$meta = get_post_meta($p->ID, EMLAN_SE.'_data');
@@ -151,9 +157,10 @@ final class Lan_se_shortcode {
 
 			// grid container
 			$html .= sprintf(
-				'<li class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
+				'<li id="%1$s-%3$s" class="%1$s-list"><form class="%1$s-container" target="_blank" rel=nofollow action="%2$s" method="get">',
 				EMLAN_SE, 
-				preg_replace('/\?.*$/', '', $meta['bestill'])
+				preg_replace('/\?.*$/', '', $meta['bestill']),
+				$meta['post_name']
 			);
 			
 
@@ -232,9 +239,22 @@ final class Lan_se_shortcode {
 
 
 			$html .= '</form></li>';
+
+			global $wp;
+			$meta['list_url'] = home_url($wp->request).'/#'.EMLAN_SE.'-'.$meta['post_name'];
+			$meta['struc_pos'] = $pos;
+			$json['itemListElement'][] = EM_list_parts::struc_loan($meta);
+			
+			$pos++;
+
 		}
 
 		$html .= '</ul>';
+
+		$html .= sprintf(
+				'<script type="application/ld+json">%s</script>',
+				json_encode($json, JSON_PRETTY_PRINT)
+			);
 
 		return $html;
 	}

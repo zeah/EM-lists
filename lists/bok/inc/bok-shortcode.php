@@ -47,11 +47,12 @@ final class Bok_shortcode {
 	private function wp_hooks() {
 
 		// loan list
-		if (!shortcode_exists('bok')) add_shortcode('bok', array($this, 'add_shortcode'));
-		else add_shortcode('embok', array($this, 'add_shortcode'));
+		if (!shortcode_exists('bok')) add_shortcode('bok', [$this, 'add_shortcode']);
+		else add_shortcode('embok', [$this, 'add_shortcode']);
 
-		add_filter('search_first', array($this, 'add_serp'));
+		add_filter('search_first', [$this, 'add_serp']);
 	}
+
 
 
 	/**
@@ -62,27 +63,40 @@ final class Bok_shortcode {
 	}
 
 
+
+	/**
+	 * Default shortcode content
+	 * 
+	 * @param [type] $atts    [description]
+	 * @param [type] $content [description]
+	 */
+	public function add_shortcode1($atts, $content = null) {
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
+
+		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts, false);
+	}
+
+
+
+	/**
+	 * alternate shortcode content when ab-testing is live
+	 * 
+	 * @param [type] $atts    [description]
+	 * @param [type] $content [description]
+	 */
 	public function add_shortcode2($atts, $content = null) {
-
-
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', [$this, 'add_css']);
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
 
 		$ab = get_option('em_lists');
 		$e = BOK.'list_ab';
 		$ab = (isset($ab[$e]) && $ab[$e]) ? $ab[$e] : false;
-		// return $ab;
-		// return $ab;
+
 		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts, $ab);
 	}
 
 
-	public function add_shortcode1($atts, $content = null) {
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-
-		return $this->get_html(EM_list_sc::posts(BOK.'liste', 'bok', $atts, $content), $atts, false);
-	}
 
 
 

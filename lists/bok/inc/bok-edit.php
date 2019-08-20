@@ -19,7 +19,7 @@ final class Bok_edit {
 
 	private function __construct() {
 
-
+		// column page stuff
 		add_action('manage_'.BOK.'_posts_columns', [$this, 'column_head']);
 		add_filter('manage_'.BOK.'_posts_custom_column', [$this, 'custom_column']);
 		add_filter('manage_edit-'.BOK.'_sortable_columns', [$this, 'sort_column']);
@@ -38,13 +38,16 @@ final class Bok_edit {
 	}
 
 
+	/**
+	 * js for the column screen
+	 * shortcode creator feature
+	 */
 	public function add_js() {
 		$id = get_current_screen();
-		if ($id->id != 'edit-'.BOK) return;
-
+		if ($id->id != 'edit-'.BOK.'liste') return;
 
 		$args = [
-			'post_type' 		=> BOK,
+			'post_type' 		=> BOK.'liste',
 			'posts_per_page' 	=> -1,
 			'orderby'			=> [
 										'meta_value_num' => 'ASC',
@@ -67,13 +70,20 @@ final class Bok_edit {
 		wp_localize_script(BOK.'_column', 'listdata', json_encode($po));
 	}
 
+
+
+	/**
+	 * [admin_sands description]
+	 * @return [type] [description]
+	 */
 	public function admin_sands() {
 		$id = get_current_screen();
 		if ($id->id != BOK.'liste') return;
-		// wp_die('<xmp>'.print_r($id, true).'</xmp>');
 		EM_list_edit::sands();
 		wp_enqueue_style('em-'.BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.0');
 	}
+
+
 
 	/**
 	 * wp filter for adding columns on ctp list page
@@ -86,6 +96,7 @@ final class Bok_edit {
 	}
 
 
+
 	/**
 	 * filter for populating columns on ctp list page
 	 * 
@@ -94,8 +105,9 @@ final class Bok_edit {
 	 */
 	public function custom_column($column_name) {
 		global $post;
-		EM_lists::custom_column($post->ID, BOK, $column_name);
+		EM_lists::custom_column($post->ID, BOK.'liste', $column_name);
 	}
+
 
 
 	/**
@@ -105,12 +117,20 @@ final class Bok_edit {
 	 * @return [array]           [array going through wp filter]
 	 */
 	public function sort_column($columns) {
-		return EM_lists::sort_column($columns, BOK.'_sort');
+		return EM_lists::sort_column($columns, BOK.'liste'.'_sort');
 	}
 
+
+
+	/**
+	 * [set_sort description]
+	 * @param [type] $query [description]
+	 */
 	public function set_sort($query) {
-		Em_lists::set_sort($query, BOK);
+		Em_lists::set_sort($query, BOK.'liste');
 	}
+
+
 
 	/*
 		creates wordpress metabox
@@ -127,7 +147,7 @@ final class Bok_edit {
 		add_meta_box(
 			BOK.'_meta', // name
 			'Bok Info', // title 
-			array($this,'create_meta_box'), // callback
+			[$this,'create_meta_box'], // callback
 			BOK.'liste' // page
 		);
 
@@ -135,15 +155,16 @@ final class Bok_edit {
 		add_meta_box(
 			BOK.'_exclude',
 			'Aldri vis',
-			array($this, 'exclude_meta_box'),
+			[$this, 'exclude_meta_box'],
 			BOK.'liste',
 			'side'
 		);
 		
 		/* adding admin css and js */
-		// wp_enqueue_style(BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', array(), '1.0.0');
-		// wp_enqueue_script(BOK.'-admin', BOK_PLUGIN_URL . 'assets/js/admin/em-bok.js', array(), '1.0.0', true);
+		// wp_enqueue_style(BOK.'-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.0');
+		// wp_enqueue_script(BOK.'-admin', BOK_PLUGIN_URL . 'assets/js/admin/em-bok.js', [], '1.0.0', true);
 	}
+
 
 
 	/*
@@ -158,29 +179,25 @@ final class Bok_edit {
 				'info02' => [ 'title' => 'Tekst' ],
 				'info03' => [ 'title' => 'Verdi' ],
 				'image' => [ 'title' => 'image', 'image' => true ],
-				// 'info05' => [ 'title' => 'info05' ],
-				// 'info06' => [ 'title' => 'info06' ],
-				// 'info07' => [ 'title' => 'info07' ],
-				// 'info08' => [ 'title' => 'info08' ],
 				'pixel' => [ 'title' => 'pixel url' ],
-				// 'terning' => ['title' => 'terning', 'dropdown' => true]
 			],
 			'struc' => [
-				'bank' => ['title' => 'bank name']
+				// 'bank' => ['title' => 'bank name']
 			],
-			'sort' => [BOK.'_sort']
+			'sort' => [BOK.'liste_sort']
 		];
 
 		EM_list_edit::create_meta_box($post, $post->post_type, $template);
 	}
  
 
+
  	/**
  	 * [exclude_meta_box description]
  	 */
 	public function exclude_meta_box() {
 		global $post;
-		EM_list_edit::create_exclude_box($post, BOK);
+		EM_list_edit::create_exclude_box($post, BOK.'liste');
 	}
 
 

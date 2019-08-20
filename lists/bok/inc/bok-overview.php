@@ -13,7 +13,7 @@ final class Bok_overview {
 	}
 
 	private function __construct() {
-		add_action('admin_menu', array($this, 'add_menu'));
+		add_action('admin_menu', [$this, 'add_menu']);
 	}
 
 	public function add_menu() {
@@ -21,7 +21,7 @@ final class Bok_overview {
 	}
 
 	public function add_page() {
-		wp_enqueue_style('em-'.BOK.'-liste-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', array(), '1.0.0');
+		wp_enqueue_style('em-'.BOK.'-liste-admin-style', BOK_PLUGIN_URL . 'assets/css/admin/em-bok.css', [], '1.0.0');
 
 		$args = [
 			'post_type' 		=> get_post_types(['public' => true]),
@@ -49,7 +49,6 @@ final class Bok_overview {
 				$html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.str_replace(get_site_url(), '', get_permalink($post)).'</a></td><td>'.$post->post_title.'</td><td>'.$m.'</td></tr>';
 			}
 			else $html .= '<tr><td><a target="_blank" rel=noopener href="'.$site.'/wp-admin/post.php?post='.$post->ID.'&action=edit">'.str_replace(get_site_url(), '', get_permalink($post)).'</a></td><td>'.$post->post_title.'</td><td></td></tr>';
-
 		}
 
 		$html .= '</table>';
