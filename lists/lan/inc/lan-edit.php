@@ -173,7 +173,7 @@ final class Lan_edit {
 				'same_as' => ['title' => 'url to page which is same as (ex. url to landingpage of specific credit card on the brand site)'],
 				'amount_max_value' => ['title' => 'max credit limit'],
 				'amount_min_value' => ['title' => 'min credit limit'],
-				'amount_currency' => ['title' => 'currency of credit card'],
+				'amount_currency' => ['title' => 'currency of loan'],
 				'interestrate_min_value' => ['title' => 'lowest interest rate'],
 				'interestrate_max_value' => ['title' => 'highest interest rate'],
 				'loanterm_min_value' => ['title' => 'min duration of loan'],
