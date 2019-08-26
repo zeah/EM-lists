@@ -70,7 +70,7 @@ final class Lan_se_edit {
 		if ($id->id != EMLAN_SE) return;
 
 		EM_list_edit::sands();
-		wp_enqueue_style('em-'.EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', [], '1.0.0');
+		wp_enqueue_style('em-'.EMLAN_SE.'-admin-style', LAN_SE_PLUGIN_URL . 'assets/css/admin/em-lanlist-se.css', [], '1.0.1');
 	}
 
 	/**
@@ -149,6 +149,7 @@ final class Lan_se_edit {
 			'meta' => [
 				'readmore' => [ 'title' => 'landingside link (title link/les mer link)' ],
 				'bestill' => [ 'title' => 'affiliate link (bestill knapp/logo link)' ],
+				'bestill_text' => [ 'title' => 'Tekst under bestillknapp' ],
 				'info01' => [ 'title' => 'Listpart #1' ],
 				'info02' => [ 'title' => 'Listpart #2' ],
 				'info03' => [ 'title' => 'Listpart #3' ],

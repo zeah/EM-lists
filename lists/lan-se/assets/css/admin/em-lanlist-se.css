@@ -1,7 +1,7 @@
 .meta-inner {
 	display: grid;
 
-	grid-template-rows: auto auto auto auto auto auto auto auto;
+	grid-template-rows: auto auto auto auto auto auto auto auto auto;
 	grid-template-columns: auto auto auto;
 
 	grid-column-gap: 50px;
@@ -10,6 +10,7 @@
 	"sort sort sort"
 	"bestill bestill ."
 	"readmore readmore ."
+	"bestilltext bestilltext ."
 	"info01 info05 ."
 	"info02 info06 ."
 	"info03 info07 ."
@@ -24,6 +25,10 @@
 
 .bestill-div {
 	grid-area: bestill;
+}
+
+.bestill_text-div {
+	grid-area: bestilltext;
 }
 
 .readmore-div {
