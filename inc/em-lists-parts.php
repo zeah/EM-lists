@@ -334,27 +334,33 @@ final class EM_list_parts {
 
 		$html = '';
 		switch ($eyes) {
+			case '6':
 			case 'seks':
 			$html .= self::eye(11, 25);
 			$html .= self::eye(39, 25);
 
+			case '4':
 			case 'fire':
 			$html .= self::eye(11, 10);
 			$html .= self::eye(39, 40);
 
+			case '2':
 			case 'to':
 			$html .= self::eye(11, 40);
 			$html .= self::eye(39, 10);
 			break;
 
+			case '5':
 			case 'fem':
 			$html .= self::eye(10, 10);
 			$html .= self::eye(40, 40);
 
+			case '3':
 			case 'tre':
 			$html .= self::eye(10, 40);
 			$html .= self::eye(40, 10);
 
+			case '1':
 			case 'en':
 			$html .= self::eye(25, 25);
 			break;
