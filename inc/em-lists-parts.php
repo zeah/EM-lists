@@ -270,7 +270,8 @@ final class EM_list_parts {
 
 		if ($obj && isset($obj[0]) && isset($obj[1])) add_action('wp_enqueue_scripts', [$obj[0], $obj[1]]);
 		
-		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 0);
+		wp_enqueue_scripts('jquery');
+		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 99);
 
 		$p = self::gp($atts['name'], $type);
 
@@ -303,26 +304,44 @@ final class EM_list_parts {
 		global $post;
 
 
+		// tracker.get('clientId') <-- add this to epi/info hidden input
+
 		// data-action is page name + logo + ab (if version b)
 		// data-name is loan/card/etc name
 
 		printf('<script>
-			var eles = document.querySelectorAll(".emlist-link");
-			// console.log(eles);
-			for (var i = 0; i < eles.length; i++) 
-				// console.log(eles[i]);
-				// console.log("%1$s"+eles[i].getAttribute("data-action"));
-				
-				eles[i].addEventListener("click", function(e) {
-					try {
-						if ("ga" in window) {
-						    tracker = ga.getAll()[0];
-						    if (tracker) tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
-						}
-					}
-				
-					catch (e) { console.log("ga failed") }
+
+			try {
+				var tracker = false;
+
+				if ("ga" in window) tracker = ga.getAll()[0];	
+
+				if (!tracker) return;
+
+				var id = tracker.get(clientId);
+
+				$(input[name="epi"], input[name="sub"]).each(function() {
+					var $this = $(this);
+					$this.val($this.val()+"|ga:"+id);
 				});
+
+				$(".emlist-link").click(function() {
+				    tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
+				});
+			}
+			catch (e) { console.log("ga not found.") }
+
+			// var eles = document.querySelectorAll(".emlist-link");
+			// for (var i = 0; i < eles.length; i++) 
+			// 	eles[i].addEventListener("click", function(e) {
+			// 		try {
+			// 			if ("ga" in window) {
+			// 			    tracker = ga.getAll()[0];
+			// 			    if (tracker) tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
+			// 			}
+			// 		}
+			// 		catch (e) { console.log("ga failed") }
+			// 	});
 		</script>', $post->post_name);
 	}
 
