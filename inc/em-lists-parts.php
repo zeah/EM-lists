@@ -17,6 +17,7 @@ final class EM_list_parts {
 
 	public static function button($o = []) {
 		global $post;
+		wp_enqueue_script('jquery');
 
 		// checks meta data
 		$m = isset($o['meta']) ? $o['meta'] : '';
@@ -130,10 +131,11 @@ final class EM_list_parts {
 
 
 	private static function auto_add($url) {
-		if (strpos($url, 'adtraction')) return EM_list_parts::adtraction($url);
-		if (strpos($url, 'adservice')) return EM_list_parts::adservice($url);
-		if (strpos($url, 'hotracker')) return EM_list_parts::hasoffers($url);
-		if (strpos($url, 'go2cloud')) return EM_list_parts::hasoffers($url);
+		if (strpos($url, 'adtraction')) return self::adtraction($url);
+		if (strpos($url, 'adservice')) return self::adservice($url);
+		if (strpos($url, 'hotracker')) return self::hasoffers($url);
+		if (strpos($url, 'go2cloud')) return self::hasoffers($url);
+		if (strpos($url, 'tradetracker')) return self::tradetracker($url);
 
 		return $url;
 	}
@@ -161,6 +163,10 @@ final class EM_list_parts {
 		if (strpos($url, 'aff_sub3=') === false) $url .= '&aff_sub3=[ab]';
 
 		return $url;
+	}
+
+	private static function tradetracker($url) {
+		return preg_replace('/(^.*&r=)(.*$)/', '$1page:[page]|source:[source]|ab:[ab]|clid:[clid]$2', $url);
 	}
 
 
@@ -260,17 +266,13 @@ final class EM_list_parts {
 	* use landingside() if you want logo too (with link) 
 	*/
 	public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null) {
-	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $content = null) {
-	// public static function sc_button($atts, $type, $button_text = 'Apply Now', $obj = null, $sands = null, $inline = null, $content = null) {
-
 		global $post;
-		// wp_die('<xmp>'.print_r($post->post_name, true).'</xmp>');
 
 		if (!isset($atts['name']) || $atts['name'] == '') return;
 
 		if ($obj && isset($obj[0]) && isset($obj[1])) add_action('wp_enqueue_scripts', [$obj[0], $obj[1]]);
 		
-		wp_enqueue_scripts('jquery');
+		wp_enqueue_script('jquery');
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 99);
 
 		$p = self::gp($atts['name'], $type);
@@ -298,7 +300,6 @@ final class EM_list_parts {
 	}
 
 	public static function add_ga() {
-
 		if (is_user_logged_in()) return;
 
 		global $post;
@@ -311,25 +312,26 @@ final class EM_list_parts {
 
 		printf('<script>
 
-			try {
-				var tracker = false;
+			(function() {
+				try {
+					var tracker = false;
 
-				if ("ga" in window) tracker = ga.getAll()[0];	
+					if ("ga" in window) tracker = ga.getAll()[0];	
 
-				if (!tracker) return;
+					if (!tracker) return;
+					var id = tracker.get("clientId");
 
-				var id = tracker.get(clientId);
+					$("input[name=epi], input[name=sub]").each(function() {
+						var $this = $(this);
+						$this.val($this.val()+"|ga:"+id);
+					});
 
-				$(input[name="epi"], input[name="sub"]).each(function() {
-					var $this = $(this);
-					$this.val($this.val()+"|ga:"+id);
-				});
-
-				$(".emlist-link").click(function() {
-				    tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
-				});
-			}
-			catch (e) { console.log("ga not found.") }
+					$(".emlist-link").click(function(e) {
+					    tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
+					});
+				}
+				catch (e) { console.log("ga not found. ", e) }
+			})();
 
 			// var eles = document.querySelectorAll(".emlist-link");
 			// for (var i = 0; i < eles.length; i++) 

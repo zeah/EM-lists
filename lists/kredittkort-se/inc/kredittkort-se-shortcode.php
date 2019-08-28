@@ -120,6 +120,8 @@ final class Kredittkort_se_shortcode {
 	 * adding sands to head
 	 */
 	public function add_css() {
+		// wp_enqueue_script('jquery');
+
         wp_enqueue_style(KREDITTKORT_SE.'-style', KREDITTKORT_SE_PLUGIN_URL.'assets/css/pub/em-kredittkort-se.css', [], '1.0.0', '(min-width: 921px)');
         wp_enqueue_style(KREDITTKORT_SE.'-mobile', KREDITTKORT_SE_PLUGIN_URL.'assets/css/pub/em-kredittkort-se-mobile.css', [], '1.0.0', '(max-width: 920px)');
 	}

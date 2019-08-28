@@ -132,7 +132,7 @@ final class Lan_se_shortcode {
 	 * @param  WP_Post $posts a wp post object
 	 * @return [html]        html list of loans
 	 */
-	private function get_html($posts, $atts = null, $ab) {
+	private function get_html($posts, $atts = null, $ab = false) {
 		$html = '<ul class="'.EMLAN_SE.'-ul">';
 
 		// $opt = get_option('em_lists');
