@@ -1,6 +1,6 @@
 <?php 
 
-final class Bok_ga {
+final class Lan_se_ga {
 	/* singleton */
 	private static $instance = null;
 
@@ -23,7 +23,7 @@ final class Bok_ga {
 		if (!isset($_GET['action']) || $_GET['action'] != 'ga') return;
 
 		if (!isset($_GET['list'])
-			|| $_GET['list'] != 'bok'
+			|| $_GET['list'] != 'lan-se'
 			|| !isset($_GET['name'])
 			|| !isset($_GET['site'])
 			|| !isset($_GET['value'])

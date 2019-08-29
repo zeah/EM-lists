@@ -300,51 +300,21 @@ final class EM_list_parts {
 	}
 
 	public static function add_ga() {
-		// if (is_user_logged_in()) return;
-
+		if (is_user_logged_in()) return;
 		global $post;
 
-
-		// tracker.get('clientId') <-- add this to epi/info hidden input
-
-		// data-action is page name + logo + ab (if version b)
-		// data-name is loan/card/etc name
-
 		printf('<script>
-
 			jQuery(function($) {
-				try {
-					var tracker = false;
+				$(".emlist-link").click(function(e) {
+					try { if ("ga" in window) {
+						var tracker = ga.getAll()[0];
+					    if (tracker) tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
 
-					if ("ga" in window) tracker = ga.getAll()[0];	
-
-					if (!tracker) return;
-					var id = tracker.get("clientId");
-
-					if (id)
-						$("input[name=epi], input[name=sub], input[name=r]").each(function() {
-							var $this = $(this);
-							$this.val($this.val()+"|ga:"+id);
-						});
-
-					$(".emlist-link").click(function(e) {
-					    tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
-					});
-				}
-				catch (e) { console.log("ga not found. ", e) }
+						var id = tracker.get("clientId");
+						if (id) $(this).siblings("input[name=epi], input[name=sub], input[name=r]").each(function() { $(this).val($(this).val()+"|ga:"+id) });
+					} } catch (e) { console.log(e) }
+				});
 			});
-
-			// var eles = document.querySelectorAll(".emlist-link");
-			// for (var i = 0; i < eles.length; i++) 
-			// 	eles[i].addEventListener("click", function(e) {
-			// 		try {
-			// 			if ("ga" in window) {
-			// 			    tracker = ga.getAll()[0];
-			// 			    if (tracker) tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
-			// 			}
-			// 		}
-			// 		catch (e) { console.log("ga failed") }
-			// 	});
 		</script>', $post->post_name);
 	}
 

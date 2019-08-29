@@ -12,6 +12,7 @@ require_once 'inc/lan-se-posttype.php';
 require_once 'inc/lan-se-shortcode.php';
 require_once 'inc/lan-se-doc.php';
 require_once 'inc/lan-se-links.php';
+require_once 'inc/lan-se-ga.php';
 
 
 final class EM_se_lan {
@@ -28,8 +29,9 @@ final class EM_se_lan {
 		
 		Lan_se_posttype::get_instance();
 		Lan_se_shortcode::get_instance();
-		Lan_se_doc::get_instance();
+		// Lan_se_doc::get_instance();
 		Lan_se_links::get_instance();
+		Lan_se_ga::get_instance();
 	}
 
 }

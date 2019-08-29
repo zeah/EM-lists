@@ -12,6 +12,7 @@ require_once 'inc/matkasse-posttype.php';
 require_once 'inc/matkasse-shortcode.php';
 require_once 'inc/matkasse-doc.php';
 require_once 'inc/matkasse-links.php';
+require_once 'inc/matkasse-ga.php';
 
 
 /* initiates plugin */
@@ -28,7 +29,8 @@ final class EM_matkasse {
 	private function __construct() {
 		Matkasse_posttype::get_instance();
 		Matkasse_shortcode::get_instance();
-		Matkasse_doc::get_instance();
+		// Matkasse_doc::get_instance();
 		Matkasse_links::get_instance();
+		Matkasse_ga::get_instance();
 	}
 }

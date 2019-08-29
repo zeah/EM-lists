@@ -28,7 +28,7 @@ final class EM_dk_lan {
 		
 		Lan_dk_posttype::get_instance();
 		Lan_dk_shortcode::get_instance();
-		Lan_dk_doc::get_instance();
+		// Lan_dk_doc::get_instance();
 		Lan_dk_links::get_instance();
 	}
 

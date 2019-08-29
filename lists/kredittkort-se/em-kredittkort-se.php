@@ -12,6 +12,7 @@ require_once 'inc/kredittkort-se-posttype.php';
 require_once 'inc/kredittkort-se-shortcode.php';
 require_once 'inc/kredittkort-se-doc.php';
 require_once 'inc/kredittkort-se-links.php';
+require_once 'inc/kredittkort-se-ga.php';
 
 
 final class EM_kredittkort_se {
@@ -28,8 +29,9 @@ final class EM_kredittkort_se {
 		
 		Kredittkort_se_posttype::get_instance();
 		Kredittkort_se_shortcode::get_instance();
-		Kredittkort_se_doc::get_instance();
+		// Kredittkort_se_doc::get_instance();
 		Kredittkort_se_links::get_instance();
+		Kredittkort_se_ga::get_instance();
 	}
 
 }
