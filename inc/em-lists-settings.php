@@ -62,6 +62,9 @@ final class EM_list_settings {
 	public function register_settings() {
 		register_setting('em-lists-settings', 'em_lists', ['sanitize_callback' => ['EM_lists', 'sanitize']]);
 
+		add_settings_section('em-lists-section-ga', 'EM Lists', [$this, 'list_section_ga'], 'em-lists-page');
+		add_settings_field('em-lists-gaid', 'Google Analytics ID', array($this, 'list_text'), 'em-lists-page', 'em-lists-section-ga', 'gaid');
+		
 		add_settings_section('em-lists-section', 'EM Lists', [$this, 'list_section'], 'em-lists-page');
 
 		add_settings_field('em-lists-kredittkort', 'Kredittkort', array($this, 'list'), 'em-lists-page', 'em-lists-section', 'emkredittkort');
@@ -99,9 +102,12 @@ final class EM_list_settings {
 
 	}
 
+	public function list_section_ga() {
+		echo '<h2>Google Analytics</h2>';
+	}
+
 	public function list_section() {
 		echo '<h2>Activate list plugins:</h2>';
-		// echo 'EM Lists';
 	}
 
 	public function list($t) {

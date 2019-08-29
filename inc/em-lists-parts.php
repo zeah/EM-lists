@@ -166,7 +166,7 @@ final class EM_list_parts {
 	}
 
 	private static function tradetracker($url) {
-		return preg_replace('/(^.*&r=)(.*$)/', '$1page:[page]|source:[source]|ab:[ab]|clid:[clid]$2', $url);
+		return preg_replace('/(^.*r=)(.*$)/', '$1page:[page]|source:[source]|ab:[ab]|clid:[clid]$2', $url);
 	}
 
 
@@ -272,7 +272,7 @@ final class EM_list_parts {
 
 		if ($obj && isset($obj[0]) && isset($obj[1])) add_action('wp_enqueue_scripts', [$obj[0], $obj[1]]);
 		
-		wp_enqueue_script('jquery');
+		// wp_enqueue_script('jquery');
 		add_action('wp_footer', ['EM_list_parts', 'add_ga'], 99);
 
 		$p = self::gp($atts['name'], $type);
@@ -300,7 +300,7 @@ final class EM_list_parts {
 	}
 
 	public static function add_ga() {
-		if (is_user_logged_in()) return;
+		// if (is_user_logged_in()) return;
 
 		global $post;
 
@@ -312,7 +312,7 @@ final class EM_list_parts {
 
 		printf('<script>
 
-			(function() {
+			jQuery(function($) {
 				try {
 					var tracker = false;
 
@@ -321,17 +321,18 @@ final class EM_list_parts {
 					if (!tracker) return;
 					var id = tracker.get("clientId");
 
-					$("input[name=epi], input[name=sub]").each(function() {
-						var $this = $(this);
-						$this.val($this.val()+"|ga:"+id);
-					});
+					if (id)
+						$("input[name=epi], input[name=sub], input[name=r]").each(function() {
+							var $this = $(this);
+							$this.val($this.val()+"|ga:"+id);
+						});
 
 					$(".emlist-link").click(function(e) {
 					    tracker.send("event", "List Plugin", ("%1$s"+this.getAttribute("data-action")), this.getAttribute("data-name"), 0);
 					});
 				}
 				catch (e) { console.log("ga not found. ", e) }
-			})();
+			});
 
 			// var eles = document.querySelectorAll(".emlist-link");
 			// for (var i = 0; i < eles.length; i++) 
@@ -576,6 +577,41 @@ final class EM_list_parts {
 		if (self::c($o, 'same_as')) $out['item']['sameAs'] = $o['same_as'];
 
 		return $out;
+	}
+
+
+	public static function ga_event($name, $site, $value, $id) {
+
+		$opt = get_option('em_lists');
+
+		if (!isset($opt['gaid']) || !opt['gaid']) return;
+
+		$data = [
+			'method' => 'POST',
+			'timeout' => 30,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking' => false,
+			'headers' => [],
+			'body' => [
+				'v' => '1', 
+				'tid' => $opt['gaid'], 
+				'cid' => $id,
+				// 'uip' => $ip,
+				// 'ua' => $ua,
+				// 't' => $t, 
+				'ec' => 'conversions', 
+				'ea' => $site, 
+				'el' => $name,
+				'ev' => $value 
+				// 'dl' => $dl
+			],
+			'cookies' => []
+		];
+
+		print_r($data);
+
+		// $content = wp_remote_post('https://www.google-analytics.com/collect', $data);
 	}
 
 

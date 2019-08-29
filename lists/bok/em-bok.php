@@ -12,6 +12,7 @@ require_once 'inc/bok-posttype.php';
 require_once 'inc/bok-shortcode.php';
 // require_once 'inc/bok-doc.php';
 require_once 'inc/bok-links.php';
+require_once 'inc/bok-ga.php';
 
 
 final class EM_bok {
@@ -30,6 +31,7 @@ final class EM_bok {
 		Bok_shortcode::get_instance();
 		// Bok_doc::get_instance();
 		Bok_links::get_instance();
+		Bok_ga::get_instance();
 	}
 
 }
