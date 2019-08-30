@@ -300,11 +300,12 @@ final class EM_list_parts {
 	}
 
 	public static function add_ga() {
-		if (is_user_logged_in()) return;
+		// if (is_user_logged_in()) return;
 		global $post;
 
 		printf('<script>
 			jQuery(function($) {
+				console.log(navigator.userAgent);
 				$(".emlist-link").click(function(e) {
 					try { if ("ga" in window) {
 						var tracker = ga.getAll()[0];
@@ -569,7 +570,7 @@ final class EM_list_parts {
 				'cid' => $id,
 				// 'uip' => $ip,
 				// 'ua' => $ua,
-				// 't' => $t, 
+				't' => 'event', 
 				'ec' => 'conversions', 
 				'ea' => $site, 
 				'el' => $name,
